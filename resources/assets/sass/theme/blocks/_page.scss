@@ -1,0 +1,263 @@
+html {
+	font-size: $font-size;
+}
+
+body {
+	display: block;
+	font-family: $font-main, sans-serif;
+	color: $font-color;
+	background-color: $background-color;
+	min-width: $body-min-width;
+	position: relative;
+
+	font-feature-settings: 'lnum';
+	-moz-font-feature-settings: 'lnum=1';
+	-ms-font-feature-settings: 'lnum';
+	-webkit-font-feature-settings: 'lnum';
+	-o-font-feature-settings: 'lnum';
+}
+
+.content-width {
+	max-width: $content-width;
+	margin: 0 auto;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.default-padding {
+	padding: 0 $default-padding;
+}
+
+.block {
+	margin-bottom: $block-margin;
+
+	&.background {
+		background-color: $background-color-2;
+	}
+	
+	.header {
+		margin: 0 0 $block-margin 0;
+		text-align: center;
+		line-height: 1;
+		color: $primary-color;
+		font-size: 5.5rem;
+	}
+}
+
+
+
+.text-block {
+	font-size: 1.6rem;
+	line-height: 1.8em;
+
+	b, strong {
+		color: $primary-color;
+	}
+	
+	p, div {
+		overflow: hidden;
+	}
+	
+	h1, h2, h3, h4, h5 {
+		font-weight: 600;
+		margin: $default-padding 0;
+	}
+	
+	h1:not(.normal), h2:not(.normal), h3:not(.normal), h4:not(.normal), h5:not(.normal), h6:not(.normal) {
+		text-transform: none;
+		color: $accent-color;
+		font-size: 1.3em;
+		font-weight: normal;
+	}
+
+	a {
+		color: $primary-color;
+		text-decoration: none;
+		
+		@include transition(all $default-transition);
+		
+		&:hover {
+			color: $accent-color;
+		}
+	}
+	
+	ul, ol {
+		margin: $default-padding 0;
+		padding: 0 0 0 20px;
+		
+		@include border-box();
+		
+		&:first-child {
+			width: 50%;
+			float: left;
+		}
+		&:last-child {
+			width: 100%;
+			float: none;
+		}
+		
+		& + ul, & + ol {
+			width: 50% !important;
+			float: left !important;
+		}
+
+		li {
+			margin-bottom: 10px;
+			
+			&:before {
+				content: "";
+				margin-right: 10px;
+				background-color: $primary-color;
+				width: 6px;
+				height: 6px;
+				display: inline-block;
+				vertical-align: middle;
+				border-radius: 50%;
+			}
+		}
+	}
+
+	ul {
+		padding: 0;
+		list-style: none;
+	}
+
+	div.list li {
+		margin-bottom: 10px;
+	}
+	
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		border-color: $border-color;
+		border: 1px solid $border-color;
+		margin: $default-padding 0;
+		
+		td, th {
+			padding: round($default-padding * 0.4) round($default-padding * 0.8);
+		}
+		
+		th {
+			font-weight: 600;
+		}
+		
+		caption {
+			padding: round($default-padding * 0.66) $default-padding;
+			text-transform: uppercase;
+			font-weight: 600;
+		}
+		
+		&.hoverable {
+			td, th {
+				&:hover {
+					background-color: #F0F0F0;
+				}
+			}
+		}
+
+		&.min-mobile {
+			min-width: $mobile-screen;
+		}
+		&.min-tablet {
+			min-width: $tablet-screen;
+		}
+		&.min-desktop {
+			min-width: 100%;
+		}
+	}
+}
+
+
+
+
+.owl-dots {
+	overflow: hidden;
+	display: inline-block;
+
+	.owl-dot {
+		background-color: $primary-color;
+		width: 16px;
+		height: 16px;
+		opacity: 0.5;
+		border-radius: 50%;
+		float: left;
+		cursor: pointer;
+
+		@include transition(opacity $default-transition);
+		
+		& + .owl-dot {
+			margin-left: 14px;
+		}
+
+		&.active {
+			opacity: 1;
+			cursor: default;
+		}
+	}
+}
+
+
+
+
+
+body .loader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+	
+	.object {
+		width: 8px;
+		height: 40px;
+		position: absolute;
+    	top: 150px;
+    	left: 50%;
+    	margin-left: -20px;
+
+		@include animation(rotate 0.9s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite);
+
+		&:after {
+			content: "";
+			display: block;
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background-color: $accent-color;
+		}
+	}
+}
+
+.button-loader {
+	$size: 36px;
+	$dot-size: 8px;
+
+	width: $dot-size;
+	height: $size;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: (-$size / 2) 0 0 (-$dot-size / 2);
+
+	@include animation(rotate 0.9s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite);
+
+	&:after {
+		content: "";
+		display: block;
+		width: $dot-size;
+		height: $dot-size;
+		border-radius: 50%;
+		background-color: #FFF;
+	}
+}
+
+@keyframes rotate {
+	0% {
+		@include transform(rotate(0));
+	}
+	100% {
+		@include transform(rotate(-360deg));
+	}
+}

@@ -1,0 +1,25 @@
+.services {
+	overflow: hidden;
+
+	.service {
+		width: 33%;
+		float: left;
+		text-align: center;
+		
+		.title {
+			font-size: 2.2rem;
+			font-weight: 500;
+			margin: round($default-padding * 1.5) 0 (round($default-padding * 1.5) - 4) 0;
+			line-height: 1;
+    		//letter-spacing: -0.05rem;
+		}
+
+		p {
+			font-size: 1.5rem;
+			line-height: 1.8em;
+			color: $font-color-2;
+			margin: 0;
+			padding: 0 round($default-padding * 1.5);
+		}
+	}
+}

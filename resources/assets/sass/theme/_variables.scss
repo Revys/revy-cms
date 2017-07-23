@@ -1,0 +1,80 @@
+// Colors
+$primary-color: #FF6E58;
+$accent-color: #FEB634;
+$dark-color: #353741;
+
+$background-color: #FFFFFF;
+$background-color-2: #F1F1F1;
+
+$font-color: #000;
+$font-color-2: #363842;
+$hover-color: $accent-color;
+$link-color: $font-color; 
+$link-hover-color: $accent-color;
+
+$success-color: #66BB6A;
+$error-color: #FF6E58;
+
+$border-color: #EEE;
+
+$button-color: $accent-color;
+$button-color-darker: #F16415;
+$button-color-dark: #3C0000;
+
+// Content width
+$body-min-width: 320px;
+$content-width: 1170px;
+
+// Transitions
+$default-easing: ease-out; 
+$default-animation-time: .15s; 
+$default-transition: $default-animation-time $default-easing; 
+
+$default-easing-inv: ease-in; 
+$default-animation-time-inv: .15s; 
+$default-transition-inv: $default-animation-time-inv $default-easing-inv; 
+
+// Paths
+$img-path: "/img/site";
+$icons-path: "/img/icons";
+$fonts-path: "/fonts/";
+
+// Fonts
+$font-main: 'Raleway';
+$font-size: 10px;
+
+// Paddings
+$default-padding: 20px;
+$block-margin: $default-padding * 4;
+
+// Window sizes
+$mobile-screen: 420px;
+$tablet-screen: 768px;
+$large-screen: $content-width + $default-padding * 2;
+
+// Blocks
+$header-height: 100px !default;
+$header-height-small: 60px !default;
+$footer-height: 100px !default;
+$menu-height: 40px !default;
+$border-radius: 4px !default;
+
+$logo-width: 143px;
+$logo-height: 60px;
+
+
+
+
+
+// Z-index
+$z-index-always: 100; 
+$z-index-modal: $z-index-always - 1; 
+$z-index-modal-up: $z-index-modal + 1; 
+$z-index-menu: $z-index-modal - 1; 
+$z-index-menu-up: $z-index-menu + 1;
+
+$z-index-1: $z-index-menu - 10; 
+$z-index-2: $z-index-1 - 10; 
+$z-index-3: $z-index-2 - 10; 
+$z-index-4: $z-index-3 - 10; 
+$z-index-5: $z-index-4 - 10; 

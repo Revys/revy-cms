@@ -1,0 +1,31 @@
+.order-now {
+	background-color: $accent-color;
+	color: #FFF;
+	padding: $block-margin 0;
+
+	.content-width {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.button {
+		display: inline-block;
+		padding-top: $default-padding * 2;
+		padding-bottom: $default-padding * 2;
+	}
+
+	.text {
+		margin-right: 120px;
+	}
+
+	.text-first {
+		font-size: 3.6rem;
+		font-weight: bold;
+		margin-bottom: $default-padding;
+	}
+
+	.text-second {
+		font-size: 3.2rem;
+	}
+}

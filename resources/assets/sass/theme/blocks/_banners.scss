@@ -1,0 +1,22 @@
+.banners {
+	.banner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.image {
+			display: block;
+		}
+		
+		.info {
+			width: 50%;
+			font-size: 5.5rem;
+			color: #FFF;
+
+			.button {
+				display: inline-block;
+				margin-top: round($default-padding * 1.5);
+			}
+		}
+	}
+}

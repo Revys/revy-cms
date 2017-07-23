@@ -1,0 +1,84 @@
+.form {
+	.row {
+		margin-bottom: $default-padding;
+	}
+
+	.col {
+		position: relative;
+		padding-left: round($default-padding / 2);
+			
+		&:first-child {
+			padding-right: round($default-padding / 2);
+		}
+	}
+
+	span {
+		font-size: 1.2rem;
+		position: absolute;
+		top: $default-padding;
+		right: $default-padding;
+		line-height: 2rem;
+		color: transparentize($font-color-2, 0.5);
+	}
+
+	input, textarea {
+		background-color: #F1F1F1;
+		border-radius: $border-radius;
+		padding: $default-padding;
+		border: none;
+		outline: none;
+		font-size: 1.8rem;
+		line-height: 2rem;
+		width: 100%;
+		box-sizing: border-box;
+		color: $font-color-2;
+
+		&::-webkit-input-placeholder { color: transparentize($font-color-2, 0.5); }
+		&::-moz-placeholder          { color: transparentize($font-color-2, 0.5); }
+		&:-moz-placeholder           { color: transparentize($font-color-2, 0.5); }
+		&:-ms-input-placeholder      { color: transparentize($font-color-2, 0.5); }
+	}
+
+	textarea {
+		min-height: 160px;
+	}
+
+	.button {
+		text-transform: none;
+		font-size: 2.4rem;
+		color: #FFF;
+	}
+
+	&.darker {
+		input, textarea {
+			background-color: #E7E8E8;
+		}
+	}
+
+	.input-container {
+		position: relative;
+	}
+
+	.error-flag {
+		width: 16px;
+		line-height: 16px;
+		text-align: center;
+		font-size: 9px;
+		font-weight: bold;
+		border-radius: 50%;
+		color: #FFF;
+		background-color: $primary-color;
+		right: -8px;
+		top: -8px;
+		display: block;
+		position: absolute;
+		font-style: normal;
+
+		@include transition(transform .15s cubic-bezier(0.18, 0.89, 0.32, 1.28));
+		@include scale(0);
+
+		&.visible {
+			@include scale(1);
+		}
+	}
+}

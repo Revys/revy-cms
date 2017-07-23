@@ -1,0 +1,39 @@
+i.icon {
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    
+
+
+
+
+
+    &.icon-menu:after {
+        content: "\f0c9";
+    }
+    
+    &.icon-close:after {
+		content: "\f00d";
+	}
+    
+    &.icon-phone-header:after {
+        content: "";
+        display: block;
+        background-image: url($icons-path + "/phone-header.svg");
+    }
+    
+    &.icon-phone {
+        background-image: url($icons-path + "/phone-header.svg");
+    }
+    
+    &.icon-email {
+        background-image: url($icons-path + "/email.svg");
+    }
+    
+    &.icon-link {
+        background-image: url($icons-path + "/link.svg");
+    }
+}

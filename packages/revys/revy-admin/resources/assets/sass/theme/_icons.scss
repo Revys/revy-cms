@@ -1,0 +1,46 @@
+i.icon {
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+ 
+
+    &.icon- {
+
+
+        &-point::after {
+            content: "\f10c";
+        }
+
+        &-menu::after {
+            content: "\f0c9";
+        }
+        
+        &-close::after {
+            content: "\f00d";
+        }
+
+        &-language::after {
+            content: "\f0ac";
+        }
+
+        &-settings::after {
+            content: "\f085";
+        }
+
+        &-exit::after {
+            content: "\f08b";
+        }
+
+        &-caret::after {
+            content: "\f107";
+        }
+
+        &-add::after {
+            content: "\f067";
+        }
+
+    }
+}

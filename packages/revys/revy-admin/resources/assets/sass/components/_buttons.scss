@@ -1,0 +1,86 @@
+// Config
+$button-font-size: 1.5rem;
+$button-font-color: #555;
+$button-border-color: $border-color;
+$button-border-radius: $border-radius;
+$button-height: 4.2rem;
+$button-padding: 0 2rem;
+
+$button-primary-color: $primary-color;
+$button-success-color: $success-color;
+$button-danger-color: $danger-color;
+$button-warning-color: $warning-color;
+$button-info-color: $info-color;
+$button-default-color: #FFF;
+
+
+
+// Styles
+.button {
+	font-size: $button-font-size;
+	color: $button-font-color;
+	border: 1px solid $button-border-color;
+	border-radius: $button-border-radius;
+	background-color: $button-default-color;
+	padding: $button-padding;
+	height: $button-height;
+	box-sizing: border-box;
+	outline: none;
+	cursor: pointer;
+
+	@include transition(background-color $default-transition);
+
+	&:focus, &:hover {
+		background-color: darken($button-default-color, 3%);
+	}
+}
+
+.button--primary {
+	color: #FFF;
+	background-color: $button-primary-color;
+	border-color: $button-primary-color;
+	
+	&:focus, &:hover {
+		background-color: darken($button-primary-color, 4%);
+	}
+}
+
+.button--success {
+	color: #FFF;
+	background-color: $button-success-color;
+	border-color: $button-success-color;
+	
+	&:focus, &:hover {
+		background-color: darken($button-success-color, 4%);
+	}
+}
+
+.button--danger {
+	color: #FFF;
+	background-color: $button-danger-color;
+	border-color: $button-danger-color;
+	
+	&:focus, &:hover {
+		background-color: darken($button-danger-color, 4%);
+	}
+}
+
+.button--warning {
+	color: $button-font-color;
+	background-color: $button-warning-color;
+	border-color: $button-warning-color;
+	
+	&:focus, &:hover {
+		background-color: darken($button-warning-color, 4%);
+	}
+}
+
+.button--info {
+	color: #FFF;
+	background-color: $button-info-color;
+	border-color: $button-info-color;
+	
+	&:focus, &:hover {
+		background-color: darken($button-info-color, 4%);
+	}
+}

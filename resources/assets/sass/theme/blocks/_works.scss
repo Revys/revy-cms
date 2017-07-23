@@ -1,0 +1,101 @@
+.works {
+	padding: $block-margin 0;
+	color: #FFF;
+	background-color: $primary-color;
+	text-align: center;
+	margin-bottom: 0;
+
+	.header {
+		color: #FFF;
+	}
+
+	.work {
+		display: flex;
+		align-items: center;
+
+		.image {
+    		flex: 0.5;
+			text-align: left;
+		}
+	
+		.info {
+    		flex: 0.5;
+			text-align: left;
+
+			.title {
+				text-align: right;
+				margin-bottom: $default-padding * 2;
+
+				h2 {
+					font-size: 2.8rem;
+					text-transform: uppercase;
+					line-height: 1;
+   					margin: 0 0 5px 0;
+				}
+
+				.link {
+					font-size: 1.6rem;
+
+					.icon {
+						width: 20px;
+						height: 10px;
+						vertical-align: middle;
+						margin-right: 10px;
+					}
+					
+					a {
+						display: inline-block;
+						vertical-align: middle;
+						color: #FFF;
+						
+						&:after {
+							content: "";
+							display: block;
+							height: 1px;
+							width: 100%;
+							background-color: #FFF;
+						}
+					}
+				}
+			}
+
+			.features {
+				.feature {
+					display: flex;
+					align-items: center;
+
+					b {
+						font-size: 2rem;
+					}
+					
+					p {
+						margin: 0;
+						font-size: 1.6rem;
+					}
+
+					.icon {
+						float: left;
+						margin-right: $default-padding;
+					}
+
+					img {
+						width: 60px;
+						height: 60px;
+					}
+
+					& + .feature {
+						margin-top: $default-padding * 2;
+					}
+				}
+			}
+		}
+	}
+
+	.owl-dots {
+		margin-top: $default-padding * 2;
+		
+		.owl-dot {
+			background-color: #FFF;
+		}
+	}
+}

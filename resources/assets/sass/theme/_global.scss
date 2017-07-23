@@ -1,0 +1,96 @@
+a {
+	color: $font-color;
+	text-decoration: none;
+
+	&:active, &:link, &:focus, &:visited {
+		color: $font-color;
+	}
+	
+	&.default {
+		color: $primary-color;
+		
+		@include transition(color $default-transition);
+		
+		&:hover {
+			color: $link-hover-color;
+		}
+	}
+	
+	&.inherit {
+		color: inherit;
+		
+		&:hover {
+			color: inherit;
+		}
+	}
+}
+
+.clear {
+	display: block;
+	clear: both;
+	visibility: hidden;
+}
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+	visibility: hidden;
+}
+
+.row {
+	.col {
+		float: left;
+		width: 50%;
+		padding-left: $default-padding;
+		box-sizing: border-box;
+
+		&:first-child {
+			padding-left: 0;
+			padding-right: $default-padding;
+		}
+
+		&.full {
+			width: 100%;
+			float: none;
+			padding-left: 0;
+		}
+	}
+
+	&:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+}
+
+.align-helper {
+	display: table;
+	width: 100%;
+
+	.vertical-align-middle {
+		display: table-cell;
+		vertical-align: middle;
+	}
+}
+
+
+
+
+// Overrides
+
+body {
+	.popup-container {
+		padding: $default-padding * 2 $default-padding * 3;
+	}
+
+	.popup-content {
+		.header {
+			margin: 0px 0 $default-padding * 2 0;
+			text-align: center;
+			line-height: 1;
+			color: $primary-color;
+			font-size: 2.2rem;
+			font-weight: bold;
+		}
+	}
+}

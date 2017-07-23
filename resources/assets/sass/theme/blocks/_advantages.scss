@@ -1,0 +1,61 @@
+.advantages {
+	padding: $block-margin 0;
+	color: #FFF;
+	background-color: $dark-color;
+	text-align: center;
+	margin-bottom: 0;
+
+	.header {
+		color: #FFF;
+		margin-bottom: round($block-margin / 2);
+	}
+	
+	h4 {
+		font-size: 2.4rem;
+		margin: 0 auto $block-margin auto;
+		font-weight: normal;
+		max-width: 700px;
+	}
+
+	.container {
+		position: relative;
+		padding: 40px 0 70px 0;
+	}
+
+	.advantage {
+		position: absolute;
+		font-size: 1.6rem;
+		width: 100%;
+		max-width: 480px;
+		text-align: right;
+
+		b {
+			color: $accent-color;
+			font-size: 2rem;
+			font-weight: normal;
+		}
+
+		&:nth-child(1){
+			top: 0;
+			right: 50%;
+			margin-right: 110px;
+		}
+		&:nth-child(2){
+			top: 0;
+			left: 50%;
+			margin-left: 110px;
+			text-align: left;
+		}
+		&:nth-child(3){
+			bottom: 0;
+			right: 50%;
+			margin-right: 110px;
+		}
+		&:nth-child(4){
+			bottom: 0;
+			left: 50%;
+			margin-left: 110px;
+			text-align: left;
+		}
+	}
+}

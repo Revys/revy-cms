@@ -1,0 +1,58 @@
+#error-page {
+	background: $background-color;
+}
+
+.error404 {
+	padding: $default-padding * 4 $default-padding;
+	text-align: center;
+
+	h1 {
+		font-size: 2.3em;
+		margin: 20px 0 0 0;
+    	line-height: 1.6em;
+		color: $primary-color;
+	}
+
+	.button {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		display: inline-block;
+
+		span {
+			padding: 0 $default-padding * 2;
+		}
+	}
+
+	small {
+		display: block;
+		font-weight: normal;
+		font-size: 1.8em;
+		margin: 0 0 20px 0;
+    	line-height: 1.4em;
+		color: $primary-color;
+	}
+
+	.image {
+		width: 64.295vh;
+		height: 30vh;
+		max-width: 100%;
+		/*min-height: 200px;
+		min-width: 347px;*/
+	}
+}
+
+@include respond-to(0, $tablet-screen){
+	#error-page {
+		h1 {
+			font-size: 1.8em;
+		}
+	}
+}
+
+@include respond-to(0, $mobile-screen){
+	#error-page {
+		h1 {
+			font-size: 1.4em;
+		}
+	}
+}

@@ -1,0 +1,70 @@
+/* ------------------------------------------
+-------------- Default Button ---------------
+------------------------------------------ */
+.button {
+	$button-font-size: 2rem;
+	$padding: round($default-padding * 1.1);
+
+	display: block;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	line-height: 0.8;
+	white-space: nowrap;
+	color: #FFF;
+	font-weight: normal;
+	font-size: $button-font-size;
+    font-family: inherit;
+	text-transform: uppercase;
+	position: relative;
+	margin: 0;
+	padding: $padding $padding * 2;
+	background-color: $button-color;
+	box-sizing: border-box;
+	border-radius: $border-radius;
+	text-align: center;
+	
+	@include transition(all $default-transition);
+
+	&:active, &:link, &:focus, &:visited {
+		color: #FFF;
+	}
+
+	&:hover {
+		background-color: lighten($button-color, 4%);
+		border-color: lighten($button-color, 4%);
+	}
+
+	&.full-width {
+		width: 100%;
+	}
+
+	&.primary:not(.ghost) {
+		background-color: $primary-color;
+		
+		&:hover {
+			background-color: lighten($primary-color, 4%);
+		}
+	}
+
+	&.darker:not(.ghost) {
+		background-color: $button-color-darker;
+		
+		&:hover {
+			background-color: lighten($button-color-darker, 4%);
+		}
+	}
+
+	&.dark:not(.ghost) {
+		background-color: $button-color-dark;
+		
+		&:hover {
+			background-color: lighten($button-color-dark, 4%);
+		}
+	}
+
+	&.center {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}

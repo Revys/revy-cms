@@ -1,0 +1,6 @@
+@include respond-to(0, $large-screen){
+	.responsive-padding {
+		padding-right: $default-padding;
+		padding-left: $default-padding;
+	}
+}
