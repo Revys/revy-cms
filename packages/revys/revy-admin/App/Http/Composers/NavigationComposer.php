@@ -31,12 +31,21 @@ class NavigationComposer
 
     public function top($view)
     {
-        $path = [];
-
         $controller = GlobalsComposer::getController();
         $action = GlobalsComposer::getAction();
 
-        $admmenu = AdminMenu::where('controller', '=', $controller->GetController())->orderBy('parent_id', 'asc')->first();
+        $path = $this->getPath($controller, $action);
+
+        $actions = $controller->actions;
+
+        $view->with(compact('path', 'action', 'actions'));
+    }
+
+    public function getPath($controller, $action)
+    {
+        $path = [];
+
+        $admmenu = AdminMenu::where('controller', '=', $controller->getController())->orderBy('parent_id', 'asc')->first();
 
         $path[] = $admmenu->title;
 
@@ -49,8 +58,6 @@ class NavigationComposer
                 break;
         }
 
-        $actions = $controller->actions;
-
-        $view->with(compact('path', 'action', 'actions'));
+        return $path;
     }
 }

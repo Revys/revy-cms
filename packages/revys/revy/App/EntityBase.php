@@ -8,6 +8,8 @@ class EntityBase extends Model
 {
     const STATUS_HIDDEN = 0;
     const STATUS_PUBLISHED = 1;
+    
+    protected $guarded = ['id'];
 
     /**
      * Находит объект по уникальному полю urlid

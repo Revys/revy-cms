@@ -4,7 +4,7 @@
 		{{ Form::checkbox(
 			$field['field'], 
 			1, 
-			(is_callable($field['value']) ? $field['value']($object) : $object->{$field['value']}), 
+			(isset($object) ? (is_callable($field['value']) ? $field['value']($object) : $object->{$field['value']}) : ''), 
 			[
 				'id' => 'form-input-' . $field['field']
 			]

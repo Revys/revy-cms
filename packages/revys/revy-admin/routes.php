@@ -55,7 +55,7 @@ Route::group([
 		])->name('edit');
 
 		// Update Path
-		Route::get('{controller}/update/{id}', function($controller, $id){
+		Route::post('{controller}/update/{id}', function($controller, $id){
 			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
 			return $class->callAction('update', $parameters = [$id]);
 		})->where([
@@ -69,6 +69,14 @@ Route::group([
 		})->where([
 			'controller' => '\w+',
 		])->name('create');
+		
+		// Insert Path
+		Route::post('{controller}/insert', function($controller){
+			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+			return $class->callAction('update', $parameters = []);
+		})->where([
+			'controller' => '\w+'
+		])->name('insert');
 
 		// Base Path
 		Route::get('{controller}/{action}', function($controller, $action = 'index'){

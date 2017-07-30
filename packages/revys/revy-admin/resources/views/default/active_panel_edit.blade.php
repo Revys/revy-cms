@@ -4,7 +4,7 @@
 	@endif
 	
 	@if (isset($activePanel['caption']))
-		<h1 class="active-panel__caption">{{ $activePanel['caption'] }}<b><small>ID:</small> {{ $object->id }}</b></h1>
+		<h1 class="active-panel__caption">{!! $activePanel['caption'] !!}@if(isset($object))<b><small>ID:</small> {{ $object->id }}</b>@endif</h1>
 	@endif
 
 	@if (isset($activePanel['buttons']['export']) && $activePanel['buttons']['export'])

@@ -21,12 +21,8 @@
 				@foreach($fieldGroup['fields'] as $field)
 					@includeDefault('fields.' . $field['type'])
 				@endforeach
-			
-				<div class="form__group__actions">
-					@foreach($fieldGroup['actions'] as $action => $button)
-						{{ Form::submit($button['label'], ['class' => 'button button--' . $button['style'] . ' button--' . $action]) }}
-					@endforeach
-				</div>
+
+				@includeDefault('buttons')
 
 			{!! Form::close() !!}
 		</section>

@@ -6,6 +6,8 @@ use Revys\RevyAdmin\App\Http\Composers\GlobalsComposer;
 use Revys\RevyAdmin\App\Helpers\Html\ActivePanel;
 use Illuminate\Pagination\Paginator;
 use View;
+use Session;
+use Revys\RevyAdmin\App\AdminMenu;
 
 class ControllerBase extends \App\Http\Controllers\Controller
 {
@@ -19,6 +21,7 @@ class ControllerBase extends \App\Http\Controllers\Controller
 		'publish' => true,
 		'order' => true
 	];
+
 
 	public function __construct()
 	{
@@ -109,7 +112,7 @@ class ControllerBase extends \App\Http\Controllers\Controller
 
 		$fieldsMap = static::editFieldsMap();
 
-		$activePanel = static::editActivePanel($object);
+		$activePanel = $this->editActivePanel($object);
 	
 		return $this->view('edit', compact('object', 'fieldsMap', 'activePanel'));
     }
@@ -119,11 +122,18 @@ class ControllerBase extends \App\Http\Controllers\Controller
         return [
 			'save' => [
 				'label' => __('Сохранить'),
-				'style' => 'success'
+				'style' => 'success',
+				'type' => 'submit',
+				'link' => function($controller, $object){
+					return route('admin::update', [$controller, $object->id]);
+				}
 			],
 			'back' => [
 				'label' => __('Назад'),
-				'style' => 'default'
+				'style' => 'default',
+				'link' => function($controller, $object){
+					return route('admin::list', [$controller]);
+				}
 			]
         ];
     }
@@ -131,7 +141,7 @@ class ControllerBase extends \App\Http\Controllers\Controller
 	/*
 	 * @todo Export, Copy, View buttons
 	 */
-	public static function editActivePanel($object)
+	public function editActivePanel($object)
     {
 		// $activePanel = new ActivePanel('edit', $object);
 		return [
@@ -145,6 +155,18 @@ class ControllerBase extends \App\Http\Controllers\Controller
 		];
     }
 
+	public function createActivePanel()
+    {
+        $section = AdminMenu::where('controller', '=', $this->getController())->orderBy('parent_id', 'asc')->first();
+
+		return [
+			'caption' => __('Добавить') . ($section != false ? ' в <b>' . $section->title . '</b>' : ''),
+			'buttons' => [
+				'back' => true
+			]	
+		];
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -152,6 +174,34 @@ class ControllerBase extends \App\Http\Controllers\Controller
      */
     public function create()
     {
-		return $this->view('create');
+		$fieldsMap = static::editFieldsMap();
+
+		$activePanel = $this->createActivePanel();
+	
+		return $this->view('create', compact('fieldsMap', 'activePanel'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int|string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update($id)
+    {
+		$request = request();
+
+       	$this->validate($request, $this->getModel()::rules());
+        
+		
+		$data = $request->all();
+		$data['status'] = $request->input('status') ? $request->input('status') : 0;
+
+
+        $this->getModel()::find($id)->update($data);
+		
+    	Session::flash('message', __('Сохранение прошло успешно'));
+
+        return redirect()->route('admin::edit', [$this->getController(), $id]);
     }
 }
