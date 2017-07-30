@@ -2,6 +2,8 @@
 
 @section('content')
 
+	@includeDefault('active_panel_edit')
+
 	@foreach($fieldsMap as $fieldGroup)
 		<section class="card card--form">
 
@@ -20,9 +22,11 @@
 					@includeDefault('fields.' . $field['type'])
 				@endforeach
 			
-				@foreach($fieldGroup['actions'] as $action)
-					{{ Form::submit($action['label'], ['class' => 'button button--' . $action['style']]) }}
-				@endforeach
+				<div class="form__group__actions">
+					@foreach($fieldGroup['actions'] as $action => $button)
+						{{ Form::submit($button['label'], ['class' => 'button button--' . $button['style'] . ' button--' . $action]) }}
+					@endforeach
+				</div>
 
 			{!! Form::close() !!}
 		</section>

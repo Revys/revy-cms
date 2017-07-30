@@ -2,7 +2,7 @@
 	@if(isset($path) && count($path))
 		<div class="header__path">
 			@foreach($path as $title)
-				<span class="header__path__item">{{ $title }}@if(isset($object) && $title === end($path)) ID: {{ $object->id }}@endif</span>
+				<span class="header__path__item">{{ $title }}</span>
 			@endforeach
 		</div>
 	@endif

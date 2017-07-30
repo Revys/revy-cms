@@ -14,6 +14,6 @@ const { mix } = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js');
 mix.sass('resources/assets/sass/app.scss', 'public/css');
 
-mix.sass('packages/revys/revy-admin/resources/assets/js/app.js', 'public/admin-assets/js');
+mix.js('packages/revys/revy-admin/resources/assets/js/app.js', 'public/admin-assets/js');
 
 

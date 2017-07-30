@@ -42,5 +42,17 @@ i.icon {
             content: "\f067";
         }
 
+        &-active-panel-back {
+            background-image: url($icons-path + "/active-panel-back.svg");
+        }
+
+        &-active-panel-export {
+            background-image: url($icons-path + "/active-panel-export.svg");
+        }
+
+        &-active-panel-copy {
+            background-image: url($icons-path + "/active-panel-copy.svg");
+        }
+
     }
 }

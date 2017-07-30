@@ -18,6 +18,7 @@
 	display: block;
 	line-height: 1;
 	margin-bottom: $default-padding / 2;
+	font-weight: bold;
 }
 
 .form__group__input {
@@ -25,10 +26,36 @@
 	color: $input-font-color;
 	display: block;
 	width: 100%;
+	max-width: 400px;
+	min-width: 400px * 0.7;
 	border: 1px solid $input-border-color;
 	border-radius: $input-border-radius;
 	padding: $input-padding;
 	height: $input-height;
 	line-height: 1;
 	box-sizing: border-box;
+}
+.form__group__input--small {
+	max-width: 120px;
+	min-width: 120px * 0.7;
+}
+.form__group__input--large {
+	max-width: 800px;
+	min-width: 800px * 0.7;
+}
+.form__group__input--full {
+	max-width: 100%;
+}
+
+.form__group__actions {
+	margin-top: $default-padding * 2;
+	font-size: 0;
+
+	.button + .button {
+		margin-left: $default-padding;
+	}
+	
+	.button--back {
+		float: right;
+	}
 }

@@ -34,7 +34,10 @@ class RevyAdminServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(RevyAdmin::class);
+    }
 
+    public function initProviders()
+    {
         $composer = new ComposerServiceProvider($this->app);
         $composer->register();
 

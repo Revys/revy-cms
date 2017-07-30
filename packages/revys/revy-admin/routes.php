@@ -6,6 +6,9 @@ Route::group([
 	'middleware' => ['web', 'admin'],
 	'as' => 'admin::',
 ], function () {
+	if (request()->segment(1) == config('revy.admin.path'))
+		\Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider::initProviders();
+		
 	// Variables
 	$locale = request()->segment(2);
 

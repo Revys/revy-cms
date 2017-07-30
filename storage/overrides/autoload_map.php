@@ -7,7 +7,7 @@
   'Revys\\Revy\\App\\Settings' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\Settings.php',
   'Revys\\Revy\\App\\SettingsGroup' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\SettingsGroup.php',
   'Revys\\RevyAdmin\\App\\AdminMenu' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\AdminMenu.php',
-  'Revys\\RevyAdmin\\App\\Http\\Controllers\\AdminMenuController' => '\\overrides\\Revys\\RevyAdmin\\App\\Http\\Controllers\\AdminMenuController.php',
+  'Revys\\RevyAdmin\\App\\Http\\Controllers\\AdminMenuController' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\AdminMenuController.php',
   'Revys\\RevyAdmin\\App\\Http\\Controllers\\AuthController' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\AuthController.php',
   'Revys\\RevyAdmin\\App\\Http\\Controllers\\Controller' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\Controller.php',
   'Revys\\RevyAdmin\\App\\Http\\Controllers\\DashboardController' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\DashboardController.php',

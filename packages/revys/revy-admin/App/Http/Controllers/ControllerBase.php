@@ -3,6 +3,7 @@
 namespace Revys\RevyAdmin\App\Http\Controllers;
 
 use Revys\RevyAdmin\App\Http\Composers\GlobalsComposer;
+use Revys\RevyAdmin\App\Helpers\Html\ActivePanel;
 use Illuminate\Pagination\Paginator;
 use View;
 
@@ -103,12 +104,14 @@ class ControllerBase extends \App\Http\Controllers\Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    { 
 		$object = $this->model::find($id);
 
 		$fieldsMap = static::editFieldsMap();
+
+		$activePanel = static::editActivePanel($object);
 	
-		return $this->view('edit', compact('object', 'fieldsMap'));
+		return $this->view('edit', compact('object', 'fieldsMap', 'activePanel'));
     }
 
 	public static function editActionsMap()
@@ -117,8 +120,29 @@ class ControllerBase extends \App\Http\Controllers\Controller
 			'save' => [
 				'label' => __('Сохранить'),
 				'style' => 'success'
+			],
+			'back' => [
+				'label' => __('Назад'),
+				'style' => 'default'
 			]
         ];
+    }
+
+	/*
+	 * @todo Export, Copy, View buttons
+	 */
+	public static function editActivePanel($object)
+    {
+		// $activePanel = new ActivePanel('edit', $object);
+		return [
+			'caption' => $object->title,
+			'buttons' => [
+				'back' => true,
+				// 'export' => true,
+				// 'copy' => true,
+				// 'view' => true
+			]	
+		];
     }
 
     /**

@@ -40,6 +40,18 @@ class AdminMenuControllerBase extends Controller
                         'value' => 'title'
                     ],
                     [
+                        'type' => 'text',
+                        'label' => __('Контроллер'),
+                        'field' => 'controller',
+                        'value' => 'controller'
+                    ],
+                    [
+                        'type' => 'text',
+                        'label' => __('Действие'),
+                        'field' => 'action',
+                        'value' => 'action'
+                    ],
+                    [
                         'type' => 'bool',
                         'label' => __('Опубликован'),
                         'field' => 'status',

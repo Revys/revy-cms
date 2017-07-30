@@ -6,8 +6,7 @@
 			1, 
 			(is_callable($field['value']) ? $field['value']($object) : $object->{$field['value']}), 
 			[
-				'id' => 'form-input-' . $field['field'], 
-				'class' => 'form__group__input'
+				'id' => 'form-input-' . $field['field']
 			]
 		 ) }}
 		<div class="switcher__lever"></div>
