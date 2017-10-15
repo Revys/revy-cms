@@ -51,7 +51,7 @@ class EntityBase extends Model
 
         return $this;
 	}
-
+    
     /**
      * Отбирает только опубликованные объекты
      */
@@ -74,5 +74,63 @@ class EntityBase extends Model
     public function isPublished()
     {
         return ($this->status == self::STATUS_PUBLISHED);
+    }
+
+    /** 
+     *  Возвращает массив с ключом и значением без выбранного элемента
+     */
+    public static function getListForRelation($object = null, $keyField = 'id', $titleField = 'title')
+    {
+        $id = isset($object) ? $object->id : 0;
+        $items = static::where('id', '!=', $id)->get()->toArray();
+
+        $items = \Revys\Revy\App\Helpers\Tree::sort($items);
+
+        $newItems = $items;
+        $items = array();
+
+        foreach ($newItems as $item) {
+            $items[$item[$keyField]] = str_repeat('-- ', $item['level']) . $item[$titleField];
+        }
+
+        return ['' => __('-- Без родителя')] + $items;
+    }
+
+    /**
+     *  Публикет объект
+     */
+    public function publish()
+    {
+        $this->status = self::STATUS_PUBLISHED;
+
+        return $this->save();
+    }
+    
+    /**
+     *  Публикет объект
+     */
+    public function hide()
+    {
+        $this->status = self::STATUS_HIDDEN;
+
+        return $this->save();
+    }
+    
+    /**
+     * Validation default rules
+     */
+     public static function rules()
+     {
+         return [];
+     }
+
+    /**
+     * Validation default messages
+     */
+    public static function messages()
+    {
+        return [
+            'required' => __('Это обязательное поле')
+        ];
     }
 }

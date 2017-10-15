@@ -188,4 +188,18 @@ class Overrides
 
 		return false;
 	}
+
+	public function addPrefix($class, $prefix = 'rac')
+	{
+		if ($prefix == 'r')
+			$class = 'Revys\Revy\App\\' . $class;
+		elseif ($prefix == 'ra')
+			$class = 'Revys\RevyAdmin\App\\' . $class;
+		elseif ($prefix == 'rc')
+			$class = 'Revys\Revy\App\Http\Controllers\\' . $class . 'Controller';
+		elseif ($prefix == 'rac')
+			$class = 'Revys\RevyAdmin\App\Http\Controllers\\' . $class . 'Controller';
+
+		return $class;
+	}
 }

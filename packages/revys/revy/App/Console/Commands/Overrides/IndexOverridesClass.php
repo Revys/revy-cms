@@ -12,7 +12,7 @@ class IndexOverridesClass extends Command
      *
      * @var string
      */
-    protected $signature = 'command:index-overrides';
+    protected $signature = 'index-overrides';
 
     /**
      * The console command description.

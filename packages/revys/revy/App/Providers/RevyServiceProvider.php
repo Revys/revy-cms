@@ -60,6 +60,7 @@ class RevyServiceProvider extends ServiceProvider
         // Config
         $this->publishes([
             self::$packagePath.'/config/config.php' => config_path(self::$packageAlias.'/config.php'),
+            self::$packagePath.'/config/translatable.php' => config_path(self::$packageAlias.'/translatable.php'),
         ], 'config');
 
         // Assets

@@ -5,14 +5,14 @@
 		</div>
 	@endif
 	<div class="card__content">
-		@if($items->hasMorePages() || $items->previousPageUrl() !== '' || $order || $filters)
+		@if(isset($items) && ($items->hasMorePages() || $items->previousPageUrl() !== '' || $order || $filters))
 			<div class="card__header">
 				@include($controller->getViewRoute('order'))
 				@include($controller->getViewRoute('pagination'))
 			</div>
 		@endif
 		
-		@if(count($items))
+		@if(isset($items) && count($items))
 			<table class="data-table{{ !isset($auto_width) ? ' data-table--fixed' : '' }}">
 				<thead>
 					<tr class="data-table__titles">
@@ -37,7 +37,7 @@
 							@if(isset($selectable))
 								<td class="data-table__checkbox">
 									<div class="checkbox">
-										<input type="checkbox" class="checkbox__input" id="{{ $oc }}-checkbox-field-{{ $item->id }}" />
+										<input type="checkbox" name="items[]" value="{{ $item->id }}" class="checkbox__input" id="{{ $oc }}-checkbox-field-{{ $item->id }}" />
 										<label class="checkbox__label" for="{{ $oc }}-checkbox-field-{{ $item->id }}"></label>
 									</div>
 								</td>
@@ -60,6 +60,12 @@
 					@endforeach
 				</tbody>
 			</table>
+			
+			@include($controller->getViewRoute('actions'))
+		@else
+			<div class="not-found">@lang('Элементы отсутствуют')</div>
 		@endif
 	</div>
 </section>
+
+@include("admin::js.list")

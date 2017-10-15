@@ -10,4 +10,10 @@ class RevyAdmin
 	{
 		return (Request::ajax() ? 'admin::layouts.ajax' : 'admin::layouts.' . $name);
 	}
+
+	public static function onlyForAjax()
+	{
+		if (! Request::ajax())
+			return abort(403, 'Only ajax method');
+	}
 }

@@ -1,5 +1,6 @@
 <?php return array (
   'Revys\\Revy\\App\\Entity' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\Entity.php',
+  'Revys\\Revy\\App\\Helpers\\Tree' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\Helpers\\Tree.php',
   'Revys\\Revy\\App\\Language' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\Language.php',
   'Revys\\Revy\\App\\Menu' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\Menu.php',
   'Revys\\Revy\\App\\Page' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\Page.php',
@@ -7,9 +8,11 @@
   'Revys\\Revy\\App\\Settings' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\Settings.php',
   'Revys\\Revy\\App\\SettingsGroup' => '\\storage\\overrides\\classes\\Revys\\Revy\\App\\SettingsGroup.php',
   'Revys\\RevyAdmin\\App\\AdminMenu' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\AdminMenu.php',
+  'Revys\\RevyAdmin\\App\\Alerts' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Alerts.php',
   'Revys\\RevyAdmin\\App\\Http\\Controllers\\AdminMenuController' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\AdminMenuController.php',
   'Revys\\RevyAdmin\\App\\Http\\Controllers\\AuthController' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\AuthController.php',
   'Revys\\RevyAdmin\\App\\Http\\Controllers\\Controller' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\Controller.php',
   'Revys\\RevyAdmin\\App\\Http\\Controllers\\DashboardController' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\DashboardController.php',
+  'Revys\\RevyAdmin\\App\\Http\\Controllers\\LanguageController' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\LanguageController.php',
   'Revys\\RevyAdmin\\App\\Http\\Controllers\\PageController' => '\\storage\\overrides\\classes\\Revys\\RevyAdmin\\App\\Http\\Controllers\\PageController.php',
 );

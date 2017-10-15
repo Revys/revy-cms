@@ -12,7 +12,7 @@ class MakeOverrideClass extends Command
      *
      * @var string
      */
-    protected $signature = 'command:override {class} {--c|cached} {--f|force} {--i|index}';
+    protected $signature = 'override {class} {--c|cached} {--f|force} {--i|index} {--p|prefix=}';
 
     /**
      * The console command description.
@@ -42,9 +42,15 @@ class MakeOverrideClass extends Command
         $real = ! $this->option('cached');
         $force = $this->option('force');
         $index = $this->option('index');
+        $prefix = $this->option('prefix');
         
         if ($class) {
             $overrides = app()->make(Overrides::class);
+
+            if ($prefix !== '') {
+                $class = $overrides->addPrefix($class, $prefix);
+            }
+
             $overrides->makeOverrideClass($class, $real, $force);
 
             if ($index) 

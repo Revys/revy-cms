@@ -17,18 +17,25 @@ class AdminMenu extends Migration
         Schema::create('admin_menu', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->unsigned()->nullable();
-            $table->string('title');
-            //$table->string('page')->default('index');
-            //$table->boolean('is_default');
             $table->string('controller');
             $table->string('action');
             $table->string('icon')->nullable();
-            $table->tinyInteger('status')->default(Entity::STATUS_PUBLISHED); 
+            $table->tinyInteger('status')->default(Entity::STATUS_PUBLISHED);
             $table->timestamps();
         });
 
+        Schema::create('admin_menu_translations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('admin_menu_id')->unsigned();
+            $table->string('locale')->index();
+            $table->string('title');
+        
+            $table->unique(['admin_menu_id','locale']);
+            $table->foreign('admin_menu_id')->references('id')->on('admin_menu')->onDelete('cascade');
+        });
+
         Schema::table('admin_menu', function($table) {
-            $table->foreign('parent_id')->references('id')->on('admin_menu');
+            $table->foreign('parent_id')->references('id')->on('admin_menu')->onDelete('cascade');
         });
     }
 

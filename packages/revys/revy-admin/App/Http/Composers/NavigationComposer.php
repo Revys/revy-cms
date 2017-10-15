@@ -24,7 +24,7 @@ class NavigationComposer
 
     public function left($view)
     {
-        $items = AdminMenu::tree(2);
+        $items = AdminMenu::treePublished(2)->get();
 
         $view->with(compact('items'));
     }
@@ -45,8 +45,23 @@ class NavigationComposer
     {
         $path = [];
 
-        $admmenu = AdminMenu::where('controller', '=', $controller->getController())->orderBy('parent_id', 'asc')->first();
+        $admmenu = AdminMenu::where([
+            ['controller', '=', $controller->getController()],
+            ['action', '=', GlobalsComposer::getAction()]
+        ])->orderBy('parent_id', 'asc')->first();
 
+        if (! $admmenu)
+            $admmenu = AdminMenu::where('controller', '=', $controller->getController())->orderBy('parent_id', 'asc')->first();
+
+        if (! $admmenu)
+            return;
+
+        $tree = $admmenu->parent()->get();
+
+        foreach ($tree as $item) {
+            $path[] = $item->title;
+        }
+        
         $path[] = $admmenu->title;
 
         switch ($action) {

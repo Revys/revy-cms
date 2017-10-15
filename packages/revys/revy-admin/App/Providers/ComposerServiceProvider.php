@@ -24,5 +24,10 @@ class ComposerServiceProvider extends ServiceProvider
             ['admin::navigation.top'], 
 			'Revys\RevyAdmin\App\Http\Composers\NavigationComposer'
         );
+
+		View::composer(
+            ['admin::components.alerts'], 
+			'Revys\RevyAdmin\App\Http\Composers\AlertsComposer'
+        );
 	}
 }

@@ -4,7 +4,7 @@
 		<div 
 			class="alert"
 			v-for="(alert, index) in reversedAlerts()" 
-			v-bind:key="alert" 
+			v-bind:key="index" 
 			:class="[ !alert.visible ? 'alert--hidden' : '', 'alert--' + alert.tag ]" 
 			:data-index="index" 
 			@click="remove(index)"
@@ -15,6 +15,16 @@
 @push('vue')
 
 	<script>
+		@if (isset($alerts))
+			$(function(){
+				setTimeout(function(){
+					@foreach($alerts as $alert)
+						Alerts.add("{{ $alert['message'] }}", "{{ $alert['tag'] }}", {{ $alert['time'] }});
+					@endforeach
+				}, 200);
+			});
+		@endif
+
 		Vue.component('alerts', {
 			data: function() {
 				return {

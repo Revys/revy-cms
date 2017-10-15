@@ -1,0 +1,126 @@
+.form__group {
+	font-size: 0;
+	margin-bottom: $default-padding;
+}
+.form__group--toggler {
+	.form__group__label {
+		display: inline-block;
+		vertical-align: middle;
+		margin-bottom: 2px;
+		margin-right: $default-padding / 2;
+		cursor: pointer;
+	}
+}
+
+.form__group__label {
+	font-size: 1.3rem;
+	color: #555;
+	display: block;
+	line-height: 1;
+	margin-bottom: $default-padding / 2;
+	font-weight: bold;
+}
+
+.form__group__input {
+	font-size: $input-font-size;
+	color: $input-font-color;
+	display: block;
+	width: 100%;
+	max-width: 400px;
+	min-width: 400px * 0.7;
+	border: 1px solid $input-border-color;
+	border-radius: $input-border-radius;
+	padding: $input-padding;
+	height: $input-height;
+	line-height: 1;
+	box-sizing: border-box;
+}
+.form__group__input--small {
+	max-width: 120px;
+	min-width: 120px * 0.7;
+}
+.form__group__input--large {
+	max-width: 800px;
+	min-width: 800px * 0.7;
+}
+.form__group__input--full {
+	max-width: 100%;
+}
+
+.form__group__input-group {
+	position: relative;
+}
+
+
+.form__group__errors {
+	font-size: $font-size;
+	margin-top: $default-padding / 2;
+}
+.form__group__error {
+	color: $error-color;
+}
+
+
+
+
+
+
+
+
+
+
+
+// Iconpicker
+.iconpicker-popover.popover {
+    top: 100%;
+    right: 0;
+    left: auto;
+    z-index: 10;
+    border: 1px solid $border-color;
+    margin-top: 5px;
+	width: 100%;
+	
+	.popover-title {
+		padding: $default-padding / 2;
+	}
+
+	.iconpicker-search {
+		width: 100%;
+		border: 1px solid #e6e6e6;
+		border-radius: 2px;
+		padding: 1rem;
+		height: 3.8rem;
+		line-height: 1;
+		box-sizing: border-box;
+	}
+
+	.iconpicker-selected {
+		background-color: $primary-color;
+		color: #FFF;
+	}
+}
+.form__group__input__picked-icon {
+	font-size: 1.4rem;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: $input-height;
+	height: $input-height;
+	line-height: $input-height;
+	font-weight: normal;
+	text-align: center;
+}
+// Iconpicker END
+
+.form__group__actions {
+	margin-top: $default-padding * 2;
+	font-size: 0;
+
+	.button + .button {
+		margin-left: $default-padding;
+	}
+	
+	.button--back {
+		float: right;
+	}
+}

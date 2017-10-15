@@ -8,7 +8,9 @@
 			[
 				'id' => 'form-input-' . $field['field']
 			]
-		 ) }}
+		) }}
 		<div class="switcher__lever"></div>
+		
+		@includeDefault('fields._errors')
 	</div>
 </div>

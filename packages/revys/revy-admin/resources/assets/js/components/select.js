@@ -1,11 +1,16 @@
 HTMLCollection.prototype.select = function(options){
     let defaults = {
-		transition: 'slide-fade',
+		transition: "slide-fade",
         staticWidth: false,
         afterMount: false,
         afterChange: false,
         afterOpen: false,
-        afterClose: false
+        afterClose: false,
+        search: false,
+        text: {
+            search: "Поиск",
+            notFound: "Нет результатов"
+        }
 	}; 
 	
 	var opts = Object.assign(defaults, options);
@@ -22,7 +27,8 @@ HTMLCollection.prototype.select = function(options){
             _component,
             _input,
             _value,
-            _values;
+            _values,
+            _search;
 
         function mount()
         {
@@ -66,16 +72,35 @@ HTMLCollection.prototype.select = function(options){
             _input = _select.cloneNode(true);
 
             // Input
+            var base_classes = _input.getAttribute("class");
             _input.setAttribute("class", "select__input");
 
             // Selected value block
-            _value = document.createElement('div');
+            _value = document.createElement("div");
             _value.setAttribute("class", "select__value");
             _value.innerText = selected.text;
 
+            // ===============
             // Values
-            _values = document.createElement('div');
+            _values = document.createElement("div");
             _values.setAttribute("class", "select__values");
+
+            // Search
+            if (opts.search == true) {
+                let _searchContainer = document.createElement("div");
+                _searchContainer.setAttribute("class", "select__search__container");
+                _search = document.createElement("input");
+                _search.setAttribute("class", "select__search form__group__input");
+                _search.setAttribute("placeholder", opts.text.search);
+
+                _search.addEventListener("keyup", function(event){
+                    searchFindInList(_search.value);
+                });
+
+                _searchContainer.appendChild(_search);
+
+                _values.appendChild(_searchContainer);
+            }
 
             let el;
             options.forEach(function(element, index) {
@@ -89,10 +114,11 @@ HTMLCollection.prototype.select = function(options){
 
                 _values.appendChild(el);
             }, this);
+            // ===============
 
             // Whole component
-            _component = document.createElement('div');
-            _component.setAttribute("class", "select");
+            _component = document.createElement("div");
+            _component.setAttribute("class", base_classes);
 
             _component.appendChild(_input);
             _component.appendChild(_value);
@@ -102,8 +128,10 @@ HTMLCollection.prototype.select = function(options){
             _select.replaceWith(_component);
 
             // Styles
-            _value.style.width = baseWidth + 'px';
-            _values.style.width = baseWidth + 'px';
+            if (opts.staticWidth) {
+                _value.style.width = baseWidth + "px";
+                _values.style.width = baseWidth + "px";
+            }
 
             // Creating transition
             transition = new Transition(_values, opts.transition);
@@ -112,16 +140,17 @@ HTMLCollection.prototype.select = function(options){
         function bindActions()
         {
             Array.from(_values.children).forEach(function(element) {
-                element.addEventListener("click", function(event) {
-                    onElementClick(event, element);
-                });
+                if (element.classList.contains('select__values__option'))
+                    element.addEventListener("click", function(event) {
+                        onElementClick(event, element);
+                    });
             });
 
             _input.addEventListener("change", onChange);
             
             _value.addEventListener("click", triggerValues);
 
-            document.addEventListener('click', function(event) {
+            document.addEventListener("click", function(event) {
                 var isClickInside = _component.contains(event.target);
 
                 if (!isClickInside)
@@ -133,7 +162,7 @@ HTMLCollection.prototype.select = function(options){
             selected = options[index];
             
             if (trigger)
-                triggerEvent(_input, 'change');
+                triggerEvent(_input, "change");
         }
 
         function selectByValue(value) {
@@ -166,6 +195,11 @@ HTMLCollection.prototype.select = function(options){
         function triggerValues() {
             opened = !opened;
             updateValuesState();
+
+            if (opened) {
+                if (_search !== null)
+                    _search.focus();
+            }
         }
 
         function hideValues() {
@@ -179,6 +213,9 @@ HTMLCollection.prototype.select = function(options){
         function showValues() {
             opened = true;
             updateValuesState();
+
+            if (_search !== null)
+                _search.focus();
 
             if (opts.afterOpen)
                 opts.afterOpen();
@@ -202,6 +239,41 @@ HTMLCollection.prototype.select = function(options){
             element.classList.add("select__values__option--active");
 
             hideValues();
+        }
+
+        function searchFindInList(value) {
+            var input, filter, ul, li, i, el;
+            input = _search;
+            filter = input.value.toUpperCase();
+            ul = _values;
+            li = _values.getElementsByClassName("select__values__option");
+
+            var hidden = 0;
+            var visible = 0;
+         
+            for (i = 0; i < li.length; i++) { 
+                el = li[i];
+
+                if (el.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    el.style.display = "";
+                    visible++;
+                } else {
+                    el.style.display = "none";
+                    hidden++;
+                }
+            }
+
+            _notFound = document.createElement("div");
+            _notFound.setAttribute("class", "select__search__not-found");
+            _notFound.innerHTML = opts.text.notFound;
+
+            if (hidden == li.length)
+                if (_values.getElementsByClassName("select__search__not-found").length == 0)
+                    _values.appendChild(_notFound);
+            
+            if (visible > 0)
+                if (_values.getElementsByClassName("select__search__not-found").length > 0)
+                    _values.getElementsByClassName("select__search__not-found")[0].remove();
         }
 
         mount();

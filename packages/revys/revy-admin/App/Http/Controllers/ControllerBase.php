@@ -3,6 +3,8 @@
 namespace Revys\RevyAdmin\App\Http\Controllers;
 
 use Revys\RevyAdmin\App\Http\Composers\GlobalsComposer;
+use Revys\RevyAdmin\App\Alerts;
+use Revys\RevyAdmin\App\RevyAdmin;
 use Revys\RevyAdmin\App\Helpers\Html\ActivePanel;
 use Illuminate\Pagination\Paginator;
 use View;
@@ -56,9 +58,14 @@ class ControllerBase extends \App\Http\Controllers\Controller
 		if (\Request::ajax()) {
 			$sections = $result->renderSections();
 
+			$alerts = Alerts::all();
+
+			Alerts::clear();
+
 			return [
 				'content' => $sections['content'],
-				'js' => str_replace(['<script>', '</script>'], '', $sections['js'])
+				'js' => str_replace(['<script>', '</script>'], '', $sections['js']),
+				'alerts' => $alerts
 			];
 		}
 
@@ -76,7 +83,7 @@ class ControllerBase extends \App\Http\Controllers\Controller
 
 		$data['fields'] = static::listFieldsMap();
 
-		$data['items'] = $this->model::paginate(50);
+		$data['items'] = $this->getModel()::paginate(50);
 
 		return $this->view('index', $data);
     }
@@ -103,12 +110,15 @@ class ControllerBase extends \App\Http\Controllers\Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int|string $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     { 
-		$object = $this->model::find($id);
+		$object = $this->getModel()::find($id);
+
+		if (! $object)
+			return redirect()->back();
 
 		$fieldsMap = static::editFieldsMap();
 
@@ -128,6 +138,13 @@ class ControllerBase extends \App\Http\Controllers\Controller
 					return route('admin::update', [$controller, $object->id]);
 				}
 			],
+			'delete' => (GlobalsComposer::getAction() !== 'create' ? [
+				'label' => '<i class="icon icon--delete"></i>',
+				'style' => 'danger',
+				'link' => function($controller, $object){
+					return route('admin::delete', [$controller, $object->id]);
+				}
+			] : false),
 			'back' => [
 				'label' => __('Назад'),
 				'style' => 'default',
@@ -182,26 +199,162 @@ class ControllerBase extends \App\Http\Controllers\Controller
     }
 
     /**
+     * Create the specified resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function insert()
+	{
+		$request = request();
+
+       	$this->validate($request, $this->getModel()::rules(), $this->getModel()::messages());
+        
+		$data = $this->prepareCreateData($request->all());
+
+        $object = $this->getModel()::create($data);
+		
+    	Alerts::success(__('Добавление прошло успешно'));
+
+        return redirect()->route('admin::edit', [$this->getController(), $object->id]);
+	}
+
+    /**
      * Update the specified resource in storage.
      *
-     * @param int|string $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update($id)
     {
 		$request = request();
 
-       	$this->validate($request, $this->getModel()::rules());
+       	$this->validate($request, $this->getModel()::rules(), $this->getModel()::messages());
         
-		
-		$data = $request->all();
-		$data['status'] = $request->input('status') ? $request->input('status') : 0;
-
+		$data = $this->prepareUpdateData($request->all());
 
         $this->getModel()::find($id)->update($data);
 		
-    	Session::flash('message', __('Сохранение прошло успешно'));
+    	Alerts::success(__('Сохранение прошло успешно'));
 
         return redirect()->route('admin::edit', [$this->getController(), $id]);
     }
+
+	public function prepareUpdateData($data)
+	{
+		$data['status'] = isset($data['status']) ? $data['status'] : 0;
+
+		return $data;
+	}
+
+	public function prepareCreateData($data)
+	{
+		$data['status'] = isset($data['status']) ? $data['status'] : 0;
+
+		return $data;
+	}
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $this->getModel()::find($id)->delete();
+		
+    	Alerts::success(__('Удаление прошло успешно'));
+
+        return redirect()->route('admin::list', [$this->getController()]);
+	}
+	
+	/**
+	 * Publish the specified resource from storage.
+	 *
+	 * @param int $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function publish($id)
+	{
+		$this->getModel()::find($id)->publish();
+		
+		Alerts::success(__('Объект опубликован'));
+
+        return redirect()->route('admin::edit', [$this->getController(), $id]);
+	}
+	
+	/**
+     * Remove the specified resources from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function fast_delete()
+	{
+		RevyAdmin::onlyForAjax();
+
+		$items = request()->input('items');
+
+		if (is_array($items)) {
+			$model = $this->getModel();
+
+			foreach ($items as $id)
+				$model::find($id)->delete();
+
+			Alerts::success(__('Удаление прошло успешно'));
+		} else {
+			Alerts::fail(__('Не выбрано ни одного элемента'));
+		}
+
+        return $this->index();
+	}
+	
+	/**
+     * Publish the specified resources from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function fast_publish()
+	{
+		RevyAdmin::onlyForAjax();
+
+		$items = request()->input('items');
+
+		if (is_array($items)) {
+			$model = $this->getModel();
+
+			foreach ($items as $id)
+				$model::find($id)->publish();
+
+			Alerts::success(__('Объекты опубликованы'));
+		} else {
+			Alerts::fail(__('Не выбрано ни одного элемента'));
+		}
+
+        return $this->index();
+	}
+	
+	/**
+     * Hide the specified resources from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function fast_hide()
+	{
+		RevyAdmin::onlyForAjax();
+
+		$items = request()->input('items');
+
+		if (is_array($items)) {
+			$model = $this->getModel();
+
+			foreach ($items as $id)
+				$model::find($id)->hide();
+
+			Alerts::success(__('Объекты скрыты'));
+		} else {
+			Alerts::fail(__('Не выбрано ни одного элемента'));
+		}
+
+        return $this->index();
+	}
 }

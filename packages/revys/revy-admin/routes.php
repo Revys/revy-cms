@@ -45,13 +45,38 @@ Route::group([
 		})->where([
 			'controller' => '\w+'
 		])->name('list');
+
+		// Base Path
+		Route::get('{controller}/{action}/{object?}', function($controller, $action = 'index', $object = null){
+			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+			return $class->callAction($action, $parameters = [$object]);
+		})->where([
+			'controller' => '\w+',
+			'action' => '\w{0,}',
+			'object' => '\w{0,}'
+		])->name('path');
+
+		if (request()->ajax()) {
+			Route::post('{controller}/{action}', function($controller, $action = 'index'){
+				$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller'); 
+				return $class->callAction($action, $parameters = []);
+			})->where([
+				'controller' => '\w+',
+				'action' => '\w{0,}'
+			])->name('ajax_path');
+		}
+
+
+
+		// CRUD
 		
 		// Edit Path
 		Route::get('{controller}/edit/{id}', function($controller, $id){
 			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
 			return $class->callAction('edit', $parameters = [$id]);
 		})->where([
-			'controller' => '\w+'
+			'controller' => '\w+',
+			'id' => '\d+'
 		])->name('edit');
 
 		// Update Path
@@ -59,7 +84,8 @@ Route::group([
 			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
 			return $class->callAction('update', $parameters = [$id]);
 		})->where([
-			'controller' => '\w+'
+			'controller' => '\w+',
+			'id' => '\d+'
 		])->name('update');
 
 		// Create Path
@@ -73,19 +99,19 @@ Route::group([
 		// Insert Path
 		Route::post('{controller}/insert', function($controller){
 			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
-			return $class->callAction('update', $parameters = []);
+			return $class->callAction('insert', $parameters = []);
 		})->where([
 			'controller' => '\w+'
 		])->name('insert');
-
-		// Base Path
-		Route::get('{controller}/{action}', function($controller, $action = 'index'){
+		
+		// Delete Path
+		Route::get('{controller}/delete/{id}', function($controller, $id){
 			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
-			return $class->callAction($action, $parameters = []);
+			return $class->callAction('delete', $parameters = [$id]);
 		})->where([
 			'controller' => '\w+',
-			'action' => '\w{0,}',
-		])->name('path');
+			'id' => '\d+'
+		])->name('delete');
 	});
 
 });

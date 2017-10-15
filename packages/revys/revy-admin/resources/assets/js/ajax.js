@@ -3,7 +3,7 @@ $.fn.request = function(options)
 {  
 	let defaults = {
 		url: false,
-		type: 'get',
+		type: 'post',
 		controller: '',
 		action: 'index',
 		loader: 'global',
@@ -68,9 +68,21 @@ let requestSuccess = function(options, data)
 	} catch(ex) {
 		console.log(ex);
 	}
+
+	throwAlerts(data);
 }
 
 let requestFail = function(options, errors)
 {  
+	throwAlerts(errors);
+
 	console.log('Request failed', options);
+	console.log('Errors', errors);
+}
+
+let throwAlerts = function(data)
+{  
+	data.alerts.forEach(function(alert) {
+		Alerts.add(alert.message, alert.tag, alert.time);
+	}, this);
 }

@@ -11,12 +11,13 @@
 						" 
 					title="{{ $item->title }}"
 				>
-					<i class="icon icon--{{ $item->icon ? $item->icon : 'point' }}"></i>
+					{{--  <i class="icon icon--{{ $item->icon ? $item->icon : 'point' }}"></i>  --}}
+					<i class="icon fa {{ $item->icon ? $item->icon : 'fa-circle-o' }} fa-lg"></i>
 				</a>
 
 				<div class="sidebar__children">
 					@foreach($item['children'] as $child)
-						<a href="{{ route('admin::path', [$child->controller, $child->action]) }}"  class="sidebar__children__item" title="{{ $child->title }}">
+						<a href="{{ route('admin::path', [$child->controller, $child->action]) }}"  class="sidebar__children__item{{ ($item->controller == $controller_name) ? ' sidebar__item--active' : '' }}" title="{{ $child->title }}">
 							{{-- <i class="icon icon--{{ $child->icon ? $child->icon : 'point' }}"></i> --}}
 							{{ $child->title }}
 						</a>

@@ -16,10 +16,12 @@
 // Route::get('/{locale}', 'PageController@index')->where('locale', '[a-z]{0,}');
 
 $locale = request()->segment(1);
-Route::group(['prefix' => $locale, 'middleware' => 'lang'], function () {
+if (strlen($locale) <= 2) {
+	Route::group(['prefix' => $locale, 'middleware' => 'lang'], function () {
 
-	Route::get('/', 'PageController@index');
-	
-	Route::post('/send/contact', 'MailController@contact');
+		Route::get('/', 'PageController@index');
+		
+		Route::post('/send/contact', 'MailController@contact');
 
-});
+	});
+}
