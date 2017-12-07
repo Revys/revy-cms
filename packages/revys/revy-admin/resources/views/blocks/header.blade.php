@@ -11,7 +11,7 @@
 
 	<div class="header__language">{{ $locale->code }}<i class="icon icon--caret header__language__caret"></i></div>
 
-	<div class="header__translation" title="{{ __('Режим перевода') }}"><i class="icon icon--language"></i></div>
+	<div class="header__translation	@translation_mode header__translation--active @endtranslation_mode" title="{{ __('Режим перевода') }}"><i class="icon icon--language"></i></div>
 
 	<a href="{{ route('admin::settings') }}" class="header__settings"><i class="icon icon--settings"></i></a>
 
@@ -19,3 +19,19 @@
 	
 	<a href="{{ route('admin::login::logout') }}" class="header__exit"><i class="icon icon--exit"></i></a>
 </header>
+
+@push('js')
+	<script>
+		$(".header__translation").bind("click", function(e){
+			let button = $(this);
+
+			$.request({
+				controller: "{{ $controller_name }}",
+				action: "toggle_translation_mode",
+				complete: function(result) {
+					button.toggleClass("header__translation--active");
+				}
+			});
+		});
+	</script>
+@endpush

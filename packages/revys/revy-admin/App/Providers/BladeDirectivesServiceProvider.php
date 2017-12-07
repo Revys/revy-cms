@@ -5,6 +5,7 @@ namespace Revys\RevyAdmin\App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Blade;
 use Request;
+use Revys\RevyAdmin\App\RevyAdmin;
 
 class BladeDirectivesServiceProvider extends ServiceProvider
 {
@@ -12,6 +13,10 @@ class BladeDirectivesServiceProvider extends ServiceProvider
 	{
 		Blade::directive('includeDefault', function ($expression) {
 			return "<?php echo \$__env->make(\$controller->getViewRoute($expression), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+		});
+
+		Blade::if('translation_mode', function () {
+			return RevyAdmin::isTranslationMode();
 		});
 	}
 }

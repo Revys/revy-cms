@@ -5,7 +5,7 @@ namespace Revys\RevyAdmin\App\Http\Composers;
 use Revys\Revy\App\Revy;
 use View;
 use Auth;
-
+use Revys\Revy\App\Language;
 
 class GlobalsComposer
 {
@@ -20,6 +20,7 @@ class GlobalsComposer
     {
         self::$data = [
             'locale' => Revy::getLanguage(),
+            'languages' => Language::getLanguagesAll(),
             'user' => Auth::user(),
             'controller' => self::getController(),
             'controller_name' => self::getControllerName(),

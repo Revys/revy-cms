@@ -10,6 +10,7 @@ use Illuminate\Pagination\Paginator;
 use View;
 use Session;
 use Revys\RevyAdmin\App\AdminMenu;
+use Revys\Revy\App\Entity;
 
 class ControllerBase extends \App\Http\Controllers\Controller
 {
@@ -58,9 +59,7 @@ class ControllerBase extends \App\Http\Controllers\Controller
 		if (\Request::ajax()) {
 			$sections = $result->renderSections();
 
-			$alerts = Alerts::all();
-
-			Alerts::clear();
+			$alerts = $this->prepareAlerts();
 
 			return [
 				'content' => $sections['content'],
@@ -70,6 +69,15 @@ class ControllerBase extends \App\Http\Controllers\Controller
 		}
 
 		return $result;
+	}
+
+	public function prepareAlerts()
+	{
+		$alerts = Alerts::all();
+		
+		Alerts::clear();
+
+		return $alerts;
 	}
 
     /**
@@ -82,8 +90,10 @@ class ControllerBase extends \App\Http\Controllers\Controller
 		$data = [];
 
 		$data['fields'] = static::listFieldsMap();
-
-		$data['items'] = $this->getModel()::paginate(50);
+		
+		$data['items'] = $this->getModel()::withTranslation()->paginate(50);
+		
+		$data = static::normalizeListData($data);
 
 		return $this->view('index', $data);
     }
@@ -123,9 +133,32 @@ class ControllerBase extends \App\Http\Controllers\Controller
 		$fieldsMap = static::editFieldsMap();
 
 		$activePanel = $this->editActivePanel($object);
+		
+        $data = compact('object', 'fieldsMap', 'activePanel');
+
+		$data = static::normalizeEditData($data);
 	
-		return $this->view('edit', compact('object', 'fieldsMap', 'activePanel'));
-    }
+		return $this->view('edit', $data);
+	}
+	
+	public static function normalizeEditData(array $data)
+	{
+        if (RevyAdmin::isTranslationMode()) {
+			foreach ($data['fieldsMap'] as &$fieldsGroup) {
+				foreach ($fieldsGroup['fields'] as $key => &$field) {
+					if ($data['object']->isTranslatableField($field['field']))
+						$field['translatable'] = true;
+				}
+			}
+		}
+
+        return $data;
+	}
+	
+	public static function normalizeListData(array $data)
+	{
+        return $data;
+	}
 
 	public static function editActionsMap()
     {
@@ -207,7 +240,7 @@ class ControllerBase extends \App\Http\Controllers\Controller
 	{
 		$request = request();
 
-       	$this->validate($request, $this->getModel()::rules(), $this->getModel()::messages());
+       	$this->validate($request, $this->getModel()::getRules(), $this->getModel()::messages());
         
 		$data = $this->prepareCreateData($request->all());
 
@@ -228,7 +261,7 @@ class ControllerBase extends \App\Http\Controllers\Controller
     {
 		$request = request();
 
-       	$this->validate($request, $this->getModel()::rules(), $this->getModel()::messages());
+       	$this->validate($request, $this->getModel()::getRules(), $this->getModel()::messages());
         
 		$data = $this->prepareUpdateData($request->all());
 
@@ -356,5 +389,22 @@ class ControllerBase extends \App\Http\Controllers\Controller
 		}
 
         return $this->index();
+	}
+
+	public function toggle_translation_mode()
+	{
+		$value = ! Session::get('admin::translation_mode');
+		
+		Session::put('admin::translation_mode', $value);
+		
+		if ($value)
+			Alerts::alert(__('Режим перевода включен'), 'success');
+		else
+			Alerts::alert(__('Режим перевода выключен'), 'default');
+
+        return [
+			'result' => $value,
+			'alerts' => $this->prepareAlerts()
+		];
 	}
 }

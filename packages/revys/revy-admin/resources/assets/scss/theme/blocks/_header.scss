@@ -50,6 +50,10 @@
 	}
 }
 
+.header__translation--active {
+	color: $primary-color;
+}
+
 .header__language {
 	width: auto;
 	padding: 0 $default-padding;

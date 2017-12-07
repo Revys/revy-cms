@@ -12,6 +12,15 @@
 	}
 }
 
+.form__group--editor {
+	font-size: $input-font-size;
+}
+// Remove froala licence notification
+.fr-wrapper div:first-child {
+	display: none;
+}
+// ---
+
 .form__group__label {
 	font-size: 1.3rem;
 	color: #555;
@@ -61,6 +70,37 @@
 }
 
 
+
+.form__group__textarea {
+	min-height: 80px;
+	height: 80px;
+	font-size: $font-size;
+}
+
+
+
+
+.form__group__translation__input {
+	margin-top: $default-padding / 2;
+	display: flex;
+
+	input {
+		padding-right: $input-height + rem(1px) * 2 +  rem($default-padding) / 2;
+	}
+}
+
+.form__group__translation__locale {
+	text-transform: uppercase;
+	font-size: 1.2rem;
+	position: relative;
+	left: -$input-height - rem(1px);
+	border-left: 1px solid $input-border-color;
+	height: $input-height - rem(1px) * 2;
+	line-height: $input-height - rem(1px) * 2;
+	width: $input-height;
+	text-align: center;
+	align-self: center;
+}
 
 
 

@@ -34,19 +34,19 @@ class AdminMenuControllerBase extends Controller
                 'actions' => self::editActionsMap(),
                 'fields' => [
                     [
-                        'type' => 'text',
+                        'type' => 'string',
                         'label' => __('Заголовок'),
                         'field' => 'title',
                         'value' => 'title'
                     ],
                     [
-                        'type' => 'text',
+                        'type' => 'string',
                         'label' => __('Контроллер'),
                         'field' => 'controller',
                         'value' => 'controller'
                     ],
                     [
-                        'type' => 'text',
+                        'type' => 'string',
                         'label' => __('Действие'),
                         'field' => 'action',
                         'value' => 'action'

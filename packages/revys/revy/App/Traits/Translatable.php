@@ -366,12 +366,7 @@ trait Translatable
      */
     protected function getLocales()
     {
-        if ($this->locales !== null)
-            return $this->locales;
-
-        $this->locales = Language::get()->pluck('code')->toArray(); 
-
-        return $this->locales;
+        return Language::getLocales();
     }
 
     // protected function getLocales()

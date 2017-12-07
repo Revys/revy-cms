@@ -3,6 +3,9 @@
 namespace Revys\Revy\App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Revys\RevyAdmin\App\RevyAdmin;
+use Revys\Revy\App\Language;
 
 class EntityBase extends Model
 {
@@ -16,7 +19,7 @@ class EntityBase extends Model
      */
     public static function findByUrlid($urlid)
 	{
-		return static::where('urlid', '=', $urlid)->firstOrFail();
+		return static::where('urlid', '=', $urlid)->first();
 	}
 
     /**
@@ -24,7 +27,7 @@ class EntityBase extends Model
      */
     public static function findByName($name_id)
 	{
-		return static::where('name_id', '=', $name_id)->firstOrFail();
+		return static::where('name_id', '=', $name_id)->first();
 	}
 
 	/**
@@ -118,11 +121,36 @@ class EntityBase extends Model
     
     /**
      * Validation default rules
+     * 
+     * Prepare rules
      */
-     public static function rules()
-     {
-         return [];
-     }
+    public static function getRules()
+    {
+        $rules = static::rules();
+
+        if (RevyAdmin::isTranslationMode()) {
+            $object = new static();
+
+            foreach ($rules as $field => $rule) {
+                if ($object->isTranslatableField($field)) {
+                    unset($rules[$field]);
+                    foreach (Language::getLocales() as $locale) {
+                        $rules[RevyAdmin::getTranslationFieldName($field, $locale)] = $rule;
+                    }
+                }
+            }
+        }
+      
+        return $rules;
+    }
+
+    /**
+     * Validation default rules array
+     */
+    public static function rules()
+    {
+        return [];
+    }
 
     /**
      * Validation default messages
@@ -132,5 +160,30 @@ class EntityBase extends Model
         return [
             'required' => __('Это обязательное поле')
         ];
+    }
+
+    /**
+     * This scope eager loads the translations for the default and the fallback locale only.
+     * We can use this as a shortcut to improve performance in our application.
+     *
+     * @param Builder $query
+     */
+    public function scopeWithTranslation(Builder $query)
+    {
+        if ($this->translatable())
+            parent::scopeWithTranslation($query);
+    }
+
+    public function translatable()
+    {
+        return isset($this->translatedAttributes);
+    }
+
+    public function isTranslatableField($field)
+    {
+        if (! $this->translatable())
+            return false;
+
+        return in_array($field, $this->translatedAttributes);
     }
 }

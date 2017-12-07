@@ -3,6 +3,9 @@
 namespace Revys\RevyAdmin\App\Http\Composers;
 
 use Revys\RevyAdmin\App\AdminMenu;
+use Revys\Revy\App\Textblock;
+use Revys\Revy\App\Menu;
+use Illuminate\Support\Facades\Cache;
 
 class NavigationComposer
 {
@@ -24,7 +27,11 @@ class NavigationComposer
 
     public function left($view)
     {
-        $items = AdminMenu::treePublished(2)->get();
+        Menu::all();
+
+        $items = Cache::rememberForever('admin::navigation_left', function() {
+            return AdminMenu::treePublished(2)->withTranslation()->get();
+        });
 
         $view->with(compact('items'));
     }

@@ -3,6 +3,7 @@
 namespace Revys\RevyAdmin\App;
 
 use Request;
+use Illuminate\Support\Facades\Session;
 
 class RevyAdmin
 {
@@ -15,5 +16,15 @@ class RevyAdmin
 	{
 		if (! Request::ajax())
 			return abort(403, 'Only ajax method');
+	}
+
+	public static function isTranslationMode()
+	{
+        return Session::get('admin::translation_mode', false);
+	}
+
+	public static function getTranslationFieldName($field, $language_code)
+	{
+		return '__' . $language_code . '_' . $field;
 	}
 }

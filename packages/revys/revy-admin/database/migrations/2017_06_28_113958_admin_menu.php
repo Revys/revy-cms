@@ -28,6 +28,7 @@ class AdminMenu extends Migration
             $table->increments('id');
             $table->integer('admin_menu_id')->unsigned();
             $table->string('locale')->index();
+            
             $table->string('title');
         
             $table->unique(['admin_menu_id','locale']);

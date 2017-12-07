@@ -36,10 +36,16 @@ $.fn.request = function(options)
 	return request(opts);
 }
 
+// Ajax simple request
+$.request = function(options)
+{  
+	return $("#json").request(options);
+}
+
 let request = function(options)
 {  
-	$(options.element).data('callbacks', { complete: options.complete })
-					  .data('loader', { type: options.loader });
+	// $(options.element).data('callbacks', { complete: options.complete })
+	// 				  .data('loader', { type: options.loader });
 
 	let url = '/admin/ru/' + options.controller + '/' + options.action;
 
@@ -61,10 +67,14 @@ let requestSuccess = function(options, data)
 {  
 	var jsonObj = new Array();
 	try	{
-		$(options.element).replaceWith(data.content);
+		if (options.oc !== 'json')
+			$(options.element).replaceWith(data.content);
 
 		if (data.js !== '')
-        	eval(data.js);
+			eval(data.js);
+			
+		if (options.complete)
+			options.complete(data);
 	} catch(ex) {
 		console.log(ex);
 	}
@@ -82,7 +92,8 @@ let requestFail = function(options, errors)
 
 let throwAlerts = function(data)
 {  
-	data.alerts.forEach(function(alert) {
-		Alerts.add(alert.message, alert.tag, alert.time);
-	}, this);
+	if (data.alerts && data.alerts.length)
+		data.alerts.forEach(function(alert) {
+			Alerts.add(alert.message, alert.tag, alert.time);
+		}, this);
 }

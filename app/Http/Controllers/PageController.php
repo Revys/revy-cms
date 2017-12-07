@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Revys\Revy\App\Page;
 use Revys\Revy\App\Menu;
 use Revys\Revy\App\Language;
-use Revys\Revy\App\Settings;
+use Revys\Revy\App\Textblock;
 use Illuminate\Http\Request;
+use Revys\Revy\App\Settings;
 
 class PageController extends \Revys\Revy\App\Http\Controllers\PageController
 {
@@ -26,6 +27,10 @@ class PageController extends \Revys\Revy\App\Http\Controllers\PageController
         $phone = Settings::value('phone');
         $email = Settings::value('email');
 
-        return view('page.index', compact('page', 'navigation', 'languages', 'phone', 'email'));
+        $textblocks = [
+            'banner_text' => Textblock::getText('banner_text')
+        ];
+
+        return view('page.index', compact('page', 'navigation', 'languages', 'phone', 'email', 'textblocks'));
     }
 }

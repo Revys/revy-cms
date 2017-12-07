@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "vue-prevent-parent-scroll": "^1.0.5",
-    "fontawesome-iconpicker": "*"
+    "fontawesome-iconpicker": "*",
+	  "quill": "*"
   }
 }

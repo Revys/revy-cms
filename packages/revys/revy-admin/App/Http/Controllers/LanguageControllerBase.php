@@ -37,13 +37,13 @@ class LanguageControllerBase extends Controller
                 'actions' => self::editActionsMap(),
                 'fields' => [
                     [
-                        'type' => 'text',
+                        'type' => 'string',
                         'label' => __('Заголовок'),
                         'field' => 'title',
                         'value' => 'title'
                     ],
                     [
-                        'type' => 'text',
+                        'type' => 'string',
                         'label' => __('Код языка'),
                         'field' => 'code',
                         'value' => 'code'
