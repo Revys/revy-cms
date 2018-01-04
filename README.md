@@ -1,6 +1,6 @@
 # Revy CMS
 
-CMS base on Laravel Framework.
+CMS based on Laravel Framework.
 
 ## TODO
 * Tests
