@@ -2,11 +2,10 @@
 
 @section('content')
 
-	@includeDefault('active_panel_edit')
+	@includeDefault('active-panel/edit')
 
 	@foreach($fieldsMap as $fieldGroup)
 		<section class="card card--form">
-
 			@if(isset($fieldGroup['caption']))
 				<div class="card__header">
 					<h2>{{ $fieldGroup['caption'] }}</h2>
@@ -27,5 +26,7 @@
 			{!! Form::close() !!}
 		</section>
 	@endforeach
+	
+	@includeDefault('modules')
 
 @endsection

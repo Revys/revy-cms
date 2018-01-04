@@ -36,7 +36,7 @@ $.fn.request = function(options)
 	return request(opts);
 }
 
-// Ajax simple request
+// Json simple request
 $.request = function(options)
 {  
 	return $("#json").request(options);
@@ -47,7 +47,7 @@ let request = function(options)
 	// $(options.element).data('callbacks', { complete: options.complete })
 	// 				  .data('loader', { type: options.loader });
 
-	let url = '/admin/ru/' + options.controller + '/' + options.action;
+	let url = '/admin/' + language + '/' + options.controller + '/' + options.action;
 
 	if (options.url)
 		url = options.url;
@@ -92,8 +92,9 @@ let requestFail = function(options, errors)
 
 let throwAlerts = function(data)
 {  
-	if (data.alerts && data.alerts.length)
+	if (data.alerts && data.alerts.length) {
 		data.alerts.forEach(function(alert) {
 			Alerts.add(alert.message, alert.tag, alert.time);
 		}, this);
+	}
 }

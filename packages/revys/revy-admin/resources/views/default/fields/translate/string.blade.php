@@ -10,7 +10,7 @@
 		<div class="form__group__translation__input">
 			{{ Form::text(
 				$field['field'], 
-				(isset($object) ? $object->translate($language->code)->{$field['value']} : ''), 
+				((isset($object) && $object->translate($language->code)) ? $object->translate($language->code)->{$field['value']} : ''), 
 				[
 					'id' => 'form-input-' . $field['field'], 
 					'class' => 'form__group__input' . 

@@ -18,5 +18,12 @@ class BladeDirectivesServiceProvider extends ServiceProvider
 		Blade::if('translation_mode', function () {
 			return RevyAdmin::isTranslationMode();
 		});
+
+		Blade::directive('controller', function ($expression) {
+			$vars = explode(',', $expression);
+			$action = array_shift($vars);
+			$action = str_replace(['"', '\''], "", $action);
+			return "<?php echo \$controller->{$action}(" . implode(',', $vars) . "); ?>";
+		});
 	}
 }

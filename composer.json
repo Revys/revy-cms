@@ -15,10 +15,10 @@
 		}
 	],
     "require": {
-        "php": ">=5.6.4",
-        "barryvdh/laravel-debugbar": "^2.3",
+        "php": ">=7.0",
+        "barryvdh/laravel-debugbar": "*",
         "fancyapps/fancybox": "3.0.x-dev",
-        "laravel/framework": "5.5.*",
+        "laravel/framework": "5.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
         "revys/revy": "^0.0.1",

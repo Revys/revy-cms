@@ -1,0 +1,12 @@
+<div class="banners content-width block" id="banners">
+	<div class="banner">
+		<?php echo e(Html::image('img/site/user-experience.svg', 'User experience', ['width'=> '386', 'height' => '478', 'class' => 'image'])); ?>
+
+
+		<div class="info">
+			<div><?php echo $textblocks['banner_text']; ?></div>
+
+			<button class="button darker order" @click="showPopup('call')"><?php echo e(__('Заказать')); ?></button>
+		</div>
+	</div>
+</div>

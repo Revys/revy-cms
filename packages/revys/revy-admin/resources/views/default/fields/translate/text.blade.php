@@ -8,18 +8,17 @@
 		@endphp
 
 		<div class="form__group__translation__input">
+			<div class="form__group__translation__locale">{{ $language->code }}</div>
 			{{ Form::textarea(
 				$field['field'], 
-				(isset($object) ? (! is_string($field['value']) ? $field['value']($object) : $object->{$field['value']}) : ''), 
+				((isset($object) && $object->translate($language->code)) ? $object->translate($language->code)->{$field['value']} : ''), 
 				[
 					'id' => 'form-input-' . $field['field'], 
-					'class' => 'form__group__input form__group__textarea' . 
+					'class' => 'form__group__input form__group__textarea editor' . 
 						(isset($field['size']) ? ' form__group__input--' . $field['size'] : '') .
 						($errors->any($field['field']) ? ' form__group__input--error' : '')
 				]
 			) }}
-			
-			<div class="form__group__translation__locale">{{ $language->code }}</div>
 		</div>
 
 		@includeDefault('fields._errors')

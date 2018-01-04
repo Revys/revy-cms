@@ -14,6 +14,8 @@ $card-form-header-height: 5rem;
 .card {
 	background-color: $card-background-color;
 	border-radius: $card-border-radius;
+	margin-bottom: $default-padding;
+	margin-right: $default-padding - $ib-margin;
 	
 	@include box-shadow(0 2px 6px rgba(0,0,0,0.1));
 }
@@ -30,6 +32,10 @@ $card-form-header-height: 5rem;
 	}
 }
 
+.card-buttons {
+	padding: $default-padding;
+}
+
 .card--list .pagination {
 	float: right;
 }
@@ -41,6 +47,7 @@ $card-form-header-height: 5rem;
 // ================================================================
 .card--form {
 	display: inline-block;
+	vertical-align: top;
 
 	.card__header {
 		h2 {
@@ -53,5 +60,23 @@ $card-form-header-height: 5rem;
 
 	.form {
 		padding: $default-padding;
+	}
+	
+	// & + .card, & + .card-holder {
+	// 	margin-left: $default-padding - $ib-margin;
+	// }
+}
+
+
+
+
+// ===== Card holder
+// ================================================================
+.card-holder {
+	display: inline-block;
+	vertical-align: top;
+
+	.card {
+		margin-bottom: $default-padding;
 	}
 }

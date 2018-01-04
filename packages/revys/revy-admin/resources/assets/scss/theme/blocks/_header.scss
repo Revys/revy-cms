@@ -32,7 +32,7 @@
 	padding-right: $default-padding;
 }
 
-.header__translation, .header__settings, .header__exit, .header__language {
+.header__translation, .header__settings, .header__exit {
 	width: $header-height;
 	height: $header-height;
 	line-height: $header-height;
@@ -56,6 +56,7 @@
 
 .header__language {
 	width: auto;
+	align-self: center;
 	padding: 0 $default-padding;
 	text-transform: uppercase;
 }

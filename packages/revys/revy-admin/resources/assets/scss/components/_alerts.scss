@@ -14,7 +14,7 @@ $alert-default-color: #333;
 
 // Styles
 #alerts {
-	position: absolute;
+	position: fixed;
 	top: $header-height + $default-padding;
 	right: $default-padding;
 	max-width: 20%;

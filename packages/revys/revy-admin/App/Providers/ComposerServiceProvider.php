@@ -26,7 +26,7 @@ class ComposerServiceProvider extends ServiceProvider
         );
 
 		View::composer(
-            ['admin::components.alerts'], 
+            ['admin::modules.alerts'], 
 			'Revys\RevyAdmin\App\Http\Composers\AlertsComposer'
         );
 	}

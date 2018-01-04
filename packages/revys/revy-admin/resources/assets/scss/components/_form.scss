@@ -1,3 +1,8 @@
+select {
+	background-color: #FFF;
+	text-transform: inherit;
+}
+
 .form__group {
 	font-size: 0;
 	margin-bottom: $default-padding;
@@ -11,15 +16,6 @@
 		cursor: pointer;
 	}
 }
-
-.form__group--editor {
-	font-size: $input-font-size;
-}
-// Remove froala licence notification
-.fr-wrapper div:first-child {
-	display: none;
-}
-// ---
 
 .form__group__label {
 	font-size: 1.3rem;
@@ -44,6 +40,10 @@
 	line-height: 1;
 	box-sizing: border-box;
 }
+.form__group__input--h-small {
+	height: $input-height * 0.9;
+}
+
 .form__group__input--small {
 	max-width: 120px;
 	min-width: 120px * 0.7;
@@ -79,6 +79,21 @@
 
 
 
+.form__group--editor {
+	font-size: $input-font-size;
+}
+// Remove froala licence notification
+.fr-wrapper > div:first-child {
+	opacity: 0 !important;
+	margin-top: -50px !important;
+	z-index: -1 !important;
+	position: absolute !important;
+}
+// ---
+
+
+
+
 
 .form__group__translation__input {
 	margin-top: $default-padding / 2;
@@ -101,8 +116,18 @@
 	text-align: center;
 	align-self: center;
 }
+.form__group--editor {
+	.form__group__translation__input {
+		display: block;
+		margin-top: 0;
+	}
 
-
+	.form__group__translation__locale {
+		left: 0;
+		border: none;
+		width: 100%;
+	}
+}
 
 
 

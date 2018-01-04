@@ -9,7 +9,7 @@ class TextblockBase extends Entity
 {
     use Translatable;
 
-    public $translatedAttributes = ['title', 'text'];
+    public static $translatedAttributes = ['title', 'text'];
 
     protected $table = 'textblock';
 

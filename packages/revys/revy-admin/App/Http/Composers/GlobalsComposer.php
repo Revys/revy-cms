@@ -24,7 +24,8 @@ class GlobalsComposer
             'user' => Auth::user(),
             'controller' => self::getController(),
             'controller_name' => self::getControllerName(),
-            'action' => self::getAction()
+            'action' => self::getAction(),
+            'uri' => request()->path()
         ];
 
         View::share(self::$data);
@@ -43,10 +44,12 @@ class GlobalsComposer
         $controller = request()->route('controller');
  
         if ($controller == '') {
-            list($class, $action) = explode('@', request()->route()->action['controller']);
-            $controller = snake_case(str_replace('Controller', '', class_basename($class)));
+            if (isset(request()->route()->action['controller'])) {
+                list($class, $action) = explode('@', request()->route()->action['controller']);
+                $controller = snake_case(str_replace('Controller', '', class_basename($class)));
 
-            self::$data['action'] = $action;
+                self::$data['action'] = $action;
+            }
         }
 
         return $controller;
@@ -69,7 +72,7 @@ class GlobalsComposer
 
         $action = request()->route('action');
 
-        if ($action == '') { 
+        if ($action == '' and request()->route() !== null) {
             list($prefix, $action) = explode('::', request()->route()->action['as']);
         }
 

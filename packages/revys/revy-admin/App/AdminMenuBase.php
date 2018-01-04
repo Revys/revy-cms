@@ -10,7 +10,7 @@ class AdminMenuBase extends Entity
 {    
     use Translatable;
 
-    public $translatedAttributes = ['title'];
+    public static $translatedAttributes = ['title'];
 
     /**
      * The database table used by the model.

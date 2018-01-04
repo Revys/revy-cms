@@ -28,7 +28,7 @@ class NavigationComposer
     public function left($view)
     {
         Menu::all();
-
+        
         $items = Cache::rememberForever('admin::navigation_left', function() {
             return AdminMenu::treePublished(2)->withTranslation()->get();
         });

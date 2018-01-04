@@ -73,6 +73,11 @@ class RevyServiceProvider extends ServiceProvider
         $this->publishes([
             self::$packagePath.'/database/migrations/' => database_path('migrations')
         ], 'migrations');
+
+        // Factories
+        $this->publishes([
+            self::$packagePath.'/database/factories' => database_path('factories')
+        ], 'factories');
     }
 
     public function loadCommands()

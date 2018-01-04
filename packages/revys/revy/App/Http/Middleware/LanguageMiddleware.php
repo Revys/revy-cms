@@ -19,12 +19,16 @@ class LanguageMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $locale = request()->segment(1);
+        $locale = $request->segment(1);
 
         $language = Language::findByCode($locale);
 
-        if ($language)
+        if ($language) {
             App::setLocale($language->code);
+            $request->setDefaultLocale($language->code);
+        } else {
+            $request->setDefaultLocale(config('app.locale'));
+        }
 
         return $next($request);
     }

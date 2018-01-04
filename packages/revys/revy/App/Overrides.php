@@ -91,7 +91,7 @@ class Overrides
 				foreach ($files as $file) {
 					if (strpos($file->getFileName(), 'Base.php') !== false) {
 						$class = $this->getClassName($file);
-
+						
 						$dir = $this->findInOverrides($class);
 
 						if ($dir !== false) {
@@ -127,7 +127,7 @@ class Overrides
 	public function findInOverrides($class)
 	{
 		$file = $this->overrides_directory . DIRECTORY_SEPARATOR . $class . '.php';
-	
+		
 		if (\File::exists($file))
 			return str_replace(base_path(), '', $file);
 
@@ -152,7 +152,7 @@ class Overrides
 			$this->composer_map = require_once(base_path('vendor') . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_psr4.php');
 
 		$prefix = '';
-
+	
 		if (count($parts) > 2 and isset($this->composer_map[$parts[0] . '\\' . $parts[1] . '\\']))
 			$prefix = $parts[0].'\\'.$parts[1] . '\\';
 		else if (count($parts) > 1 and isset($this->composer_map[$parts[0] . '\\']))
@@ -162,6 +162,8 @@ class Overrides
 			$source = $this->composer_map[$prefix][0] . DIRECTORY_SEPARATOR . str_replace($prefix, '', $namespace) . DIRECTORY_SEPARATOR . $className . 'Base.php';
 		else
 			$source = base_path($namespace) . DIRECTORY_SEPARATOR . $className . 'Base.php';
+
+		$source = str_replace('\\', DIRECTORY_SEPARATOR, $source);
 
 		if (\File::exists($source)) {
 			if ((! \File::exists($file) or $force)) {

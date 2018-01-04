@@ -347,7 +347,7 @@ trait Translatable
      */
     public function isTranslationAttribute($key)
     {
-        return in_array($key, $this->translatedAttributes);
+        return in_array($key, self::$translatedAttributes);
     }
     /**
      * @param string $key
@@ -635,7 +635,7 @@ trait Translatable
             return $attributes;
         }
         $hiddenAttributes = $this->getHidden();
-        foreach ($this->translatedAttributes as $field) {
+        foreach (self::$translatedAttributes as $field) {
             if (in_array($field, $hiddenAttributes)) {
                 continue;
             }
@@ -652,7 +652,7 @@ trait Translatable
     {
         $translations = [];
         foreach ($this->translations as $translation) {
-            foreach ($this->translatedAttributes as $attr) {
+            foreach (self::$translatedAttributes as $attr) {
                 $translations[$translation->{$this->getLocaleKey()}][$attr] = $translation->{$attr};
             }
         }

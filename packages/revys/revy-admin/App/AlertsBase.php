@@ -3,6 +3,7 @@
 namespace Revys\RevyAdmin\App;
 
 use Session;
+use Revys\RevyAdmin\App\Messages;
 
 class AlertsBase
 {
@@ -11,6 +12,9 @@ class AlertsBase
     public static function alert($message, $tag = 'default', $time = 3)
     {
         $alerts = array();
+
+        if (substr($message, 1) !== '@')
+            $message = Messages::get($message);
 
         $alert = array(
             'message' => $message,

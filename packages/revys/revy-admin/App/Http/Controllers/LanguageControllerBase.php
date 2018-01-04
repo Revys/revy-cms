@@ -4,6 +4,10 @@ namespace Revys\RevyAdmin\App\Http\Controllers;
 
 use Revys\RevyAdmin\App\AdminMenu;
 use Illuminate\Http\Request;
+use Session;
+use Revys\RevyAdmin\App\Alerts;
+use Revys\RevyAdmin\App\Translations;
+use Revys\Revy\App\Language;
 
 class LanguageControllerBase extends Controller
 {
@@ -58,30 +62,92 @@ class LanguageControllerBase extends Controller
             ]
         ];
     }
+    
+    public function toggle_translation_mode()
+    {
+        \Revy::assertAjax();
+        
+        $value = ! Session::get('admin::translation_mode');
+        
+        Session::put('admin::translation_mode', $value);
+        
+        if ($value)
+            Alerts::success(__('Режим перевода включен'));
+        else
+            Alerts::alert(__('Режим перевода выключен'));
+
+        return [
+            'result' => $value
+        ];
+    }
 
     public function translations($language)
     {
-        $language = $this->getModel()::findByCode($language);
+        $translation = app()->make(Translations::class);
 
-        if (! $language)
-            return $this->index();
-        
-        $activePanel = $this->translationsActivePanel($language);
-        
-        $translations = array();
+        $language = Language::findOrFail($language);
 
-        dd(\Lang::get('pagination'));
+        $translations = $translation->getAllTranslations(true, $language->code);
 
-		return $this->view('translations', compact('language', 'translations', 'activePanel'));
+        return $this->view('translations', compact('translations'));
     }
-    
-    public function translationsActivePanel($object)
+
+    /**
+     * @todo Create custom route
+     *
+     * @return void
+     */
+    public function save_translations()
     {
-        return [
-			'caption' => __('Переводы языка') . ': ' . $object->title,
-			'buttons' => [
-				'back' => true
-			]	
-		];
+        \Revy::assertAjax();
+
+        $data = request()->input();
+
+        try {
+            $group = $data['group'];
+            $translations = $data['translations'];
+            $language = $data['language'];
+    
+            if ($group == '')
+                throw new \Exception("Can't save. Group is empty");
+            if ($translations == '')
+                throw new \Exception("Can't save. Translations are empty");
+            if ($language == '')
+                throw new \Exception("Can't save. Language is empty");
+                
+            
+            $translation = app()->make(Translations::class);
+    
+            $translation->saveTranslations($group, $translations, $language);
+            
+            Alerts::success('saved');
+        } catch (\Exception $ex) {
+            \Log::error($ex->getMessage());
+            Alerts::fail($ex->getMessage());
+        }
+
+		return $this->ajax();
+    }
+
+    public function index_phrases()
+    {
+        \Revy::assertAjax();
+
+        $language = request()->input('language');
+
+        try {
+            $translation = app()->make(Translations::class);
+    
+            $language = Language::findOrFail($language);
+
+            $translation->indexPhrases(null, $language->code);
+            
+            Alerts::success(__('Фразы успешно проиндексированы'));
+        } catch (\Exception $ex) {
+            \Log::error($ex->getMessage());
+            Alerts::fail($ex->getMessage());
+        }
+
+        return $this->translations($language->id);
     }
 }

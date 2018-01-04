@@ -5,7 +5,10 @@
 			'parent_ID', 
 			$field['values']((isset($object) ? $object : null)), 
 			(isset($object) ? (! is_string($field['value']) ? $field['value']($object) : $object->{$field['value']}) : ''), 
-			['class' => 'select select--full-width']
+			[
+				'id' => 'form-input-' . $field['field'], 
+				'class' => 'select select--full-width'
+			]
 		) }}
 		
 		@includeDefault('fields._errors')
@@ -14,7 +17,7 @@
 
 @push('js')
 	<script>
-		document.getElementsByClassName("select").select({
+		document.getElementById("form-input-{{ $field['field'] }}").select({
 			staticWidth: false,
 			search: true
 		});

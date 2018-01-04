@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInite7927f79a707d7c1c39c5a44e95122f9
 {
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Component\\Finder\\' => 25,
+        ),
         'R' => 
         array (
             'Revys\\RevyAdmin\\' => 16,
@@ -14,6 +18,10 @@ class ComposerStaticInite7927f79a707d7c1c39c5a44e95122f9
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Component\\Finder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
         'Revys\\RevyAdmin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/',

@@ -35,12 +35,16 @@ $active-panel-button-icon-size: 20px;
 }
 
 .active-panel__button {
-	width: $active-panel-button-size;
+	min-width: $active-panel-button-size;
 	height: $active-panel-button-size;
+	line-height: $active-panel-button-size;
 	cursor: pointer;
 	display: block;
 	margin: -($active-panel-button-size - $active-panel-button-icon-size) / 2 0;
 	border-radius: $border-radius;
+	color: #FFF;
+	font-size: $font-size;
+	padding: 0 $default-padding;
 
 	@include transition(background-color $default-transition);
 
@@ -58,7 +62,11 @@ $active-panel-button-icon-size: 20px;
 	margin-left: $default-padding;
 }
 .active-panel__button:last-child {
-	margin-right: -($active-panel-button-size - $active-panel-button-icon-size) / 2;
+	// margin-right: -($active-panel-button-size - $active-panel-button-icon-size) / 2;
+}
+
+.active-panel__button--icon {
+	padding: 0;
 }
 
 .active-panel__button--back {

@@ -1,25 +1,25 @@
 <?php
 
 Route::group([
-	'prefix' => config('revy.admin.path'), 
+	'prefix' => config('admin.config.path'), 
 	'namespace' => '\Revys\RevyAdmin\App\Http\Controllers',
 	'middleware' => ['web', 'admin'],
 	'as' => 'admin::',
 ], function () {
-	if (request()->segment(1) == config('revy.admin.path'))
+	if (request()->segment(1) == config('admin.config.path'))
 		\Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider::initProviders();
 		
 	// Variables
 	$locale = request()->segment(2);
 
 	// Core routes
-	Route::get('', config('revy.admin.default_route'));
+	Route::get('', config('admin.config.default_route'));
 
 	// Routes
 	Route::group(['prefix' => $locale, 'middleware' => 'admin_lang'], function () {
 
 		// Default route
-		Route::get('', config('revy.admin.default_route'))->name('home');
+		Route::get('', config('admin.config.default_route'))->name('home');
 
 		// Routes
 		// ========================================================
@@ -47,7 +47,7 @@ Route::group([
 		])->name('list');
 
 		// Base Path
-		Route::get('{controller}/{action}/{object?}', function($controller, $action = 'index', $object = null){
+		Route::any('{controller}/{action}/{object?}', function($controller, $action = 'index', $object = null){
 			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
 			return $class->callAction($action, $parameters = [$object]);
 		})->where([
@@ -63,9 +63,8 @@ Route::group([
 			})->where([
 				'controller' => '\w+',
 				'action' => '\w{0,}'
-			])->name('ajax_path');
+			])->name('ajax');
 		}
-
 
 
 		// CRUD

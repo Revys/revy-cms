@@ -170,20 +170,20 @@ class EntityBase extends Model
      */
     public function scopeWithTranslation(Builder $query)
     {
-        if ($this->translatable())
+        if (self::translatable())
             parent::scopeWithTranslation($query);
     }
 
-    public function translatable()
+    public static function translatable()
     {
-        return isset($this->translatedAttributes);
+        return isset(static::$translatedAttributes);
     }
 
-    public function isTranslatableField($field)
+    public static function isTranslatableField($field)
     {
-        if (! $this->translatable())
+        if (! self::translatable())
             return false;
 
-        return in_array($field, $this->translatedAttributes);
+        return in_array($field, static::$translatedAttributes);
     }
 }

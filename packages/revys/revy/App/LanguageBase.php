@@ -2,6 +2,8 @@
 
 namespace Revys\Revy\App;
 
+use Revys\Revy\App\Revy;
+
 class LanguageBase extends Entity
 {
     protected static $locales;
@@ -49,5 +51,15 @@ class LanguageBase extends Entity
         self::$languages = Language::all(); 
 
         return self::$languages;
+    }
+
+    public static function getLangUri($locale, $uri = false)
+    {
+        if ($uri == false)
+            $uri = request()->path();
+
+        $uri = str_replace('/' . Revy::getLocale(), '/' . $locale, 1);
+
+        return $uri;
     }
 }

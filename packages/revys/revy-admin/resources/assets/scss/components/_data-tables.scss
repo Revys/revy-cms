@@ -16,6 +16,9 @@ $data-table-titles-border: 1px solid $border-color;
 .data-table--fixed {
     table-layout: fixed;
 }
+.data-table--auto {
+	width: auto;
+}
 
 .data-table__titles {
 	font-weight: bold;

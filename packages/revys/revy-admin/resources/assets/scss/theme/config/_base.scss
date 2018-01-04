@@ -47,6 +47,7 @@ $font-size: 1.3rem;
 $default-padding: 16px;
 $default-padding-rem: ($default-padding / $font-scale-px) * 1rem;
 $num-cols: 12;
+$ib-margin: 3px;
 
 // Window sizes
 $large-screen: $content-width + $default-padding * 2;

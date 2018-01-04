@@ -9,7 +9,20 @@
 	
 	@include("admin::navigation.top")
 
-	<div class="header__language">{{ $locale->code }}<i class="icon icon--caret header__language__caret"></i></div>
+	<div class="header__language">
+		{{ Form::select('language', \Revys\Revy\App\Language::getLanguages()->pluck('title', 'code')->toArray(), $locale->code, ['class' => 'select header__language__select']) }}
+	</div>
+
+	@push('js')
+		<script>
+			document.getElementsByClassName("header__language__select").select({
+				staticWidth: true,
+				afterChange: function(element) {
+					window.location.href = "/{{ $uri }}".replace("/{{ $locale->code }}", "/" + element.value);
+				}
+			});
+		</script>
+	@endpush
 
 	<div class="header__translation	@translation_mode header__translation--active @endtranslation_mode" title="{{ __('Режим перевода') }}"><i class="icon icon--language"></i></div>
 
@@ -26,10 +39,11 @@
 			let button = $(this);
 
 			$.request({
-				controller: "{{ $controller_name }}",
+				controller: "language",
 				action: "toggle_translation_mode",
 				complete: function(result) {
 					button.toggleClass("header__translation--active");
+					window.location.reload();
 				}
 			});
 		});
