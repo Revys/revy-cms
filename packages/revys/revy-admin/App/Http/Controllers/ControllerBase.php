@@ -2,6 +2,7 @@
 
 namespace Revys\RevyAdmin\App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use View;
 use Revys\RevyAdmin\App\Http\Composers\GlobalsComposer;
 use Revys\RevyAdmin\App\Alerts;
@@ -13,7 +14,7 @@ use Revys\Revy\App\Entity;
 use Revys\Revy\App\Language;
 use Revys\RevyAdmin\App\MessagesBase;
 
-class ControllerBase extends \App\Http\Controllers\Controller
+class ControllerBase extends Controller
 {
     protected $controller;
     protected $model;
@@ -117,6 +118,11 @@ class ControllerBase extends \App\Http\Controllers\Controller
         return $this->view('index', $data);
     }
 
+    public static function paginated($items)
+    {
+        return ($items instanceof \Illuminate\Pagination\LengthAwarePaginator);
+    }
+
     public static function listFieldsMap()
     {
         return [
@@ -202,7 +208,7 @@ class ControllerBase extends \App\Http\Controllers\Controller
                 }
             ] : false),
             'back' => [
-                'label' => __('Назад'),
+                'label' => __('admin::buttons.back'),
                 'style' => 'default',
                 'link' => function ($controller, $object) {
                     return route('admin::list', [$controller]);

@@ -14,12 +14,22 @@ class EntityBase extends Model
     
     protected $guarded = ['id'];
 
+    public static function getUrlIDField()
+    {
+        return 'urlid';
+    }
+    
+    public static function getNameIDField()
+    {
+        return 'name_id';
+    }
+
     /**
      * Находит объект по уникальному полю urlid
      */
-    public static function findByUrlid($urlid)
+    public static function findByUrlID($urlid)
 	{
-		return static::where('urlid', '=', $urlid)->first();
+		return static::where(static::getUrlIDField(), '=', $urlid)->first();
 	}
 
     /**
@@ -27,7 +37,7 @@ class EntityBase extends Model
      */
     public static function findByName($name_id)
 	{
-		return static::where('name_id', '=', $name_id)->first();
+		return static::where(static::getNameIDField(), '=', $name_id)->first();
 	}
 
 	/**

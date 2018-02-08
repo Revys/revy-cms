@@ -6,7 +6,7 @@
 		</div>
 	<?php endif; ?>
 	<div class="card__content">
-		<?php if(isset($items) && ($items->hasMorePages() || $items->previousPageUrl() !== '' || $order || $filters)): ?>
+		<?php if(isset($items) && ($controller::paginated($items) || $order || $filters)): ?>
 			<div class="card__header">
 				<?php echo $__env->make($controller->getViewRoute('order'), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				<?php echo $__env->make($controller->getViewRoute('pagination'), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -46,6 +46,10 @@
 							
 							<?php $__currentLoopData = $fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $field): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 								<td class="data-table__values__value">
+									<?php if(isset($tree) && $tree && $field['field'] == 'title'): ?>
+										<span class="data-table__tree-padding data-table__tree-padding--level-<?php echo e($item->level); ?>"></span>
+									<?php endif; ?>
+
 									<?php if(isset($field['link']) && is_string($field['link'])): ?>
 										<a class="data-table__values__value__link" href="<?php echo e($field['link']); ?>"><?php echo e($item->{$field['field']}); ?></a>
 									<?php elseif(isset($field['link']) && is_callable($field['link'])): ?>

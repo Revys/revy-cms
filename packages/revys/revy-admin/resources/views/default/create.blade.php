@@ -2,11 +2,10 @@
 
 @section('content')
 
-	@includeDefault('active_panel_edit')
+	@includeDefault('active-panel/create')
 
 	@foreach($fieldsMap as $fieldGroup)
 		<section class="card card--form">
-
 			@if(isset($fieldGroup['caption']))
 				<div class="card__header">
 					<h2>{{ $fieldGroup['caption'] }}</h2>

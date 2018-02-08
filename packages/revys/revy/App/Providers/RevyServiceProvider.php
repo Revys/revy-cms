@@ -53,9 +53,12 @@ class RevyServiceProvider extends ServiceProvider
         ], 'views');
 
         // Translations    
-        $this->publishes([
-            self::$packagePath.'/translations' => resource_path('lang/vendor/'.self::$packageAlias),
-        ], 'translations');
+        // $this->publishes([
+        //     self::$packagePath.'/translations' => resource_path('lang/vendor/'.self::$packageAlias),
+        // ], 'translations');
+
+        $this->loadTranslationsFrom(self::$packagePath . '/translations', self::$packageAlias);
+        $this->loadJsonTranslationsFrom(self::$packagePath . '/translations', self::$packageAlias);
 
         // Config
         $this->publishes([

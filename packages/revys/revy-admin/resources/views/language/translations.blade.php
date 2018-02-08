@@ -10,8 +10,8 @@
 						<h2>{{ $group['title'] }}</h2>
 					</div>
 
-					{{ Form::hidden('group', $group['name']) }}
-					{{ Form::text('language', $group['language']) }}
+					<input type="hidden" name="group" value={{ $group['name'] }} />
+					<input type="hidden" name="language" value={{ $group['language'] }} />
 
 					<table class="data-table data-table--fixed data-table--auto translations__phrases">
 						<thead>

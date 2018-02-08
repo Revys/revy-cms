@@ -5,7 +5,7 @@
 		</div>
 	@endif
 	<div class="card__content">
-		@if(isset($items) && ($items->hasMorePages() || $items->previousPageUrl() !== '' || $order || $filters))
+		@if(isset($items) && ($controller::paginated($items) || $order || $filters))
 			<div class="card__header">
 				@include($controller->getViewRoute('order'))
 				@include($controller->getViewRoute('pagination'))
@@ -45,6 +45,10 @@
 							
 							@foreach($fields as $field)
 								<td class="data-table__values__value">
+									@if(isset($tree) && $tree && $field['field'] == 'title')
+										<span class="data-table__tree-padding data-table__tree-padding--level-{{ $item->level }}"></span>
+									@endif
+
 									@if(isset($field['link']) && is_string($field['link']))
 										<a class="data-table__values__value__link" href="{{ $field['link'] }}">{{ $item->{$field['field']} }}</a>
 									@elseif(isset($field['link']) && is_callable($field['link']))

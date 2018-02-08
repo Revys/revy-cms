@@ -1,4 +1,7 @@
 @include('admin::js.vue')
-@include('admin::js.ajax')
+
+@push('js')
+    @include('admin::js.ajax')
+@endpush
 
 <div id="json"></div>

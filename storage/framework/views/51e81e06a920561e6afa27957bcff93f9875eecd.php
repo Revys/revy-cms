@@ -11,10 +11,8 @@
 						<h2><?php echo e($group['title']); ?></h2>
 					</div>
 
-					<?php echo e(Form::hidden('group', $group['name'])); ?>
-
-					<?php echo e(Form::text('language', $group['language'])); ?>
-
+					<input type="hidden" name="group" value=<?php echo e($group['name']); ?> />
+					<input type="hidden" name="language" value=<?php echo e($group['language']); ?> />
 
 					<table class="data-table data-table--fixed data-table--auto translations__phrases">
 						<thead>

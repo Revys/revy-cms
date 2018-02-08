@@ -4,6 +4,7 @@ namespace Revys\RevyAdmin\App\Http\Controllers;
 
 use Revys\RevyAdmin\App\AdminMenu;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 
 class AdminMenuControllerBase extends Controller
 {
@@ -24,6 +25,25 @@ class AdminMenuControllerBase extends Controller
 				'title' => __('Действие')
 			]
 		];
+    }
+
+    public function index()
+    {
+        $data = [];
+
+        $data['fields'] = static::listFieldsMap();
+
+        $items = $this->getModel()::withTranslation()->get();
+  
+        $items = \Revys\Revy\App\Helpers\Tree::sort($items);
+        
+        $data['items'] = new Collection($items);
+
+        $data['tree'] = true;
+
+        $data = static::normalizeListData($data);
+
+        return $this->view('index', $data);
     }
 
     public static function editFieldsMap()

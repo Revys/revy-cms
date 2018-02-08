@@ -209,7 +209,7 @@ HTMLElement.prototype.select = function(options)
         updateValuesState();
 
         if (opened) {
-            if (_search !== false)
+            if (opts.search !== false)
                 _search.focus();
         }
     }
@@ -226,7 +226,7 @@ HTMLElement.prototype.select = function(options)
         opened = true;
         updateValuesState();
 
-        if (_search !== false)
+        if (opts.search !== false)
             _search.focus();
 
         if (opts.afterOpen)

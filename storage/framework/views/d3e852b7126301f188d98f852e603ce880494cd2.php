@@ -1,4 +1,4 @@
-<?php if($items->count()): ?>
+<?php if($controller::paginated($items) && $items->count()): ?>
 	<div class="pagination">
 		<span class="pagination__now"><?php echo e($items->perPage() * ($items->currentPage() - 1) + 1); ?>-<?php echo e($items->perPage() * ($items->currentPage() - 1) + $items->count()); ?></span>
 		<span class="pagination__total">&nbsp<?php echo e(__('из')); ?>&nbsp<?php echo e($items->total()); ?></span>

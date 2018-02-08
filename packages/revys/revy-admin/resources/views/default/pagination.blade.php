@@ -1,4 +1,4 @@
-@if($items->count())
+@if($controller::paginated($items) && $items->count())
 	<div class="pagination">
 		<span class="pagination__now">{{ $items->perPage() * ($items->currentPage() - 1) + 1 }}-{{ $items->perPage() * ($items->currentPage() - 1) + $items->count() }}</span>
 		<span class="pagination__total">&nbsp{{ __('из') }}&nbsp{{ $items->total() }}</span>

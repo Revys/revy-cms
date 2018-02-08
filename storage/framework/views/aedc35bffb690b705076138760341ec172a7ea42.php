@@ -10,6 +10,6 @@
 		<div class="header__caption"><?php echo e($caption); ?></div>
 	<?php endif; ?>
 	<?php if(isset($actions['create']) && $actions['create'] && $action !== "create"): ?>
-		<a href="<?php echo e(route('admin::create', [$controller_name])); ?>" class="header__add-item"><?php echo app('translator')->getFromJson("Добавить"); ?><i class="icon icon--add"></i></a>
+		<a href="<?php echo e(route('admin::create', [$controller_name])); ?>" class="header__add-item"><?php echo app('translator')->getFromJson("admin::buttons.add"); ?><i class="icon icon--add"></i></a>
 	<?php endif; ?>
 </div>

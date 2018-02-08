@@ -18,7 +18,7 @@ class PageController extends \Revys\Revy\App\Http\Controllers\PageController
      */
     public function index()
     {
-        $page = Page::findByUrlid('index')->assignMeta();
+        $page = Page::findByUrlID('index')->assignMeta();
 
         $navigation = Menu::getBlock('top');
 

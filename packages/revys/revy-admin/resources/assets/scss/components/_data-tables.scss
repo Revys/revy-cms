@@ -92,6 +92,43 @@ $data-table-titles-border: 1px solid $border-color;
 	cursor: pointer;
 }
 
+// ========================
+// Tree
+// ========================
+.data-table__tree-padding {
+	color: lighten($font-color, 50%);
+	vertical-align: top;
+	font-size: 1.8rem;
+}
+.data-table__tree-padding--level-1 {
+	&::after {
+		content: "—";
+		margin-right: $default-padding / 2;
+	}
+}
+.data-table__tree-padding--level-2 {
+	&::after {
+		content: "——";
+		margin-right: $default-padding / 2;
+	}
+}
+.data-table__tree-padding--level-3 {
+	&::after {
+		content: "———";
+		margin-right: $default-padding / 2;
+	}
+}
+.data-table__tree-padding--level-4 {
+	&::after {
+		content: "————";
+		margin-right: $default-padding / 2;
+	}
+}
+
+
+
+
+
 
 .not-found {
 	text-align: center;

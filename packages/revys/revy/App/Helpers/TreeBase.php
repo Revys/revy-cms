@@ -7,7 +7,7 @@ class TreeBase
     public static function sort($items)
     {       
         $parents = $new = array();
-
+        
         foreach ($items as $item) {
             if ((int) $item['parent_id'])
                 $parents[$item['parent_id']][] = $item;
