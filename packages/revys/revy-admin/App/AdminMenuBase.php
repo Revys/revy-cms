@@ -2,7 +2,6 @@
 
 namespace Revys\RevyAdmin\App;
 
-use Revys\Revy\App\AdminMenu;
 use Revys\Revy\App\Entity;
 use Revys\Revy\App\Traits\Translatable;
 use Revys\Revy\App\Traits\Tree;

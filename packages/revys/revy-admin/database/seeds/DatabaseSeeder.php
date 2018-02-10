@@ -1,5 +1,7 @@
 <?php
 
+namespace Revys\RevyAdmin\Database\Seeds;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,7 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(\Revys\Revy\Database\Seeds\DatabaseSeeder::class);
-        $this->call(\Revys\RevyAdmin\Database\Seeds\DatabaseSeeder::class);
+        $this->call(AdminMenuSeeder::class);
     }
 }

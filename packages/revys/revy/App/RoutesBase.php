@@ -20,6 +20,8 @@ class RoutesBase
      */
     public static function definePageRoutes()
     {
+        Route::get('/', 'PageController@page');
+
         Route::get('/{page}', 'PageController@page')->where([
             'page' => '[a-z_\-0-9]+'
         ])->name('page');

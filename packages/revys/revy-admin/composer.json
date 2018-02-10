@@ -15,5 +15,11 @@
 		"psr-4": {
 			"Revys\\RevyAdmin\\": ""
 		}
-	}
+	},
+    "autoload-dev": {
+        "psr-4": {
+            "Revys\\RevyAdmin\\Tests\\": "tests/",
+            "Revys\\RevyAdmin\\Database\\Seeds\\": "database/seeds/"
+        }
+    }
 }

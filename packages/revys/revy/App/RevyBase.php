@@ -22,6 +22,7 @@ class RevyBase
 
     /**
      * Get application Language instance
+     * @return Language
      */
     public static function getLanguage()
     {
@@ -38,6 +39,7 @@ class RevyBase
 
     /**
      * Set application Language instance
+     * @return Language
      */
     public static function setLanguage($language)
     {

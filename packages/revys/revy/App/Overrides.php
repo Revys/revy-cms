@@ -181,7 +181,7 @@ class Overrides
 			if ((! \File::exists($file) or $force)) {
 				$content =
 				"<?php\n".
-				"namespace {$namespace};\n".
+				"namespace {$namespace};\n\n".
 
 //				"use {$namespace}\\{$className}Base;\n\n".
 

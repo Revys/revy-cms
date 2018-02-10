@@ -28,14 +28,7 @@ class PagesTest extends TestCase
     {
         self::mockLocale();
 
-        $page = create("Revys\Revy\App\Page", [
-            Entity::getUrlIDField() => 'index',
-            Entity::getStringIdField() => 'index',
-            'title' => 'Index page',
-            'meta_title' => '',
-            'meta_description' => '',
-            'meta_keywords' => ''
-        ]);
+        $page = $this->createIndexPage();
 
         $this->get($page->getPath())
             ->assertSuccessful();
@@ -47,5 +40,31 @@ class PagesTest extends TestCase
 
         $this->get($this->page->getPath())
             ->assertSuccessful();
+    }
+
+    public function test_page_with_only_lang_in_uri_can_be_accessed()
+    {
+        self::mockLocale();
+
+        $this->createIndexPage();
+
+        $this->get('/' . \Revy::getLocale())
+            ->assertSuccessful();
+    }
+
+    /**
+     * @return Page
+     */
+    private function createIndexPage()
+    {
+        $page = create("Revys\Revy\App\Page", [
+            Entity::getUrlIDField()    => 'index',
+            Entity::getStringIdField() => 'index',
+            'title'                    => 'Index page',
+            'meta_title'               => '',
+            'meta_description'         => '',
+            'meta_keywords'            => ''
+        ]);
+        return $page;
     }
 }
