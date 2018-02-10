@@ -27,4 +27,30 @@ class AdminMenuBase extends Entity
             'action'     => 'required',
         ];
     }
+
+    private static function clearNavigationCache()
+    {
+        \Cache::forget('admin::navigation_left');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function () {
+            self::clearNavigationCache();
+        });
+
+        static::updated(function () {
+            self::clearNavigationCache();
+        });
+
+        static::deleted(function () {
+            self::clearNavigationCache();
+        });
+
+        static::saved(function () {
+            self::clearNavigationCache();
+        });
+    }
 }
