@@ -6,6 +6,7 @@
   'Revys\\Revy\\App\\Menu' => '/storage/overrides/classes/Revys/Revy/App/Menu.php',
   'Revys\\Revy\\App\\Helpers\\Tree' => '/storage/overrides/classes/Revys/Revy/App/Helpers/Tree.php',
   'Revys\\Revy\\App\\Entity' => '/storage/overrides/classes/Revys/Revy/App/Entity.php',
+  'Revys\\Revy\\App\\Routes' => '/storage/overrides/classes/Revys/Revy/App/Routes.php',
   'Revys\\Revy\\App\\Settings' => '/storage/overrides/classes/Revys/Revy/App/Settings.php',
   'Revys\\Revy\\App\\Language' => '/storage/overrides/classes/Revys/Revy/App/Language.php',
   'Revys\\RevyAdmin\\App\\AdminMenu' => '/storage/overrides/classes/Revys/RevyAdmin/App/AdminMenu.php',

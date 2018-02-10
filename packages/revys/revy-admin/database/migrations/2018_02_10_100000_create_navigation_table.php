@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Navigation extends Migration
+class CreateNavigationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -44,6 +44,7 @@ class Navigation extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('navigation_translations');
         Schema::dropIfExists('navigation');
     }
 }

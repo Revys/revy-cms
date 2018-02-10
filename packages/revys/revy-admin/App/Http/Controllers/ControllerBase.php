@@ -82,6 +82,10 @@ class ControllerBase extends Controller
         return $result;
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     public function ajax($data = array())
     {
         $content = $data;

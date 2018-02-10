@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AdminMenu extends Migration
+class CreateAdminMenuTable extends Migration
 {
     /**
      * Run the migrations.
@@ -47,6 +47,7 @@ class AdminMenu extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('admin_menu_translations');
         Schema::dropIfExists('admin_menu');
     }
 }

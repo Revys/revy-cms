@@ -1,5 +1,7 @@
 <?php
 
+use Revys\Revy\App\Routes;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,17 +13,10 @@
 |
 */
 
-//Route::get('/', 'PageController@index');
+Route::get('/', 'PageController@page');
 
-// Route::get('/{locale}', 'PageController@index')->where('locale', '[a-z]{0,}');
+Routes::withLanguage(function() {
+    Routes::definePageRoutes();
 
-$locale = request()->segment(1);
-if (strlen($locale) <= 2) {
-	Route::group(['prefix' => $locale, 'middleware' => 'lang'], function () {
-
-		Route::get('/', 'PageController@index');
-		
-		Route::post('/send/contact', 'MailController@contact');
-
-	});
-}
+    Route::post('/send/contact', 'MailController@contact');
+});

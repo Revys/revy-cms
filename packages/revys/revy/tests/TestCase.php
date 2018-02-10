@@ -11,9 +11,18 @@ abstract class TestCase extends BaseTestCase
     public function setUp()
     {
         parent::setUp();
-        
+
         $pathToFactories = base_path('vendor/revys/revy/database/factories');
-        
+
         $this->app->make('Illuminate\Database\Eloquent\Factory')->load($pathToFactories);
+    }
+
+    protected function signIn($user = null)
+    {
+        $user = $user ?: create('App\User');
+
+        $this->actingAs($user);
+
+        return $this;
     }
 }

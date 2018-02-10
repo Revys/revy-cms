@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Revys\Revy\App\Entity;
 
-class Textblock extends Migration
+class CreateTextblockTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +16,7 @@ class Textblock extends Migration
     {
         Schema::create('textblock', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name_id')->unique();
+            $table->string(Entity::getStringIdField())->unique();
             $table->tinyInteger('status')->default(Entity::STATUS_PUBLISHED);
             $table->timestamps();
         });
@@ -40,6 +41,7 @@ class Textblock extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('textblock_translations');
         Schema::dropIfExists('textblock');
     }
 }

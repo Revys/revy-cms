@@ -1,11 +1,11 @@
 <?php
 
-use Revys\Revy\App\Entity;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Revys\Revy\App\Entity;
 
-class Menu extends Migration
+class CreateSettingsGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,10 @@ class Menu extends Migration
      */
     public function up()
     {
-        Schema::create('menu', function (Blueprint $table) {
+        Schema::create('settings_groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('urlid')->unique();
+            $table->string(Entity::getStringIdField());
             $table->string('title');
-            $table->tinyInteger('status')->default(Entity::STATUS_PUBLISHED); 
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class Menu extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu');
+        Schema::dropIfExists('settings_groups');
     }
 }

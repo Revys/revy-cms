@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Revys\Revy\App\Entity;
 
-class Pages extends Migration
+class CreateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +14,11 @@ class Pages extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('urlid')->unique();
+            $table->string('code', 20);
             $table->string('title');
-            $table->string('meta_title');
-            $table->string('meta_description');
-            $table->string('meta_keywords');
-            $table->tinyInteger('status')->default(Entity::STATUS_PUBLISHED); 
+            $table->tinyInteger('status')->default(Entity::STATUS_PUBLISHED);
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class Pages extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Pages');
+        Schema::dropIfExists('languages');
     }
 }

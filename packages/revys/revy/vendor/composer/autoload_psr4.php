@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Revys\\Revy\\Tests\\' => array($baseDir . '/tests'),
+    'Revys\\Revy\\Database\\Seeds\\' => array($baseDir . '/database/seeds'),
     'Revys\\Revy\\' => array($baseDir . '/'),
 );

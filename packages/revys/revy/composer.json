@@ -12,12 +12,13 @@
     },
 	"autoload": {
 		"psr-4": {
-			"Revys\\Revy\\": ""
+            "Revys\\Revy\\": ""
 		}
 	},
     "autoload-dev": {
         "psr-4": {
-            "Revys\\Revy\\Tests\\": "tests/"
+          "Revys\\Revy\\Tests\\": "tests/",
+          "Revys\\Revy\\Database\\Seeds\\": "database/seeds/"
         }
     }
 }

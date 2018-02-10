@@ -2,8 +2,6 @@
 
 namespace Revys\RevyAdmin\App\Http\Controllers;
 
-use Revys\RevyAdmin\App\AdminMenu;
-use Illuminate\Http\Request;
 use Session;
 use Revys\RevyAdmin\App\Alerts;
 use Revys\RevyAdmin\App\Translations;
@@ -66,7 +64,7 @@ class LanguageControllerBase extends Controller
     public function toggle_translation_mode()
     {
         \Revy::assertAjax();
-        
+
         $value = ! Session::get('admin::translation_mode');
         
         Session::put('admin::translation_mode', $value);
@@ -81,6 +79,10 @@ class LanguageControllerBase extends Controller
         ];
     }
 
+    /**
+     * @param int|string $language
+     * @return array|\Illuminate\Contracts\View\View
+     */
     public function translations($language)
     {
         $translation = app()->make(Translations::class);
@@ -93,9 +95,7 @@ class LanguageControllerBase extends Controller
     }
 
     /**
-     * @todo Create custom route
-     *
-     * @return void
+     * @return array
      */
     public function save_translations()
     {
@@ -129,6 +129,9 @@ class LanguageControllerBase extends Controller
 		return $this->ajax();
     }
 
+    /**
+     * @return array|\Illuminate\Contracts\View\View
+     */
     public function index_phrases()
     {
         \Revy::assertAjax();

@@ -10,6 +10,7 @@ class ComposerStaticInit0d945b50940f983da97519a33bbebd07
         'R' => 
         array (
             'Revys\\Revy\\Tests\\' => 17,
+            'Revys\\Revy\\Database\\Seeds\\' => 26,
             'Revys\\Revy\\' => 11,
         ),
     );
@@ -18,6 +19,10 @@ class ComposerStaticInit0d945b50940f983da97519a33bbebd07
         'Revys\\Revy\\Tests\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests',
+        ),
+        'Revys\\Revy\\Database\\Seeds\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/database/seeds',
         ),
         'Revys\\Revy\\' => 
         array (

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Revys\Revy\App\Page;
-use Revys\Revy\App\Menu;
 use Revys\Revy\App\Language;
-use Revys\Revy\App\Textblock;
-use Illuminate\Http\Request;
+use Revys\Revy\App\Menu;
+use Revys\Revy\App\Page;
 use Revys\Revy\App\Settings;
+use Revys\Revy\App\Textblock;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageController extends \Revys\Revy\App\Http\Controllers\PageController
 {
@@ -16,10 +16,8 @@ class PageController extends \Revys\Revy\App\Http\Controllers\PageController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($page)
     {
-        $page = Page::findByUrlID('index')->assignMeta();
-
         $navigation = Menu::getBlock('top');
 
         $languages = Language::published()->get();
@@ -33,4 +31,38 @@ class PageController extends \Revys\Revy\App\Http\Controllers\PageController
 
         return view('page.index', compact('page', 'navigation', 'languages', 'phone', 'email', 'textblocks'));
     }
+
+    /**
+     * Routes to page method
+     *
+     * Appends meta data
+     *
+     * @throws NotFoundHttpException
+     * @param string $page
+     * @return mixed
+     */
+    public function page($page = 'index')
+    {
+        $page = Page::findByUrlID($page);
+
+        if (! $page)
+            abort(404);
+
+        $page->assignMeta();
+
+        if (! method_exists($this, $page->sid))
+            return $this->text($page);
+
+        return $this->{$page->sid}($page);
+    }
+
+    /**
+     * @param Page $page
+     * @return string
+     */
+    public function text(Page $page)
+    {
+        return $page->meta_title;
+    }
+
 }

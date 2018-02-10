@@ -4,8 +4,15 @@ namespace Revys\Revy\App;
 
 class SettingsBase extends Entity
 {
+    /**
+     * @param string $name_id
+     * @return mixed
+     */
     public static function value($name_id)
     {
-        return self::findByName($name_id)->value;
+        $setting = self::findByName($name_id);
+
+        if ($setting)
+            return $setting->value;
     }
 }

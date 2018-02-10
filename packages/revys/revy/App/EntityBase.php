@@ -5,39 +5,60 @@ namespace Revys\Revy\App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Revys\RevyAdmin\App\RevyAdmin;
-use Revys\Revy\App\Language;
 
 class EntityBase extends Model
 {
     const STATUS_HIDDEN = 0;
     const STATUS_PUBLISHED = 1;
-    
+
     protected $guarded = ['id'];
 
+    /**
+     * @return string
+     */
     public static function getUrlIDField()
     {
-        return 'urlid';
-    }
-    
-    public static function getNameIDField()
-    {
-        return 'name_id';
+        return 'slug';
     }
 
     /**
-     * Находит объект по уникальному полю urlid
+     * @return string
      */
-    public static function findByUrlID($urlid)
+    public static function getStringIdField()
+    {
+        return 'sid';
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlID() {
+        return $this->{$this->getUrlIDField()};
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringID() {
+        return $this->{$this->getStringIDField()};
+    }
+
+    /**
+     * Находит объект по уникальному полю slug
+     * @param string $slug
+     * @return Page
+     */
+    public static function findByUrlID($slug)
 	{
-		return static::where(static::getUrlIDField(), '=', $urlid)->first();
+		return static::where(static::getUrlIDField(), '=', $slug)->first();
 	}
 
     /**
      * Находит объект по уникальному полю name_id
      */
-    public static function findByName($name_id)
+    public static function findByName($sid)
 	{
-		return static::where(static::getNameIDField(), '=', $name_id)->first();
+		return static::where(static::getStringIdField(), '=', $sid)->first();
 	}
 
 	/**
