@@ -17,12 +17,14 @@
     "require": {
         "php": ">=7.0",
         "barryvdh/laravel-debugbar": "*",
+        "barryvdh/laravel-ide-helper": "^2.4",
         "fancyapps/fancybox": "3.0.x-dev",
+        "intervention/image": "^2.3",
         "laravel/framework": "5.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
-        "revys/revy": "^0.0.1",
-        "revys/revy-admin": "^0.0.1"
+        "revys/revy": "*",
+        "revys/revy-admin": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -37,7 +39,9 @@
             "App\\": "app/",
             "Admin\\": "admin/"
         },
-        "files": ["tests/utilities/functions.php"]
+        "files": [
+            "tests/utilities/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -52,12 +56,11 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "php artisan ide-helper:generate"
         ]
     },
     "config": {

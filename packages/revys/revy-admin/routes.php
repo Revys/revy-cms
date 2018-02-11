@@ -1,6 +1,6 @@
 <?php
 
-use Admin\App\Http\Controllers\ServicesController;
+use Intervention\Image\ImageServiceProvider;
 use Revys\RevyAdmin\App\Helpers\RoutesBase;
 
 Route::group([
@@ -10,7 +10,7 @@ Route::group([
 	'as' => 'admin::',
 ], function () {
 //	if (request()->segment(1) == config('admin.config.path'))
-	(new Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider(app()))->initProviders();
+    (new Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider(app()))->initProviders();
 
 	// Variables
 	$locale = request()->segment(2);

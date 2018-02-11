@@ -9,6 +9,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "intervention/image": "^2.3"
     },
 	"autoload": {
 		"psr-4": {
@@ -17,8 +18,8 @@
 	},
     "autoload-dev": {
         "psr-4": {
-          "Revys\\Revy\\Tests\\": "tests/",
-          "Revys\\Revy\\Database\\Seeds\\": "database/seeds/"
+            "Revys\\Revy\\Tests\\": "tests/",
+            "Revys\\Revy\\Database\\Seeds\\": "database/seeds/"
         }
     }
 }

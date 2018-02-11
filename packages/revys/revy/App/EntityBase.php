@@ -4,8 +4,12 @@ namespace Revys\Revy\App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Revys\Revy\App\Helpers\Tree;
 use Revys\RevyAdmin\App\RevyAdmin;
 
+/**
+ * @todo Exclude hidden/published methods into thread
+ */
 class EntityBase extends Model
 {
     const STATUS_HIDDEN = 0;
@@ -68,22 +72,22 @@ class EntityBase extends Model
 	 */
     public function assignMeta()
     {
-        $default_meta_title = '';
-        $default_meta_description = '';
-        $default_meta_keywords = '';
-
-        $this->meta_title = ($this->meta_title) ? $this->meta_title : $default_meta_title;
-
-        $meta_description = ($this->meta_description) ? $this->meta_description : $default_meta_description;
-        $meta_keywords = ($this->meta_keywords) ? $this->meta_keywords : $default_meta_keywords;
-
-        if ($meta_description !== '')
-            $this->meta_description = $meta_description;
-
-        if ($meta_keywords !== '')
-            $this->meta_keywords = $meta_keywords;
-
-        return $this;
+//        $default_meta_title = '';
+//        $default_meta_description = '';
+//        $default_meta_keywords = '';
+//
+//        $this->meta_title = ($this->meta_title) ? $this->meta_title : $default_meta_title;
+//
+//        $meta_description = ($this->meta_description) ? $this->meta_description : $default_meta_description;
+//        $meta_keywords = ($this->meta_keywords) ? $this->meta_keywords : $default_meta_keywords;
+//
+//        if ($meta_description !== '')
+//            $this->meta_description = $meta_description;
+//
+//        if ($meta_keywords !== '')
+//            $this->meta_keywords = $meta_keywords;
+//
+//        return $this;
     }
     
     /**
@@ -118,7 +122,7 @@ class EntityBase extends Model
         $id = isset($object) ? $object->id : 0;
         $items = static::where('id', '!=', $id)->get()->toArray();
 
-        $items = \Revys\Revy\App\Helpers\Tree::sort($items);
+        $items = Tree::sort($items);
 
         $newItems = $items;
         $items = array();

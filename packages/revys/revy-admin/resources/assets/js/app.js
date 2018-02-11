@@ -18,8 +18,9 @@ window.Vue = require('vue');
 
 // Import vendor
 // ======================================================================
-Vue.use(require('vue-prevent-parent-scroll'))
-require('fontawesome-iconpicker')
+Vue.use(require('vue-prevent-parent-scroll'));
+require('fontawesome-iconpicker');
+require('dropify');
 
 // Load page scripts
 require('./ajax');

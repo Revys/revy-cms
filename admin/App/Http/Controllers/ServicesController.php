@@ -8,7 +8,7 @@ use Revys\RevyAdmin\App\Http\Controllers\Controller;
 class ServicesController extends Controller
 {
     protected $model = Service::class;
-    
+
     public static function editFieldsMap()
     {
         return [

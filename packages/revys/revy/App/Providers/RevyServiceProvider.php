@@ -2,10 +2,17 @@
 
 namespace Revys\Revy\App\Providers;
 
+use Illuminate\Foundation\AliasLoader;
+use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageServiceProvider;
 use Revys\Revy\App\Revy;
 use Revys\Revy\App\Overrides;
 use Illuminate\Support\ServiceProvider;
 
+
+/**
+ * @todo Move providers initialization in composer.json
+ */
 class RevyServiceProvider extends ServiceProvider
 {
     private static $packagePath = __DIR__.'/../../';
@@ -34,6 +41,8 @@ class RevyServiceProvider extends ServiceProvider
 
         // Middlewares
         $router->aliasMiddleware('lang', \Revys\Revy\App\Http\Middleware\LanguageMiddleware::class);
+
+        $this->initProviders();
     }
 
     /**
@@ -43,13 +52,21 @@ class RevyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        $this->loadCommands();
-
-        $this->app->singleton(\Revy::class);
+        $this->app->singleton(Revy::class);
         $this->app->singleton(Overrides::class);
 
         $overrides = $this->app->make(Overrides::class);
         $overrides->register();
+    }
+
+    public function initProviders()
+    {
+        $this->app->register(
+            ImageServiceProvider::class
+        );
+
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Image', Image::class);
     }
 
     public function load()

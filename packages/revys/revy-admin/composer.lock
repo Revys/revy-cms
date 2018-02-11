@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "db49fa8f34227f92253014bc79e90f532f30268f"
+                "reference": "84a2cec747853d7a47c2c402a9de4b7fbf3886b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/db49fa8f34227f92253014bc79e90f532f30268f",
-                "reference": "db49fa8f34227f92253014bc79e90f532f30268f",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/84a2cec747853d7a47c2c402a9de4b7fbf3886b2",
+                "reference": "84a2cec747853d7a47c2c402a9de4b7fbf3886b2",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-21T17:31:29+00:00"
+            "time": "2018-02-11T17:18:00+00:00"
         }
     ],
     "packages-dev": [],

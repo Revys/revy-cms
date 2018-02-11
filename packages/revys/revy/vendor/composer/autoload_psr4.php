@@ -9,4 +9,7 @@ return array(
     'Revys\\Revy\\Tests\\' => array($baseDir . '/tests'),
     'Revys\\Revy\\Database\\Seeds\\' => array($baseDir . '/database/seeds'),
     'Revys\\Revy\\' => array($baseDir . '/'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
+    'Intervention\\Image\\' => array($vendorDir . '/intervention/image/src/Intervention/Image'),
+    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
 );

@@ -10,3 +10,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+/packages/revys/revy/node_modules
+/packages/revys/revy-admin/node_modules
