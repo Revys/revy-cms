@@ -66,25 +66,25 @@ class EntityBase extends Model
      *
      * @todo Получать значения переменных [default_meta_title], [default_meta_description] и [default_meta_keywords] из базы данных
 	 */
-	public function assignMeta()
-	{
+    public function assignMeta()
+    {
         $default_meta_title = '';
         $default_meta_description = '';
         $default_meta_keywords = '';
 
-		$this->meta_title = ($this->meta_title) ? $this->meta_title : $default_meta_title;
+        $this->meta_title = ($this->meta_title) ? $this->meta_title : $default_meta_title;
 
-		$meta_description = ($this->meta_description) ? $this->meta_description : $default_meta_description;
-		$meta_keywords = ($this->meta_keywords) ? $this->meta_keywords : $default_meta_keywords;
-		
-		if ($meta_description !== '')
-			$this->meta_description = $meta_description;
+        $meta_description = ($this->meta_description) ? $this->meta_description : $default_meta_description;
+        $meta_keywords = ($this->meta_keywords) ? $this->meta_keywords : $default_meta_keywords;
 
-		if ($meta_keywords !== '')
-			$this->meta_keywords = $meta_keywords;
+        if ($meta_description !== '')
+            $this->meta_description = $meta_description;
+
+        if ($meta_keywords !== '')
+            $this->meta_keywords = $meta_keywords;
 
         return $this;
-	}
+    }
     
     /**
      * Отбирает только опубликованные объекты
@@ -99,7 +99,7 @@ class EntityBase extends Model
      */
     public function isHidden()
     {
-        return ($this->status == self::STATUS_HIDDEN);
+        return (isset($this->status) && $this->status == self::STATUS_HIDDEN);
     }
 
     /**
@@ -107,7 +107,7 @@ class EntityBase extends Model
      */
     public function isPublished()
     {
-        return ($this->status == self::STATUS_PUBLISHED);
+        return (! isset($this->status) || $this->status == self::STATUS_PUBLISHED);
     }
 
     /** 

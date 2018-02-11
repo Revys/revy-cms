@@ -8,8 +8,18 @@ use Illuminate\Support\ServiceProvider;
 
 class RevyServiceProvider extends ServiceProvider
 {
-    public static $packagePath = __DIR__.'/../../';
-    public static $packageAlias = 'revy';
+    private static $packagePath = __DIR__.'/../../';
+    private static $packageAlias = 'revy';
+
+    public static function getPackageAlias()
+    {
+        return self::$packageAlias;
+    }
+
+    public static function getPackagePath()
+    {
+        return self::$packagePath;
+    }
 
     /**
      * Bootstrap the application services.
@@ -33,7 +43,7 @@ class RevyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->loadCommands();
+//        $this->loadCommands();
 
         $this->app->singleton(\Revy::class);
         $this->app->singleton(Overrides::class);

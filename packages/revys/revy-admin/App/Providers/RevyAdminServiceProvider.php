@@ -2,9 +2,10 @@
 
 namespace Revys\RevyAdmin\App\Providers;
 
+use Revys\RevyAdmin\App\Indexer;
 use Revys\RevyAdmin\App\RevyAdmin;
 use Illuminate\Support\ServiceProvider;
-use Revys\Revy\App\Translations;
+use Revys\RevyAdmin\App\Translations;
 
 class RevyAdminServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,7 @@ class RevyAdminServiceProvider extends ServiceProvider
     {
         $this->app->singleton(RevyAdmin::class);
         $this->app->singleton(Translations::class);
+        $this->app->singleton(Indexer::class);
     }
 
     public function initProviders()
@@ -89,6 +91,7 @@ class RevyAdminServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                'Revys\RevyAdmin\App\Console\Commands\IndexClasses',
             ]);
         }
     }

@@ -1,5 +1,8 @@
 <?php
 
+if (! App::runningUnitTests() && App::runningInConsole())
+    return;
+
 use Revys\Revy\App\Routes;
 
 /*

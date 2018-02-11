@@ -30,7 +30,7 @@ class ControllerBase extends Controller
     public function __construct()
     {
         $this->controller = GlobalsComposer::getControllerName();
-        $this->model = '\Revys\RevyAdmin\App\\' . studly_case($this->controller);
+        $this->model = $this->model ?: '\Revys\RevyAdmin\App\\' . studly_case($this->controller);
     }
 
     public function getModel()
@@ -334,7 +334,8 @@ class ControllerBase extends Controller
 
     public function prepareUpdateData($object, $data)
     {
-        $data['status'] = isset($data['status']) ? $data['status'] : 0;
+        if (isset($object->status))
+            $data['status'] = isset($data['status']) ? $data['status'] : 0;
 
         $model = $this->getModel();
 

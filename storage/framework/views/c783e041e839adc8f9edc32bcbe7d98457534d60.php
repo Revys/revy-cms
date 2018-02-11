@@ -31,7 +31,7 @@
 
 	<a href="<?php echo e(route('admin::settings')); ?>" class="header__settings"><i class="icon icon--settings"></i></a>
 
-	<div class="header__user"><?php echo e($user->name); ?></div>
+	<div class="header__user"><?php echo e($user->login); ?></div>
 	
 	<a href="<?php echo e(route('admin::login::logout')); ?>" class="header__exit"><i class="icon icon--exit"></i></a>
 </header>

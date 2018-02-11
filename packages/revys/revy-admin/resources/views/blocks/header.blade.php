@@ -28,7 +28,7 @@
 
 	<a href="{{ route('admin::settings') }}" class="header__settings"><i class="icon icon--settings"></i></a>
 
-	<div class="header__user">{{ $user->name }}</div>
+	<div class="header__user">{{ $user->login }}</div>
 	
 	<a href="{{ route('admin::login::logout') }}" class="header__exit"><i class="icon icon--exit"></i></a>
 </header>

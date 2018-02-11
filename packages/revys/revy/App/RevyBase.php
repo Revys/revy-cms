@@ -11,13 +11,14 @@ class RevyBase
 {
     protected static $language;
 
-    public function __construct()
+    public static function getPackageAlias()
     {
+        return RevyServiceProvider::getPackageAlias();
     }
 
     public static function getPackagePath($path = '')
     {
-        return RevyServiceProvider::$packagePath . ($path != '' ? $path : '');
+        return RevyServiceProvider::getPackagePath() . ($path != '' ? $path : '');
     }
 
     /**

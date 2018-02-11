@@ -1,14 +1,17 @@
 <?php
 
+use Admin\App\Http\Controllers\ServicesController;
+use Revys\RevyAdmin\App\Helpers\RoutesBase;
+
 Route::group([
 	'prefix' => config('admin.config.path'), 
 	'namespace' => '\Revys\RevyAdmin\App\Http\Controllers',
 	'middleware' => ['web', 'admin'],
 	'as' => 'admin::',
 ], function () {
-	if (request()->segment(1) == config('admin.config.path'))
-		\Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider::initProviders();
-		
+//	if (request()->segment(1) == config('admin.config.path'))
+	(new Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider(app()))->initProviders();
+
 	// Variables
 	$locale = request()->segment(2);
 
@@ -40,7 +43,7 @@ Route::group([
 
 		// List Path
 		Route::get('{controller}', function($controller){
-			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+            $class = app()->make(RoutesBase::getAdminControllerClassName($controller));
 			return $class->callAction('index', $parameters = []);
 		})->where([
 			'controller' => '\w+'
@@ -48,7 +51,7 @@ Route::group([
 
 		// Base Path
 		Route::any('{controller}/{action}/{object?}', function($controller, $action = 'index', $object = null){
-			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
 			return $class->callAction($action, $parameters = [$object]);
 		})->where([
 			'controller' => '\w+',
@@ -58,7 +61,7 @@ Route::group([
 
 		if (request()->ajax()) {
 			Route::post('{controller}/{action}', function($controller, $action = 'index'){
-				$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller'); 
+				$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
 				return $class->callAction($action, $parameters = []);
 			})->where([
 				'controller' => '\w+',
@@ -71,7 +74,7 @@ Route::group([
 		
 		// Edit Path
 		Route::get('{controller}/edit/{id}', function($controller, $id){
-			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
 			return $class->callAction('edit', $parameters = [$id]);
 		})->where([
 			'controller' => '\w+',
@@ -80,7 +83,7 @@ Route::group([
 
 		// Update Path
 		Route::post('{controller}/update/{id}', function($controller, $id){
-			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
 			return $class->callAction('update', $parameters = [$id]);
 		})->where([
 			'controller' => '\w+',
@@ -89,7 +92,7 @@ Route::group([
 
 		// Create Path
 		Route::get('{controller}/create', function($controller){
-			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
 			return $class->callAction('create', $parameters = []);
 		})->where([
 			'controller' => '\w+',
@@ -97,7 +100,7 @@ Route::group([
 		
 		// Insert Path
 		Route::post('{controller}/insert', function($controller){
-			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
 			return $class->callAction('insert', $parameters = []);
 		})->where([
 			'controller' => '\w+'
@@ -105,7 +108,7 @@ Route::group([
 		
 		// Delete Path
 		Route::get('{controller}/delete/{id}', function($controller, $id){
-			$class = app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
 			return $class->callAction('delete', $parameters = [$id]);
 		})->where([
 			'controller' => '\w+',

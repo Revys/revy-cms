@@ -96,25 +96,4 @@ class AdminMenuControllerBase extends Controller
             ]
         ];
     }
-
-//    public function insert()
-//    {
-//        \Cache::forget('admin::navigation_left');
-//
-//        return parent::insert();
-//    }
-//
-//    public function update($id)
-//    {
-//        \Cache::forget('admin::navigation_left');
-//
-//        return parent::update($id);
-//    }
-//
-//    public function delete($id)
-//    {
-//        \Cache::forget('admin::navigation_left');
-//
-//        return parent::delete($id);
-//    }
 }

@@ -13,6 +13,8 @@ class ComposerStaticInite7927f79a707d7c1c39c5a44e95122f9
         ),
         'R' => 
         array (
+            'Revys\\RevyAdmin\\Tests\\' => 22,
+            'Revys\\RevyAdmin\\Database\\Seeds\\' => 31,
             'Revys\\RevyAdmin\\' => 16,
         ),
     );
@@ -21,6 +23,14 @@ class ComposerStaticInite7927f79a707d7c1c39c5a44e95122f9
         'Symfony\\Component\\Finder\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
+        'Revys\\RevyAdmin\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
+        ),
+        'Revys\\RevyAdmin\\Database\\Seeds\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/database/seeds',
         ),
         'Revys\\RevyAdmin\\' => 
         array (

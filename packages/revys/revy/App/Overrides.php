@@ -20,7 +20,7 @@ class Overrides
 		spl_autoload_register(array($this, 'loadClass'), true, true);
 
 		$this->forceIndex = config('revy.config.force_overrides_index');
-		$this->cache_directory = storage_path() . DIRECTORY_SEPARATOR . $this->cache_directory;
+		$this->cache_directory = storage_path('revy') . DIRECTORY_SEPARATOR . $this->cache_directory;
 		$this->cache_classes = $this->cache_directory . DIRECTORY_SEPARATOR . 'classes';
 		$this->map_file = $this->cache_directory . DIRECTORY_SEPARATOR . $this->map_file;
         $this->overrides_directory = base_path() . DIRECTORY_SEPARATOR . $this->overrides_directory;

@@ -3,6 +3,7 @@
 namespace Revys\RevyAdmin\App\Http\Composers;
 
 use Revys\Revy\App\Revy;
+use Revys\RevyAdmin\App\Helpers\RoutesBase;
 use View;
 use Auth;
 use Revys\Revy\App\Language;
@@ -42,7 +43,7 @@ class GlobalsComposer
             return self::$data['controller_name'];
 
         $controller = request()->route('controller');
- 
+
         if ($controller == '') {
             if (isset(request()->route()->action['controller'])) {
                 list($class, $action) = explode('@', request()->route()->action['controller']);
@@ -62,7 +63,7 @@ class GlobalsComposer
 
         $controller = self::getControllerName();
 
-        return app()->make('\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller');
+        return app()->make(RoutesBase::getAdminControllerClassName($controller));
     }
 
     public static function getAction()
