@@ -10,7 +10,7 @@ class SettingsBase extends Entity
      */
     public static function value($name_id)
     {
-        $setting = self::findByName($name_id);
+        $setting = self::findByUID($name_id);
 
         if ($setting)
             return $setting->value;

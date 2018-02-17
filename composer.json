@@ -17,9 +17,9 @@
     "require": {
         "php": ">=7.0",
         "barryvdh/laravel-debugbar": "*",
-        "barryvdh/laravel-ide-helper": "^2.4",
+        "barryvdh/laravel-ide-helper": "*",
         "fancyapps/fancybox": "3.0.x-dev",
-        "intervention/image": "^2.3",
+        "intervention/image": "*",
         "laravel/framework": "5.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
@@ -29,7 +29,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "classmap": [

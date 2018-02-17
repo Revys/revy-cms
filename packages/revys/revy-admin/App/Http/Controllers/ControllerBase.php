@@ -33,11 +33,17 @@ class ControllerBase extends Controller
         $this->model = $this->model ?: '\Revys\RevyAdmin\App\\' . studly_case($this->controller);
     }
 
+    /**
+     * @return string
+     */
     public function getModel()
     {
         return $this->model;
     }
 
+    /**
+     * @return string
+     */
     public function getController()
     {
         return $this->controller;

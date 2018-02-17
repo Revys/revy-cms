@@ -1,10 +1,10 @@
 // Config
-$select-font-size: 1.3rem;
+$select-font-size: 1.4rem;
 $select-border-color: $border-color;
 $select-border-radius: $border-radius;
-$select-size: $input-height; // 3.2rem
+$select-size: $input-height;
 $select-option-size: 3.2rem;
-$select-padding: 1rem;
+$select-padding: $input-padding;
 $select-caret-width: $select-size;
 $select-background-color: #FFF;
 $select-items-count: 8;

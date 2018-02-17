@@ -22,6 +22,6 @@
     "font-awesome": "^4.7.0",
     "vue": "^2.*",
     "vue-template-compiler": "^2.*",
-    "dropify": "*"
+    "dropify": "0.2.2"
   }
 }

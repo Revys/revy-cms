@@ -63,6 +63,11 @@
 .header__language__caret {
 	margin-left: $default-padding / 2;
 }
+.header__language__select {
+	.select__value, .select__values__option {
+		font-size: 1.3rem;
+	}
+}
 
 .header__user {
 	height: $header-height;

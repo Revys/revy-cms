@@ -23,9 +23,9 @@ class LanguageBase extends Entity
         return self::where('code', $code)->published()->first();
     }
 
-    public static function getLocales()
+    public static function getLocales($force = false)
     {
-        if (self::$locales !== null)
+        if (self::$locales !== null and ! $force)
             return self::$locales;
 
         self::$locales = Language::get()->pluck('code')->toArray(); 
@@ -33,9 +33,9 @@ class LanguageBase extends Entity
         return self::$locales;
     }
         
-    public static function getLanguages($forse = false)
+    public static function getLanguages($force = false)
     {
-        if (self::$languagesPublished !== null and ! $forse)
+        if (self::$languagesPublished !== null and ! $force)
             return self::$languagesPublished;
 
         self::$languagesPublished = Language::published()->get(); 
@@ -43,6 +43,10 @@ class LanguageBase extends Entity
         return self::$languagesPublished;
     }
 
+    /**
+     * @param bool $forse
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public static function getLanguagesAll($forse = false)
     {
         if (self::$languages !== null and ! $forse)
@@ -53,12 +57,26 @@ class LanguageBase extends Entity
         return self::$languages;
     }
 
-    public static function getLangUri($locale, $uri = false)
+    public static function translatePath($locale, $uri = false)
     {
+        $count = 0;
+
         if ($uri == false)
             $uri = request()->path();
 
-        $uri = str_replace('/' . Revy::getLocale(), '/' . $locale, 1);
+        if ($uri == '' or $uri == '/')
+            return '/' . $locale;
+
+        $uri = preg_replace(
+            '/^\/([a-z]{2})(\/|$)/',
+            '/' . $locale . '$2',
+            $uri,
+            1,
+            $count
+        );
+
+        if ($count == 0)
+            return '/' . $locale . $uri;
 
         return $uri;
     }

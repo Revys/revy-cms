@@ -20,9 +20,9 @@ class TextblockBase extends Entity
         ];
     }
 
-    public static function getText($name)
+    public static function getText($uid)
     {
-        $textblock = self::findByName($name);
+        $textblock = self::findByUID($uid);
 
         if ($textblock) {
             return $textblock->text;

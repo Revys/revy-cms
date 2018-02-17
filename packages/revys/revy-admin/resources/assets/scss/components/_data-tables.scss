@@ -1,6 +1,6 @@
 // Config
 $data-table-titles-height: 4rem;
-$data-table-values-height: 4rem;
+$data-table-values-height: 4.4rem;
 $data-table-titles-border: 1px solid $border-color;
 
 
@@ -8,6 +8,7 @@ $data-table-titles-border: 1px solid $border-color;
 // Styles
 .data-table {
 	width: 100%;
+	font-size: 1.4rem;
 
 	td {
 		vertical-align: middle;

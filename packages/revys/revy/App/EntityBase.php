@@ -8,6 +8,7 @@ use Revys\Revy\App\Helpers\Tree;
 use Revys\RevyAdmin\App\RevyAdmin;
 
 /**
+ * @property mixed id
  * @todo Exclude hidden/published methods into thread
  */
 class EntityBase extends Model
@@ -48,6 +49,18 @@ class EntityBase extends Model
     }
 
     /**
+     * @return int
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getModelName()
+    {
+        return class_basename(static::class);
+    }
+
+    /**
      * Находит объект по уникальному полю slug
      * @param string $slug
      * @return Page
@@ -60,7 +73,7 @@ class EntityBase extends Model
     /**
      * Находит объект по уникальному полю name_id
      */
-    public static function findByName($sid)
+    public static function findByUID($sid)
 	{
 		return static::where(static::getStringIdField(), '=', $sid)->first();
 	}

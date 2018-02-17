@@ -27,6 +27,12 @@ class ServicesController extends Controller
                         'label' => __('Текст'),
                         'field' => 'description',
                         'value' => 'description'
+                    ],
+                    [
+                        'type' => 'image',
+                        'label' => __('Изображение'),
+                        'field' => 'image',
+                        'value' => 'image'
                     ]
                 ]
             ]

@@ -1,0 +1,10 @@
+body .dropify-wrapper {
+    box-sizing: border-box;
+
+    &:hover {
+        border-style: dashed;
+        background: none;
+
+        @include animation(none);
+    }
+}

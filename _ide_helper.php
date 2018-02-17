@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.3 on 2018-02-11 19:15:22.
+ * Generated for Laravel 5.6.3 on 2018-02-16 22:40:13.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -13119,7 +13119,7 @@ namespace Collective\Html {
          *
          * @param string $name
          * @param array $list
-         * @param string $selected
+         * @param string|bool $selected
          * @param array $selectAttributes
          * @param array $optionsAttributes
          * @param array $optgroupsAttributes
