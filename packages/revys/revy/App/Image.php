@@ -2,36 +2,56 @@
 
 namespace Revys\Revy\App;
 
+use Revys\Revy\App\Traits\WithImages;
+
+/**
+ * @property int object_id
+ * @property string filename
+ * @property string model
+ * @property string hash
+ */
 class Image extends Entity
 {
     /**
      * @var \Intervention\Image\Image
      */
-    public $instance;
+    protected $instance;
 
     /**
-     * @var string
+     * @var null|WithImages
      */
-    protected $hash;
+    protected $object;
 
-    public function getInstanceAttribute()
+    public function getInstance()
     {
+//        if ($this->instance === null)
+//            $this->instance = \Image::make();
+
         return $this->instance;
     }
 
-    public function getHash()
+    /**
+     * @return null|WithImages
+     */
+    public function getObject()
     {
-        return $this->hash;
+        return $this->object;
     }
 
-    public function setHash()
+    /**
+     * @param Entity|WithImages $object
+     * @return self
+     */
+    public function setObject($object)
     {
-        return $this->hash = $this->hash();
+        $this->object = $object;
+
+        return $this;
     }
 
     public function hash()
     {
-        return md5_file($this->instance->basePath());
+        return md5_file($this->getInstance()->basePath());
     }
 
     /**
@@ -42,7 +62,7 @@ class Image extends Entity
     {
         $this->instance = $callback();
 
-        $this->setHash();
+//        $this->setHash();
 
         return $this;
     }
@@ -54,5 +74,15 @@ class Image extends Entity
     public static function new($callback)
     {
         return app(Image::class)->createInstance($callback);
+    }
+
+    public function getDir($type = 'original')
+    {
+        return $this->object->getImageDir($type);
+    }
+
+    public function getPath($type = 'original')
+    {
+        return $this->getDir($type) . '/' . $this->filename;
     }
 }

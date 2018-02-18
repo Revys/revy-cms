@@ -3,32 +3,19 @@
 namespace Revys\Revy\App\Traits;
 
 use File;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Intervention\Image\Exception\NotFoundException;
 use Revys\Revy\App\Entity;
 use Revys\Revy\App\Image;
-use Revys\Revy\App\Images;
 
 trait WithImages
 {
-    private $images;
-
     /**
-     * Get images collection
-     *
-     * @param bool $refresh
-     * @return Images
+     * @return HasMany
      */
-    public function images($refresh = false)
+    public function images()
     {
-        if (! $this->images or $refresh) {
-            $this->images = new Images(
-                Image::where([
-                    'object_id' => $this->id,
-                    'model'     => $this->getModelName()
-                ])->get()
-            );
-        }
-
-        return $this->images;
+        return $this->hasMany(Image::class, 'object_id', 'id');
     }
 
     /**
@@ -41,7 +28,7 @@ trait WithImages
                 return $image;
             },
             'slider'   => function (Image $image, Entity $object) {
-                return $image->resize(100, 100);
+                return $image->getInstance()->resize(100, 100);
             }
         ];
     }
@@ -55,34 +42,34 @@ trait WithImages
         return $this->getImageTypes()[$type] ?? false;
     }
 
-    public function hasImage(Image $image)
-    {
-        return false; // @todo check if image exists
-    }
-
     /**
      * @param Image $image
      * @return Image
      */
     public function addImage(Image $image)
     {
-        if (! File::isDirectory($this->getImageDir()))
-            File::makeDirectory($this->getImageDir(), 0777, true);
+        $image->setObject($this);
 
-        $image->instance->save($this->getImagePath($image));
+        $image->object_id = $this->id;
+        $image->model = $this->getModelName();
+        $image->filename = $image->getInstance()->basename;
 
-        Image::create([
-            'object_id' => $this->id,
-            'model'     => $this->getModelName(),
-            'filename'  => $image->instance->basename,
-            'hash'      => $image->hash()
-        ]);
+        if (! File::isDirectory($image->getDir()))
+            File::makeDirectory($image->getDir(), 0777, true);
 
-        $this->images()->push($image);
+        $image->getInstance()->save($image->getPath());
+
+        $image->hash = $image->hash();
+
+        $image->save();
 
         return $image;
     }
 
+    /**
+     * @param Image $image
+     * @throws \Exception
+     */
     public function setImage(Image $image)
     {
         $this->removeImages();
@@ -99,12 +86,17 @@ trait WithImages
 
     public function getImagesDir()
     {
-        return public_path('img/images/' . $this->getModelName() . '/' . $this->id);
+        return \Storage::disk('public')->path('img/images/' . $this->getModelName() . '/' . $this->id);
     }
 
-    public function getImagePath(Image $image, $type = 'original')
+    /**
+     * @param string $image
+     * @param string $type
+     * @return string
+     */
+    public function getImagePath($image, $type = 'original')
     {
-        return $this->getImagesDir() . '/' . $type . '/' . $image->instance->basename;
+        return $this->getImageDir($type) . '/' . $image;
     }
 
     public function getImageDir($type = 'original')
@@ -120,8 +112,6 @@ trait WithImages
     {
         File::deleteDirectory($this->getImagesDir());
 
-        $this->images()->clear();
-
         return Image::where([
             'object_id' => $this->id,
             'model'     => $this->getModelName()
@@ -130,22 +120,43 @@ trait WithImages
 
 
     /**
-     * @param Image $image
+     * @param string|Image $image
      * @return bool|null
      * @throws \Exception
      */
-    public function removeImage(Image $image)
+    public function removeImage($image)
     {
-        File::deleteDirectory($this->getImagesDir());
+        if (! ($image instanceof Image)) {
+            $image = $this->getImage($image);
+        }
 
-        $this->images()->reject(function ($listImage) use ($image) {
-            return $image->instance->basename == $listImage->instance->basename;
-        });
+        File::delete($image->getPath());
 
         return Image::where([
             'object_id' => $this->id,
             'model'     => $this->getModelName(),
-            'filename'  => $image->instance->basename
+            'filename'  => $image->filename
         ])->delete();
+    }
+
+    /**
+     * @param string $imageName
+     * @return Image
+     * @throws NotFoundException
+     */
+    public function getImage($imageName)
+    {
+        $image = Image::where([
+            'object_id' => $this->id,
+            'model'     => $this->getModelName(),
+            'filename'  => $imageName
+        ])->first();
+
+        if (! $image)
+            throw new NotFoundException('Image could not be found [' . $imageName . ']');
+
+        $image->setObject($this);
+
+        return $image;
     }
 }

@@ -2,21 +2,38 @@
 
 namespace Revys\Revy\Tests\Unit;
 
-use App\Service;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Revys\Revy\App\Images;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Exception\NotFoundException;
+use Revys\Revy\App\Image;
 use Revys\Revy\Tests\TestCase;
+use Revys\Revy\Tests\TestEntity;
 
 class WithImagesTraitTest extends TestCase
 {
     use DatabaseMigrations;
 
     /**
-     * @todo Replace Service() with unrelated to production model
+     * @param string $name
+     * @return Image
+     */
+    public static function createImage($name = 'image.jpg')
+    {
+        return Image::new(function () use ($name) {
+            return \Image::make(
+                UploadedFile::fake()->image($name)
+            );
+        });
+    }
+
+    /**
+     * @return TestEntity
      */
     public static function getObject()
     {
-        $object = new Service(); // WithImages trait
+        $object = new TestEntity();
 
         $object->id = 1;
 
@@ -26,9 +43,23 @@ class WithImagesTraitTest extends TestCase
     /** @test */
     public function images_collection_can_be_obtained()
     {
-        $object = self::getObject(); // WithImages
+        $object = self::getObject();
 
-        $this->assertInstanceOf(Images::class, $object->images());
+        $this->assertInstanceOf(Relation::class, $object->images());
+    }
+
+    /** @test */
+    public function images_collection_can_be_obtained_with_rigth_images()
+    {
+        $object = self::getObject();
+
+        $image = self::createImage();
+
+        $object->addImage($image);
+
+        $this->assertEquals(1, $object->images()->count());
+
+        $this->assertInstanceOf(Image::class, $object->images()->first());
     }
 
     /** @test */
@@ -53,26 +84,21 @@ class WithImagesTraitTest extends TestCase
      */
     public function test_addImage()
     {
+        Storage::fake('public');
+
         $object = self::getObject();
 
-        $image = ImagesTest::createImage();
-
-        $tmp = $image->instance->basePath();
-
-        $this->assertFileExists($tmp);
+        $image = self::createImage();
 
         $object->addImage($image);
 
-        @unlink($tmp);
+        $this->assertFileExists($image->getPath());
 
-        $this->assertFileExists($image->instance->basePath());
         $this->assertDatabaseHas('images', [
             'object_id' => $object->id,
-            'model' => $object->getModelName(),
-            'filename' => $image->instance->basename
+            'model'     => $object->getModelName(),
+            'filename'  => $image->getInstance()->basename
         ]);
-
-        $object->removeImages();
     }
 
     /** @test
@@ -80,38 +106,31 @@ class WithImagesTraitTest extends TestCase
      */
     public function test_setImage()
     {
+        Storage::fake('public');
+
         $object = self::getObject();
 
-        $image = ImagesTest::createImage();
-        $image2 = ImagesTest::createImage('image2.jpg');
+        $image = self::createImage();
+        $image2 = self::createImage();
 
-        $tmp = $image->instance->basePath();
-        $tmp2 = $image2->instance->basePath();
+        $object->addImage($image);
+        $object->setImage($image2);
 
-        $this->assertFileExists($tmp);
-        $this->assertFileExists($tmp2);
+        $this->assertFileNotExists($image->getPath());
 
-        $object->addImage($image2);
-        $object->setImage($image);
+        $this->assertDatabaseMissing('images', [
+            'object_id' => $object->id,
+            'model'     => $object->getModelName(),
+            'filename'  => $image->getInstance()->basename
+        ]);
 
-        @unlink($tmp);
-        @unlink($tmp2);
-
-        $this->assertFileExists($image->instance->basePath());
-        $this->assertFileNotExists($image2->instance->basePath());
+        $this->assertFileExists($image2->getPath());
 
         $this->assertDatabaseHas('images', [
             'object_id' => $object->id,
-            'model' => $object->getModelName(),
-            'filename' => $image->instance->basename
+            'model'     => $object->getModelName(),
+            'filename'  => $image2->getInstance()->basename
         ]);
-        $this->assertDatabaseMissing('images', [
-            'object_id' => $object->id,
-            'model' => $object->getModelName(),
-            'filename' => $image2->instance->basename
-        ]);
-
-        $object->removeImages();
     }
 
     /** @test
@@ -119,38 +138,104 @@ class WithImagesTraitTest extends TestCase
      */
     public function test_addImages()
     {
+        Storage::fake('public');
+
         $object = self::getObject();
 
-        $image = ImagesTest::createImage();
-        $image2 = ImagesTest::createImage('image2.jpg');
-
-        $tmp = $image->instance->basePath();
-        $tmp2 = $image2->instance->basePath();
-
-        $this->assertFileExists($tmp);
-        $this->assertFileExists($tmp2);
+        $image = self::createImage();
+        $image2 = self::createImage();
 
         $object->addImages([
-            $image, $image2
+            $image,
+            $image2
         ]);
 
-        @unlink($tmp);
-        @unlink($tmp2);
-
-        $this->assertFileExists($image->instance->basePath());
-        $this->assertFileExists($image2->instance->basePath());
+        $this->assertFileExists($image->getPath());
 
         $this->assertDatabaseHas('images', [
             'object_id' => $object->id,
-            'model' => $object->getModelName(),
-            'filename' => $image->instance->basename
-        ]);
-        $this->assertDatabaseHas('images', [
-            'object_id' => $object->id,
-            'model' => $object->getModelName(),
-            'filename' => $image2->instance->basename
+            'model'     => $object->getModelName(),
+            'filename'  => $image->getInstance()->basename
         ]);
 
-        $object->removeImages();
+        $this->assertFileExists($image2->getPath());
+
+        $this->assertDatabaseHas('images', [
+            'object_id' => $object->id,
+            'model'     => $object->getModelName(),
+            'filename'  => $image2->getInstance()->basename
+        ]);
+    }
+
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function test_removeImage_with_Image_object()
+    {
+        Storage::fake('public');
+
+        $object = self::getObject();
+
+        $image = self::createImage();
+
+        $object->addImage($image);
+
+        $this->assertFileExists($image->getPath());
+
+        $this->assertDatabaseHas('images', [
+            'object_id' => $object->id,
+            'model'     => $object->getModelName(),
+            'filename'  => $image->getInstance()->basename
+        ]);
+
+        $object->removeImage($image);
+
+        $this->assertFileNotExists($image->getPath());
+
+        $this->assertDatabaseMissing('images', [
+            'object_id' => $object->id,
+            'model'     => $object->getModelName(),
+            'filename'  => $image->getInstance()->basename
+        ]);
+    }
+
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function test_removeImage_with_image_name()
+    {
+        Storage::fake('public');
+
+        $object = self::getObject();
+
+        $image = self::createImage();
+
+        $object->addImage($image);
+
+        $this->assertFileExists($image->getPath());
+
+        $this->assertDatabaseHas('images', [
+            'object_id' => $object->id,
+            'model'     => $object->getModelName(),
+            'filename'  => $image->getInstance()->basename
+        ]);
+
+        $object->removeImage($image->filename);
+
+        $this->assertFileNotExists($image->getPath());
+
+        $this->assertDatabaseMissing('images', [
+            'object_id' => $object->id,
+            'model'     => $object->getModelName(),
+            'filename'  => $image->getInstance()->basename
+        ]);
+
+        $this->expectException(NotFoundException::class);
+
+        $object->removeImage('doent-exist');
     }
 }
