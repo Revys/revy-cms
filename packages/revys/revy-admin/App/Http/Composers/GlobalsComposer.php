@@ -37,6 +37,11 @@ class GlobalsComposer
         return self::$data[$key];
     }
 
+    public static function flushData()
+    {
+        self::$data = null;
+    }
+
     public static function getControllerName()
     {
         if (isset(self::$data['controller_name']))

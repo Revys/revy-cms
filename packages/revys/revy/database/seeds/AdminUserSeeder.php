@@ -2,9 +2,8 @@
 
 namespace Revys\Revy\Database\Seeds;
 
-use App\User;
 use Illuminate\Database\Seeder;
-use Revys\Revy\App\Entity;
+use Revys\RevyAdmin\App\User;
 
 class AdminUserSeeder extends Seeder
 {
@@ -13,7 +12,8 @@ class AdminUserSeeder extends Seeder
         User::create([
             'login' => config('admin.config.auth.login'),
             'email' => config('admin.config.auth.email'),
-            'password' => \Hash::make(config('admin.config.auth.password'))
+            'password' => \Hash::make(config('admin.config.auth.password')),
+            'admin' => true
         ]);
     }
 }

@@ -20,7 +20,6 @@ class CreateImagesTable extends Migration
             $table->string('model');
             $table->string('object_id');
             $table->string('filename');
-            $table->string('hash');
             $table->timestamps();
 
             $table->unique(array('model', 'object_id', 'filename'));

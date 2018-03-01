@@ -16,7 +16,7 @@
         @push('js')
             <script>
                 $("#form-input-{{ $field['field'] }}").dropify({
-                    defaultFile: '',
+                    defaultFile: '{{ (isset($object) ? (! is_string($field['value']) ? $field['value']($object) : $object->{$field['value']}) : '') }}',
                     imgFileExtensions: ['png', 'jpg', 'jpeg', 'gif', 'svg'],
                     maxFileSizePreview: "5M",
                     allowedFileExtensions: ['png', 'jpg', 'jpeg', 'gif', 'svg'],

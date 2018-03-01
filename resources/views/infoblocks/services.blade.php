@@ -4,7 +4,7 @@
 
         @foreach($services as $service)
             <div class="service">
-                {{ Html::image('img/site/service-' . $service->id . '.png', $service->title) }}
+                {{ Html::image(asset('storage/' . $service->images()->first()->getPath()), $service->title) }}
                 <h2 class="title">{{ $service->title }}</h2>
                 <p>{{ $service->description }}</p>
             </div>

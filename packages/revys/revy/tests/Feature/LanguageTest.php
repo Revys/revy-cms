@@ -3,11 +3,10 @@
 namespace Revys\Revy\Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Revys\Revy\Tests\TestCase;
-use Revys\Revy\App\Http\Middleware\LanguageMiddleware;
 use Illuminate\Http\Request;
+use Revys\Revy\App\Http\Middleware\LanguageMiddleware;
 use Revys\Revy\App\Language;
-use Revys\Revy\App\Revy;
+use Revys\Revy\Tests\TestCase;
 
 class LanguageTest extends TestCase
 {

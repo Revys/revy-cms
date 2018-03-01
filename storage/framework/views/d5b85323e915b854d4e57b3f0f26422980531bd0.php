@@ -1,14 +1,16 @@
 <!-- Alerts -->
 <alerts inline-template>
 	<div id="alerts">
-		<div 
+		<div
 			class="alert"
-			v-for="(alert, index) in reversedAlerts()" 
-			v-bind:key="index" 
-			:class="[ !alert.visible ? 'alert--hidden' : '', 'alert--' + alert.tag ]" 
-			:data-index="index" 
+			v-for="(alert, index) in reversedAlerts()"
+			v-bind:key="index"
+			:class="[ !alert.visible ? 'alert--hidden' : '', 'alert--' + alert.tag ]"
+			:data-index="index"
 			@click="remove(index)"
-		>{{ alert.message }}</div>
+			v-text="alert.message"
+			v-show="alert.visible"
+		></div>
 	</div>
 </alerts>
 

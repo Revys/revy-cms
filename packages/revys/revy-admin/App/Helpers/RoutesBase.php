@@ -12,8 +12,11 @@ class RoutesBase
      */
     public static function getAdminControllerClassName($controller)
     {
-        return app()->make(Indexer::class)->getMappedClass(
-            "\Revys\RevyAdmin\App\Http\Controllers\\" . studly_case($controller) . "Controller"
-        );
+        $class = app(Indexer::class)->getMappedClass($controller . '_controller');
+
+        if ($class)
+            return $class;
+
+        return '\Revys\RevyAdmin\App\Http\Controllers\\' . studly_case($controller) . 'Controller';
     }
 }

@@ -1,10 +1,13 @@
 <?php
 
-namespace App;
+namespace Revys\RevyAdmin\App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property bool admin
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -15,9 +18,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'admin'
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -29,6 +31,6 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return true;
+        return (bool) $this->admin;
     }
 }

@@ -2,20 +2,30 @@
 
 namespace Revys\Revy\App\Traits;
 
-use File;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Intervention\Image\Exception\NotFoundException;
 use Revys\Revy\App\Entity;
 use Revys\Revy\App\Image;
+use Revys\Revy\App\Images;
 
 trait WithImages
 {
-    /**
-     * @return HasMany
-     */
+    protected $images;
+
     public function images()
     {
-        return $this->hasMany(Image::class, 'object_id', 'id');
+        if ($this->images !== null)
+            return $this->images;
+
+        $this->images = (new Images(
+            Image::where([
+                'object_id' => $this->id,
+                'model'     => $this->getModelName()
+            ])->get()->map(function ($image) {
+                return $image->setObject($this);
+            })
+        ))->setObject($this);
+
+        return $this->images;
     }
 
     /**
@@ -42,51 +52,9 @@ trait WithImages
         return $this->getImageTypes()[$type] ?? false;
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
-    public function addImage(Image $image)
-    {
-        $image->setObject($this);
-
-        $image->object_id = $this->id;
-        $image->model = $this->getModelName();
-        $image->filename = $image->getInstance()->basename;
-
-        if (! File::isDirectory($image->getDir()))
-            File::makeDirectory($image->getDir(), 0777, true);
-
-        $image->getInstance()->save($image->getPath());
-
-        $image->hash = $image->hash();
-
-        $image->save();
-
-        return $image;
-    }
-
-    /**
-     * @param Image $image
-     * @throws \Exception
-     */
-    public function setImage(Image $image)
-    {
-        $this->removeImages();
-
-        $this->addImage($image);
-    }
-
-    public function addImages(array $images)
-    {
-        foreach ($images as $image) {
-            $this->addImage($image);
-        }
-    }
-
     public function getImagesDir()
     {
-        return \Storage::disk('public')->path('img/images/' . $this->getModelName() . '/' . $this->id);
+        return 'images/' . $this->getModelName() . '/' . $this->id;
     }
 
     /**
@@ -102,41 +70,6 @@ trait WithImages
     public function getImageDir($type = 'original')
     {
         return $this->getImagesDir() . '/' . $type;
-    }
-
-    /**
-     * @return bool|null
-     * @throws \Exception
-     */
-    public function removeImages()
-    {
-        File::deleteDirectory($this->getImagesDir());
-
-        return Image::where([
-            'object_id' => $this->id,
-            'model'     => $this->getModelName()
-        ])->delete();
-    }
-
-
-    /**
-     * @param string|Image $image
-     * @return bool|null
-     * @throws \Exception
-     */
-    public function removeImage($image)
-    {
-        if (! ($image instanceof Image)) {
-            $image = $this->getImage($image);
-        }
-
-        File::delete($image->getPath());
-
-        return Image::where([
-            'object_id' => $this->id,
-            'model'     => $this->getModelName(),
-            'filename'  => $image->filename
-        ])->delete();
     }
 
     /**

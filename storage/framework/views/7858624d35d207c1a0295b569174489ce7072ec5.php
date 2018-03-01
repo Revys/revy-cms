@@ -15,6 +15,7 @@
 			<?php echo Form::open([
 				'route' => ['admin::insert', $controller_name],
 				'class' => 'form',
+				'files' => true
 			]); ?>
 
 				

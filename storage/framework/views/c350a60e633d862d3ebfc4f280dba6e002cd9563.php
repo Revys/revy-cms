@@ -18,16 +18,16 @@
 				<label class="form__group__label" for="form-input-id"><?php echo app('translator')->getFromJson('Логин'); ?> / <?php echo app('translator')->getFromJson('Email'); ?></label>
 				<?php echo e(Form::text('id', null, ['v-model' => 'form.id', 'id' => 'form-input-id', 'class' => 'form__group__input'])); ?>
 
-				
-				
+
+				 <i class="error-flag" :class="{ visible: form.errors.has('email') }">!</i>
 			</div>
 
 			<div class="form__group">
 				<label class="form__group__label" for="form-input-password"><?php echo app('translator')->getFromJson('Пароль'); ?></label>
 				<?php echo e(Form::password('password', ['v-model' => 'form.password', 'id' => 'form-input-password', 'class' => 'form__group__input'])); ?>
 
-				
-				
+
+				 <i class="error-flag" :class="{ visible: form.errors.has('password') }">!</i>
 			</div>
 
 			<div class="form__group form__group--toggler">
@@ -37,7 +37,7 @@
 					<div class="switcher__lever"></div>
 				</div>
 			</div>
-		
+
 			<?php echo e(Form::submit(__('Вход'), ['class' => 'button button--primary'])); ?>
 
 
@@ -48,7 +48,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('js'); ?>
-
 	<script>
 		// Login Form
 		window.LoginForm = new Vue({
@@ -68,15 +67,26 @@
 
 					form.post(e.target.action)
 						.then(response => {
-							if (!response.error)
-								window.location.reload();
-							else
+							if (! response.error) {
+                                function getUrlVars() {
+                                    var vars = {};
+                                    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                                        vars[key] = value;
+                                    });
+                                    return vars;
+                                }
+
+                                if (getUrlVars()['redirect'])
+                                    window.location.href = decodeURIComponent(getUrlVars()['redirect']);
+                                else
+                                    window.location.href = "../";
+							} else {
 								form.set(response);
+							}
 						});
 				}
 			}
 		});
 	</script>
-
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('admin::layouts.enter-screen', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

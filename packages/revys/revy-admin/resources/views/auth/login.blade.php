@@ -16,15 +16,15 @@
 			<div class="form__group">
 				<label class="form__group__label" for="form-input-id">@lang('Логин') / @lang('Email')</label>
 				{{ Form::text('id', null, ['v-model' => 'form.id', 'id' => 'form-input-id', 'class' => 'form__group__input']) }}
-				
-				{{-- <i class="error-flag" :class="{ visible: form.errors.has('email') }">!</i> --}}
+
+				 <i class="error-flag" :class="{ visible: form.errors.has('email') }">!</i>
 			</div>
 
 			<div class="form__group">
 				<label class="form__group__label" for="form-input-password">@lang('Пароль')</label>
 				{{ Form::password('password', ['v-model' => 'form.password', 'id' => 'form-input-password', 'class' => 'form__group__input']) }}
-				
-				{{-- <i class="error-flag" :class="{ visible: form.errors.has('password') }">!</i> --}}
+
+				 <i class="error-flag" :class="{ visible: form.errors.has('password') }">!</i>
 			</div>
 
 			<div class="form__group form__group--toggler">
@@ -34,7 +34,7 @@
 					<div class="switcher__lever"></div>
 				</div>
 			</div>
-		
+
 			{{ Form::submit(__('Вход'), ['class' => 'button button--primary']) }}
 
 		{!! Form::close() !!}
@@ -43,7 +43,6 @@
 @endsection
 
 @push('js')
-
 	<script>
 		// Login Form
 		window.LoginForm = new Vue({
@@ -63,14 +62,25 @@
 
 					form.post(e.target.action)
 						.then(response => {
-							if (!response.error)
-								window.location.reload();
-							else
+							if (! response.error) {
+                                function getUrlVars() {
+                                    var vars = {};
+                                    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                                        vars[key] = value;
+                                    });
+                                    return vars;
+                                }
+
+                                if (getUrlVars()['redirect'])
+                                    window.location.href = decodeURIComponent(getUrlVars()['redirect']);
+                                else
+                                    window.location.href = "../";
+							} else {
 								form.set(response);
+							}
 						});
 				}
 			}
 		});
 	</script>
-
 @endpush

@@ -8,7 +8,8 @@ use Revys\Revy\App\Helpers\Tree;
 use Revys\RevyAdmin\App\RevyAdmin;
 
 /**
- * @property mixed id
+ * @property int id
+ * @property array translatedAttributes
  * @todo Exclude hidden/published methods into thread
  */
 class EntityBase extends Model

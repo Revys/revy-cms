@@ -6,35 +6,43 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class Indexer
 {
-    protected static $cache_directory = "admin";
-    protected static $map_file = "autoload_map.php";
+    protected static $cache_directory;
+    protected static $map_file;
 
     protected static $map = [];
 
     public function __construct()
     {
-        self::$cache_directory = storage_path('revy') . DIRECTORY_SEPARATOR . self::$cache_directory;
-        self::$map_file = self::$cache_directory . DIRECTORY_SEPARATOR . self::$map_file;
+        self::$cache_directory = storage_path('revy') . DIRECTORY_SEPARATOR . "admin";
+        self::$map_file = self::$cache_directory . DIRECTORY_SEPARATOR . "autoload_map.php";
 
         if (! is_dir(self::$cache_directory))
             \File::makeDirectory(self::$cache_directory, 0777, true);
     }
 
     /**
-     * @param string $class
-     * @return string
+     * @param string $alias
+     * @return string|null
      */
-    public function getMappedClass($class)
+    public function getMappedClass($alias)
     {
         if (! self::$map)
             self::$map = include_once self::$map_file;
 
-        $mappedClass = str_replace('\Revys\\RevyAdmin', 'Admin', $class);
+        if (isset(self::$map[$alias]))
+            return '\\' . self::$map[$alias];
+    }
 
-        if (isset(self::$map[$mappedClass]))
-            return '\\' . $mappedClass;
+    public function mapClass($alias, $class)
+    {
+        if (! self::$map)
+            self::$map = include_once self::$map_file;
 
-        return $class;
+        self::$map[$alias] = $class;
+
+        $content = '<?php return ' . var_export(self::$map, true) . ';';
+
+        file_put_contents(self::$map_file, $content);
     }
 
     public function index()
@@ -50,8 +58,9 @@ class Indexer
 
             if (count($files)) {
                 foreach ($files as $file) {
+                    $alias = snake_case($file->getBasename('.php'));
                     $class = self::getClassName($file);
-                    $map[$class] = true;
+                    $map[$alias] = $class;
                 }
             }
         }

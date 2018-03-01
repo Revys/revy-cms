@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(\Revys\Revy\Database\Seeds\DatabaseSeeder::class);
         $this->call(\Revys\RevyAdmin\Database\Seeds\DatabaseSeeder::class);
+
+        $this->call(\App\Seeds\DatabaseSeeder::class);
     }
 }

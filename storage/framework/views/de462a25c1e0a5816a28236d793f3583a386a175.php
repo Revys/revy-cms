@@ -15,7 +15,10 @@
 			<?php echo Form::open([
 				'route' => ['admin::update', $controller_name, $object->id],
 				'class' => 'form',
+				'files' => true
 			]); ?>
+
+				<?php echo e(method_field('PUT')); ?>
 
 				
 				<?php $__currentLoopData = $fieldGroup['fields']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $field): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

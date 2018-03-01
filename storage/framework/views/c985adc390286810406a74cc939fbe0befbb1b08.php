@@ -4,7 +4,7 @@
 
         <?php $__currentLoopData = $services; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="service">
-                <?php echo e(Html::image('img/site/service-' . $service->id . '.png', $service->title)); ?>
+                <?php echo e(Html::image(asset('storage/' . $service->images()->first()->getPath()), $service->title)); ?>
 
                 <h2 class="title"><?php echo e($service->title); ?></h2>
                 <p><?php echo e($service->description); ?></p>

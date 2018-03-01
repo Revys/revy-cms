@@ -1,7 +1,6 @@
 <?php
 
-use Intervention\Image\ImageServiceProvider;
-use Revys\RevyAdmin\App\Helpers\RoutesBase;
+use Revys\RevyAdmin\App\Helpers\Routes;
 
 Route::group([
 	'prefix' => config('admin.config.path'), 
@@ -13,10 +12,14 @@ Route::group([
     (new Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider(app()))->initProviders();
 
 	// Variables
-	$locale = request()->segment(2);
+    if (\App::runningUnitTests()) {
+        $locale = \App::getLocale();
+    } else {
+        $locale = request()->segment(2);
+    }
 
 	// Core routes
-	Route::get('', config('admin.config.default_route'));
+	Route::get('', config('admin.config.default_route'))->name('core');
 
 	// Routes
 	Route::group(['prefix' => $locale, 'middleware' => 'admin_lang'], function () {
@@ -43,25 +46,15 @@ Route::group([
 
 		// List Path
 		Route::get('{controller}', function($controller){
-            $class = app()->make(RoutesBase::getAdminControllerClassName($controller));
+            $class = app()->make(Routes::getAdminControllerClassName($controller));
 			return $class->callAction('index', $parameters = []);
 		})->where([
 			'controller' => '\w+'
 		])->name('list');
 
-		// Base Path
-		Route::any('{controller}/{action}/{object?}', function($controller, $action = 'index', $object = null){
-			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
-			return $class->callAction($action, $parameters = [$object]);
-		})->where([
-			'controller' => '\w+',
-			'action' => '\w{0,}',
-			'object' => '\w{0,}'
-		])->name('path');
-
 		if (request()->ajax()) {
 			Route::post('{controller}/{action}', function($controller, $action = 'index'){
-				$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
+				$class = app()->make(Routes::getAdminControllerClassName($controller));
 				return $class->callAction($action, $parameters = []);
 			})->where([
 				'controller' => '\w+',
@@ -73,8 +66,8 @@ Route::group([
 		// CRUD
 		
 		// Edit Path
-		Route::get('{controller}/edit/{id}', function($controller, $id){
-			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
+		Route::get('{controller}/{id}', function($controller, $id){
+			$class = app()->make(Routes::getAdminControllerClassName($controller));
 			return $class->callAction('edit', $parameters = [$id]);
 		})->where([
 			'controller' => '\w+',
@@ -82,8 +75,8 @@ Route::group([
 		])->name('edit');
 
 		// Update Path
-		Route::post('{controller}/update/{id}', function($controller, $id){
-			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
+		Route::put('{controller}/{id}', function($controller, $id){
+			$class = app()->make(Routes::getAdminControllerClassName($controller));
 			return $class->callAction('update', $parameters = [$id]);
 		})->where([
 			'controller' => '\w+',
@@ -92,28 +85,41 @@ Route::group([
 
 		// Create Path
 		Route::get('{controller}/create', function($controller){
-			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
+			$class = app()->make(Routes::getAdminControllerClassName($controller));
 			return $class->callAction('create', $parameters = []);
 		})->where([
 			'controller' => '\w+',
 		])->name('create');
 		
 		// Insert Path
-		Route::post('{controller}/insert', function($controller){
-			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
+		Route::post('{controller}', function($controller){
+			$class = app()->make(Routes::getAdminControllerClassName($controller));
 			return $class->callAction('insert', $parameters = []);
 		})->where([
 			'controller' => '\w+'
 		])->name('insert');
 		
 		// Delete Path
-		Route::get('{controller}/delete/{id}', function($controller, $id){
-			$class = app()->make(RoutesBase::getAdminControllerClassName($controller));
+		Route::delete('{controller}/{id}', function($controller, $id){
+			$class = app()->make(Routes::getAdminControllerClassName($controller));
 			return $class->callAction('delete', $parameters = [$id]);
 		})->where([
 			'controller' => '\w+',
 			'id' => '\d+'
 		])->name('delete');
+
+
+
+
+        // Base Path
+        Route::any('{controller}/{action}/{object?}', function($controller, $action = 'index', $object = null){
+            $class = app()->make(Routes::getAdminControllerClassName($controller));
+            return $class->callAction($action, $parameters = [$object]);
+        })->where([
+            'controller' => '\D\w+',
+            'action' => '\D\w{0,}',
+            'object' => '\w{0,}'
+        ])->name('path');
 	});
 
 });

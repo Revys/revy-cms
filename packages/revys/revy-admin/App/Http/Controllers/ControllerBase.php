@@ -3,6 +3,7 @@
 namespace Revys\RevyAdmin\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Revys\Revy\App\Traits\WithImages;
 use View;
 use Revys\RevyAdmin\App\Http\Composers\GlobalsComposer;
 use Revys\RevyAdmin\App\Alerts;
@@ -20,11 +21,11 @@ class ControllerBase extends Controller
     protected $model;
     public $view_routes;
     public $actions = [
-        'create' => true,
-        'edit' => true,
-        'hide' => true,
+        'create'  => true,
+        'edit'    => true,
+        'hide'    => true,
         'publish' => true,
-        'order' => true
+        'order'   => true
     ];
 
     public function __construct()
@@ -80,8 +81,8 @@ class ControllerBase extends Controller
 
             return [
                 'content' => $sections['content'],
-                'js' => (isset($sections['js']) ? str_replace(['<script>', '</script>'], '', $sections['js']) : ''),
-                'alerts' => $alerts
+                'js'      => (isset($sections['js']) ? str_replace(['<script>', '</script>'], '', $sections['js']) : ''),
+                'alerts'  => $alerts
             ];
         }
 
@@ -92,7 +93,7 @@ class ControllerBase extends Controller
      * @param array $data
      * @return array
      */
-    public function ajax($data = array())
+    public function ajax($data = [])
     {
         $content = $data;
 
@@ -139,7 +140,7 @@ class ControllerBase extends Controller
             [
                 'field' => 'title',
                 'title' => __('Заголовок'),
-                'link' => true
+                'link'  => true
             ],
             [
                 'field' => 'created_at',
@@ -160,11 +161,7 @@ class ControllerBase extends Controller
      */
     public function edit($id)
     {
-        $object = $this->getModel()::find($id);
-
-        if (! $object) {
-            return redirect()->back();
-        }
+        $object = $this->getModel()::findOrFail($id);
 
         $fieldsMap = static::editFieldsMap();
 
@@ -202,25 +199,26 @@ class ControllerBase extends Controller
     public static function editActionsMap()
     {
         return [
-            'save' => [
+            'save'   => [
                 'label' => __('admin::buttons.save'),
                 'style' => 'success',
-                'type' => 'submit',
-                'link' => function ($controller, $object) {
+                'type'  => 'submit',
+                'href'  => function ($controller, $object) {
                     return route('admin::update', [$controller, $object->id]);
                 }
             ],
             'delete' => (GlobalsComposer::getAction() !== 'create' ? [
-                'label' => '<i class="icon icon--delete"></i>',
-                'style' => 'danger',
-                'link' => function ($controller, $object) {
+                'label'  => '<i class="icon icon--delete"></i>',
+                'style'  => 'danger',
+                'method' => 'DELETE',
+                'href'   => function ($controller, $object) {
                     return route('admin::delete', [$controller, $object->id]);
                 }
             ] : false),
-            'back' => [
+            'back'   => [
                 'label' => __('admin::buttons.back'),
                 'style' => 'default',
-                'link' => function ($controller, $object) {
+                'href'  => function ($controller, $object) {
                     return route('admin::list', [$controller]);
                 }
             ]
@@ -268,7 +266,7 @@ class ControllerBase extends Controller
         $activePanel = $this->createActivePanel();
 
         $data = compact('fieldsMap', 'activePanel');
-        
+
         $data = $this->normalizeCreateData($data);
 
         return $this->view('create', $data);
@@ -308,6 +306,8 @@ class ControllerBase extends Controller
 
         $object = $model::create($data);
 
+        $this->updateImages($object, $data);
+
         Alerts::success('added');
 
         return redirect()->route('admin::edit', [$this->getController(), $object->id]);
@@ -327,7 +327,7 @@ class ControllerBase extends Controller
 
         $this->validate($request, $model::getRules(), $model::messages());
 
-        $object = $model::find($id);
+        $object = $model::findOrFail($id);
 
         $data = $this->prepareUpdateData($object, $request->all());
 
@@ -338,6 +338,11 @@ class ControllerBase extends Controller
         return redirect()->route('admin::edit', [$this->getController(), $id]);
     }
 
+    /**
+     * @param Entity $object
+     * @param array $data
+     * @return array
+     */
     public function prepareUpdateData($object, $data)
     {
         if (isset($object->status))
@@ -349,7 +354,7 @@ class ControllerBase extends Controller
             $languages = Language::getLanguagesAll();
             foreach ($model::$translatedAttributes as $field) {
                 foreach ($languages as $language) {
-                    if (!isset($data[$field . '__' . $language->code])) {
+                    if (! isset($data[$field . '__' . $language->code])) {
                         continue;
                     }
 
@@ -359,12 +364,16 @@ class ControllerBase extends Controller
             }
         }
 
+        $this->updateImages($object, $data);
+
         return $data;
     }
 
     public function prepareCreateData($data)
     {
-        $data['status'] = isset($data['status']) ? $data['status'] : 0;
+        $this->prepareFiles($data);
+
+//        $data['status'] = isset($data['status']) ? $data['status'] : 0;
 
         $model = $this->getModel();
 
@@ -372,7 +381,7 @@ class ControllerBase extends Controller
             $languages = Language::getLanguagesAll();
             foreach ($model::$translatedAttributes as $field) {
                 foreach ($languages as $language) {
-                    if (!isset($data[$field . '__' . $language->code])) {
+                    if (! isset($data[$field . '__' . $language->code])) {
                         continue;
                     }
 
@@ -381,7 +390,7 @@ class ControllerBase extends Controller
                 }
             }
         }
-        
+
         return $data;
     }
 
@@ -389,13 +398,17 @@ class ControllerBase extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|array
      */
     public function delete($id)
     {
         $this->getModel()::find($id)->delete();
 
         Alerts::success(__('Удаление прошло успешно'));
+
+        if (request()->expectsJson()) {
+            return ['redirect' => route('admin::list', [$this->getController()])];
+        }
 
         return redirect()->route('admin::list', [$this->getController()]);
     }
@@ -491,5 +504,44 @@ class ControllerBase extends Controller
         }
 
         return $this->index();
+    }
+
+    /**
+     * @param Entity|WithImages $object
+     * @param array $data
+     */
+    public function updateImages($object, &$data)
+    {
+        $files = request()->allFiles();
+
+        if (isset($files['image']) and isset($data['image'])) {
+            $object->images()->removeAll();
+
+            if (is_array($files['image'])) {
+                $files['image'] = current($files['image']);
+            }
+        }
+
+        foreach ($files as $fieldName => $fileData) {
+            unset($data[$fieldName]);
+
+            if (is_array($fileData)) {
+                foreach ($fileData as $file) {
+                    $object->images()->add($file);
+                }
+                continue;
+            }
+
+            $object->images()->add($fileData);
+        }
+    }
+
+    private function prepareFiles(&$data)
+    {
+        $files = request()->allFiles();
+
+        foreach ($files as $fieldName => $fileData) {
+            unset($data[$fieldName]);
+        }
     }
 }

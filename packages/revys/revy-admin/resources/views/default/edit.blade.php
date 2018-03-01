@@ -15,7 +15,9 @@
 			{!! Form::open([
 				'route' => ['admin::update', $controller_name, $object->id],
 				'class' => 'form',
+				'files' => true
 			]) !!}
+				{{ method_field('PUT') }}
 				
 				@foreach($fieldGroup['fields'] as $field)
 					@includeDefault('fields.' . $field['type'])

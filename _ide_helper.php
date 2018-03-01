@@ -1695,7 +1695,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Attempt to authenticate a user using the given credentials.
+         * Attempt to authenticate a user using the given credentials., true
          *
          * @param array $credentials
          * @param bool $remember

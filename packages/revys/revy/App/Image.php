@@ -2,6 +2,8 @@
 
 namespace Revys\Revy\App;
 
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 use Revys\Revy\App\Traits\WithImages;
 
 /**
@@ -13,25 +15,58 @@ use Revys\Revy\App\Traits\WithImages;
 class Image extends Entity
 {
     /**
-     * @var \Intervention\Image\Image
-     */
-    protected $instance;
-
-    /**
      * @var null|WithImages
      */
     protected $object;
 
+    /**
+     * @var UploadedFile|null
+     */
+    protected $instance;
+
+    /**
+     * @return string
+     */
+    public function setUniqueName()
+    {
+        $object = $this->getObject();
+
+        return $this->filename = $this->getUniqueName($this->filename, $object->getModelName(), $object->id);
+    }
+
+    /**
+     * @param string $filename
+     * @param string $model
+     * @param int $object_id
+     * @return string
+     */
+    public static function getUniqueName($filename, $model, $object_id)
+    {
+        $pathinfo = pathinfo($filename);
+        $originalName = $filename = $pathinfo['filename'];
+
+        $n = 2;
+        while (Image::where([
+            'object_id' => $object_id,
+            'model' => $model,
+            'filename' => $filename . (isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '')
+        ])->exists()) {
+            $filename = $originalName . '_' . $n++;
+        }
+
+        return $filename . (isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '');
+    }
+
+    /**
+     * @return UploadedFile|null
+     */
     public function getInstance()
     {
-//        if ($this->instance === null)
-//            $this->instance = \Image::make();
-
         return $this->instance;
     }
 
     /**
-     * @return null|WithImages
+     * @return null|WithImages|Entity
      */
     public function getObject()
     {
@@ -45,40 +80,45 @@ class Image extends Entity
     public function setObject($object)
     {
         $this->object = $object;
-
-        return $this;
-    }
-
-    public function hash()
-    {
-        return md5_file($this->getInstance()->basePath());
-    }
-
-    /**
-     * @param \Closure $callback
-     * @return Image
-     */
-    public function createInstance($callback)
-    {
-        $this->instance = $callback();
-
-//        $this->setHash();
+        $this->object_id = $object->id;
+        $this->model = $object->getModelName();
 
         return $this;
     }
 
     /**
-     * @param \Closure $callback
+     * @param UploadedFile $file
+     * @param null|string $filename
      * @return Image
      */
-    public static function new($callback)
+    public static function new($file, $filename = null)
     {
-        return app(Image::class)->createInstance($callback);
+        $image = new Image();
+
+        $image->instance = $file;
+        $image->filename = $filename ?: $file->getClientOriginalName();
+
+        return $image;
+    }
+
+    /**
+     * @param mixed|UploadedFile $file
+     * @param null|string $filename
+     * @return Image
+     */
+    public static function createFrom($file, $filename = null)
+    {
+        if (! $filename and $file instanceof UploadedFile)
+            $filename = $file->getClientOriginalName();
+
+        return Image::new(function () use ($file) {
+            return \Image::make($file);
+        }, $filename);
     }
 
     public function getDir($type = 'original')
     {
-        return $this->object->getImageDir($type);
+        return $this->getObject()->getImageDir($type);
     }
 
     public function getPath($type = 'original')

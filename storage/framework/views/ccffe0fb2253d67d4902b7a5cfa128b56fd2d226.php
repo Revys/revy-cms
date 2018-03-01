@@ -17,7 +17,7 @@
         <?php $__env->startPush('js'); ?>
             <script>
                 $("#form-input-<?php echo e($field['field']); ?>").dropify({
-                    defaultFile: '',
+                    defaultFile: '<?php echo e((isset($object) ? (! is_string($field['value']) ? $field['value']($object) : $object->{$field['value']}) : '')); ?>',
                     imgFileExtensions: ['png', 'jpg', 'jpeg', 'gif', 'svg'],
                     maxFileSizePreview: "5M",
                     allowedFileExtensions: ['png', 'jpg', 'jpeg', 'gif', 'svg'],

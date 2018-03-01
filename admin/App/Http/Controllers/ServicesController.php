@@ -3,7 +3,10 @@
 namespace Admin\App\Http\Controllers;
 
 use App\Service;
+use Illuminate\Support\Facades\Storage;
+use Revys\Revy\App\Image;
 use Revys\RevyAdmin\App\Http\Controllers\Controller;
+use Validator;
 
 class ServicesController extends Controller
 {
@@ -32,7 +35,11 @@ class ServicesController extends Controller
                         'type' => 'image',
                         'label' => __('Изображение'),
                         'field' => 'image',
-                        'value' => 'image'
+                        'value' => function ($object) {
+                            $image = $object->images()->first();
+                            if ($image)
+                                return asset('storage/' . $image->getPath());
+                        }
                     ]
                 ]
             ]

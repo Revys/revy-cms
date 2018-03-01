@@ -10,3 +10,5 @@
 	]); ?>;
 	window.language = '<?php echo e($locale->code); ?>';
 </script>
+
+<link rel="shortcut icon" type="image/png" href="<?php echo e(asset('admin-assets/img/site/logo.png')); ?>"/>
