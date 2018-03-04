@@ -8,3 +8,9 @@ CMS based on Laravel Framework.
 
 ## TODO
 * Tests
+* Image manipulation
+    * Remove entity image
+    * Add multiple images form
+    * Sort images
+    * Resize images by specified types
+* Cache instance
