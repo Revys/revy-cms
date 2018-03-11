@@ -82,7 +82,18 @@ select {
 .form__group--editor {
 	font-size: $input-font-size;
 	min-width: 600px;
+
+	.form__group__input-group {
+		min-height: 282px;
+	}
+
+	.form__group__textarea {
+		min-height: 282px;
+		width: 100%;
+		max-width: none;
+	}
 }
+
 // Remove froala licence notification
 .fr-wrapper > div:first-child {
 	opacity: 0 !important;
@@ -188,5 +199,23 @@ select {
 	
 	.button--back {
 		float: right;
+	}
+}
+
+
+
+
+
+.form__group__image {
+	height: auto;
+}
+
+.form__images {
+
+}
+.form__images__image {
+	img {
+		max-width: 200px;
+		max-height: 200px;
 	}
 }

@@ -16,12 +16,12 @@
     "lodash": "^4.17.4"
   },
   "dependencies": {
-    "jquery": "3.*",
-    "vue-prevent-parent-scroll": "^1.0.5",
-    "fontawesome-iconpicker": "*",
     "font-awesome": "^4.7.0",
+    "fontawesome-iconpicker": "*",
+    "jquery": "3.*",
+    "sortablejs": "^1.7.0",
     "vue": "^2.*",
-    "vue-template-compiler": "^2.*",
-    "dropify": "0.2.2"
+    "vue-prevent-parent-scroll": "^1.0.5",
+    "vue-template-compiler": "^2.*"
   }
 }

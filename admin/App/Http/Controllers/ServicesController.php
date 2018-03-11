@@ -34,7 +34,7 @@ class ServicesController extends Controller
                     [
                         'type' => 'image',
                         'label' => __('Изображение'),
-                        'field' => 'image',
+                        'field' => 'images',
                         'value' => function ($object) {
                             $image = $object->images()->first();
                             if ($image)

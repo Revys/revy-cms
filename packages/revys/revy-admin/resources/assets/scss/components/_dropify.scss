@@ -7,4 +7,8 @@ body .dropify-wrapper {
 
         @include animation(none);
     }
+
+    .dropify-infos-inner {
+        box-sizing: border-box;
+    }
 }

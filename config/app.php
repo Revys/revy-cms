@@ -179,7 +179,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        
         Revys\Revy\App\Providers\RevyServiceProvider::class,
         Revys\RevyAdmin\App\Providers\RevyAdminServiceProvider::class,
     ],

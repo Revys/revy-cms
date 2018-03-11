@@ -18,11 +18,17 @@ class Image extends Entity
      * @var null|WithImages
      */
     protected $object;
-
     /**
      * @var UploadedFile|null
      */
     protected $instance;
+
+    protected $appends = ['path'];
+
+    public function getPathAttribute()
+    {
+        return $this->getPath();
+    }
 
     /**
      * @return string
@@ -48,8 +54,8 @@ class Image extends Entity
         $n = 2;
         while (Image::where([
             'object_id' => $object_id,
-            'model' => $model,
-            'filename' => $filename . (isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '')
+            'model'     => $model,
+            'filename'  => $filename . (isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '')
         ])->exists()) {
             $filename = $originalName . '_' . $n++;
         }

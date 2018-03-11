@@ -20,7 +20,7 @@ window.Vue = require('vue');
 // ======================================================================
 Vue.use(require('vue-prevent-parent-scroll'));
 require('fontawesome-iconpicker');
-require('dropify');
+window.Sortable = require('sortablejs');
 
 // Load page scripts
 require('./ajax');

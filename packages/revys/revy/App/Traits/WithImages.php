@@ -28,6 +28,11 @@ trait WithImages
         return $this->images;
     }
 
+    public function hasImages()
+    {
+        return $this->images()->isNotEmpty();
+    }
+
     /**
      * @return array
      */

@@ -15,21 +15,21 @@
 		}
 	],
     "require": {
-        "php": ">=7.0",
-        "barryvdh/laravel-debugbar": "*",
-        "barryvdh/laravel-ide-helper": "*",
+        "php": ">=7",
         "fancyapps/fancybox": "3.0.x-dev",
         "intervention/image": "*",
         "laravel/framework": "5.*",
-        "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
         "revys/revy": "*",
         "revys/revy-admin": "*"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "*",
+        "barryvdh/laravel-ide-helper": "*",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "laravel/tinker": "~1.0"
     },
     "autoload": {
         "classmap": [
