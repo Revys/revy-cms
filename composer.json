@@ -7,18 +7,18 @@
 	"repositories": [
 		{
 			"type": "path",
-			"url": "packages/revys/revy"
+			"url": "./packages/revys/revy"
 		},
 		{
 			"type": "path",
-			"url": "packages/revys/revy-admin"
+			"url": "./packages/revys/revy-admin"
 		}
 	],
     "require": {
         "php": ">=7",
         "fancyapps/fancybox": "3.0.x-dev",
         "intervention/image": "*",
-        "laravel/framework": "5.*",
+        "laravel/framework": "5.6.*",
         "laravelcollective/html": "^5.4",
         "revys/revy": "*",
         "revys/revy-admin": "*"
@@ -60,8 +60,7 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan ide-helper:generate",
-            "php artisan index-classes"
+            "php artisan ide-helper:generate"
         ]
     },
     "config": {

@@ -1,25 +1,32 @@
 {
-    "name": "revys/revy-admin",
-	"version": "0.0.1",
-    "authors": [
-        {
-            "name": "Alexander Topalo",
-            "email": "saneock19@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "symfony/finder": "^4.1@dev"
-    },
-	"autoload": {
-		"psr-4": {
-          "Revys\\RevyAdmin\\": ""
-		}
-	},
-    "autoload-dev": {
-        "psr-4": {
-            "Revys\\RevyAdmin\\Tests\\": "tests/",
-            "Revys\\RevyAdmin\\Database\\Seeds\\": "database/seeds/"
-        }
+  "name": "revys/revy-admin",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Alexander Topalo",
+      "email": "saneock19@gmail.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "symfony/finder": "4.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Revys\\RevyAdmin\\": ""
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Revys\\RevyAdmin\\Tests\\": "tests/",
+      "Revys\\RevyAdmin\\Database\\Seeds\\": "database/seeds/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Revys\\RevyAdmin\\App\\Providers\\RevyAdminServiceProvider"
+      ]
+    }
+  }
 }

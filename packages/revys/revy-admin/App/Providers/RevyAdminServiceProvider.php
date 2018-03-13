@@ -2,6 +2,9 @@
 
 namespace Revys\RevyAdmin\App\Providers;
 
+use Illuminate\Routing\Router;
+use Revys\RevyAdmin\App\Http\Middleware\BaseMiddleware;
+use Revys\RevyAdmin\App\Http\Middleware\LanguageMiddleware;
 use Revys\RevyAdmin\App\Indexer;
 use Revys\RevyAdmin\App\RevyAdmin;
 use Illuminate\Support\ServiceProvider;
@@ -15,17 +18,18 @@ class RevyAdminServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      *
+     * @param Router $router
      * @return void
      */
-    public function boot(\Illuminate\Routing\Router $router)
+    public function boot(Router $router)
     {
         $this->load();
 
         $this->loadCommands();
 
         // Middlewares
-        $router->aliasMiddleware(self::$packageAlias, \Revys\RevyAdmin\App\Http\Middleware\BaseMiddleware::class);
-        $router->aliasMiddleware(self::$packageAlias . '_lang', \Revys\RevyAdmin\App\Http\Middleware\LanguageMiddleware::class);
+        $router->aliasMiddleware(self::$packageAlias, BaseMiddleware::class);
+        $router->aliasMiddleware(self::$packageAlias . '_lang', LanguageMiddleware::class);
     }
 
     /**
@@ -63,7 +67,7 @@ class RevyAdminServiceProvider extends ServiceProvider
 
         // Translations
         $this->loadTranslationsFrom(self::$packagePath . '/translations', self::$packageAlias);
-        $this->loadJsonTranslationsFrom(self::$packagePath . '/translations', self::$packageAlias);
+        $this->loadJsonTranslationsFrom(self::$packagePath . '/translations');
 
         // Config
         $this->publishes([
